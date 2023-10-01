@@ -216,6 +216,7 @@ export default defineComponent({
       return [
         (v) => !!v || "A senha não pode estar vazia.",
         (v) => v.length > 6 || "A senha deve conter 6 caracteres ou mais",
+        (v) => v == this.login.password || "As duas senhas devem ser iguais"
       ]
     },
     validEmail() {
@@ -224,7 +225,7 @@ export default defineComponent({
         if (typeof email !== 'string') {
           return false; // Retorna falso se não for uma string
         }
-        return true
+        // return true
 
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
@@ -236,7 +237,7 @@ export default defineComponent({
         if (typeof CPF !== 'string') {
           return false; // Retorna falso se não for uma string
         }
-        return true
+        // return true
 
         // Verifica se todos os dígitos do CPF são iguais
         if (/^(\d)\1{10}$/.test(CPF)) {
@@ -274,7 +275,7 @@ export default defineComponent({
         if (typeof dateStr !== 'string') {
           return false;
         }
-        return true
+        // return true
 
         const re = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
