@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFF121212),
         primarySwatch: Colors.deepOrange,
-        fontFamily: "Nunito",
+        fontFamily: "Montserrat",
       ),
       routes: {
         '/': (_) => const LoginPage(),

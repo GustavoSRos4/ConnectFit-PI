@@ -179,7 +179,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         BottomNavigationBarItem(
           icon: ImageIcon(
-            AssetImage('images/iconePeso.png'),
+            AssetImage('assets/images/iconePeso.png'),
           ),
           label: "Treino",
         ),

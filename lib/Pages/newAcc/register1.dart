@@ -34,6 +34,7 @@ class _Register1State extends State<Register1> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.begeclaro,
         appBar: CustomAppBar(
           height: 100,
           title: const Text('Cadastro'),

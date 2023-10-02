@@ -67,10 +67,10 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-  - images/patosHoje.png
-  - images/iconePeso.png
-  - images/iconeApp.png
-  - images/iconePerfil.png
+  - assets/images/patosHoje.png
+  - assets/images/iconePeso.png
+  - assets/images/iconeApp.png
+  - assets/images/iconePerfil.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -83,7 +83,18 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+  - family: Montserrat
+    fonts:
+      - asset: assets/fonts/Montserrat-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Montserrat-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Montserrat-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Montserrat-Bold.ttf
+        weight: 700
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

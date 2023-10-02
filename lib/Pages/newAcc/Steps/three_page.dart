@@ -17,6 +17,7 @@ class _ThreePageState extends State<ThreePage> {
   final senhaEC = TextEditingController();
   final confirmarSenhaEC = TextEditingController();
   late LoginModel loginModel;
+  LoginModel? model;
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _ThreePageState extends State<ThreePage> {
 
     widget.floatingButtonAction.value = () {
       debugPrint("eita deu certo zé 3");
-      var model = loginModel.copyWith(
+      model = loginModel.copyWith(
         usuario: usuarioEC.text,
         email: emailEC.text,
         senha: senhaEC.text,
@@ -147,6 +148,13 @@ class _ThreePageState extends State<ThreePage> {
                   },
                 ),
                 const SizedBox(height: 15),
+                Text(
+                  model != null ? model.toString() : '',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
           ),

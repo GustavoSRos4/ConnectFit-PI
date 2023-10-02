@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: 128,
                   height: 128,
                   child: Image.asset(
-                    "images/iconeApp.png",
+                    "assets/images/iconeApp.png",
                     color: Colors.deepOrange,
                   ),
                 ),
@@ -70,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   "ConnectFit",
                   textAlign: TextAlign.center,
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     fontSize: 50,
                     color: Colors.deepOrange,
                   ),
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   right: 25,
                 ),
                 child: Card(
+                  color: Colors.begeclaro,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -121,6 +123,8 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextButton(
                             child: const Text(
                               "Recuperar Senha",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline),
                             ),
                             onPressed: () {
                               Navigator.push(
@@ -177,6 +181,9 @@ class _LoginPageState extends State<LoginPage> {
                               TextButton(
                                 child: const Text(
                                   "Cadastre-se",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                                 onPressed: () => {
                                   Navigator.pushNamed(context, '/registrar'),

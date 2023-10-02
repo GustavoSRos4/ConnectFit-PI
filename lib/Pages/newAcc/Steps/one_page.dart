@@ -146,9 +146,10 @@ class _OnePageState extends State<OnePage> {
                         }).toList(),
                         decoration: const InputDecoration(
                           filled: true,
-                          fillColor: Color(0xFFE6E1E1),
+                          fillColor: Colors.brancoBege,
                           hintStyle: TextStyle(color: Colors.white),
                           border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
                             borderRadius: BorderRadius.all(
                               Radius.circular(50),
                             ),
