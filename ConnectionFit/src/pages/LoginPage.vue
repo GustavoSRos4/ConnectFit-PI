@@ -19,10 +19,10 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md" @submit.prevent="submitLogin">
-            <q-input label="Nome de Usuário" v-model="login.username">
+          <q-form class="q-gutter-md" @submit.prevent="submit">
+            <q-input name="email" label="Email" v-model="login.email">
             </q-input>
-            <q-input label="Senha" type="password" v-model="login.password">
+            <q-input name="password" label="Senha" type="password" v-model="login.password">
             </q-input>
             <div>
               <q-btn class="full-width" color="primary" label="Login" type="submit" rounded></q-btn>
@@ -39,15 +39,39 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { useQuasar } from 'quasar'
+import { defineComponent } from 'vue';
+import { useQuasar } from 'quasar';
+import { useRouter } from "vue-router";
+import axios from "axios";
+
 let $q
 export default defineComponent({
   name: 'LoginPage',
+  setup() {
+    const router = useRouter();
+
+    const submit = async e => {
+      const form = new FormData(e.target);
+
+      const inputs = Object.fromEntries(form.entries());
+      console.log(inputs);
+      const { data } = await axios.post('login', inputs, {
+        withCredentials: true
+      });
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+
+      await router.push('/');
+    }
+
+    return {
+      submit
+    }
+  },
   data() {
     return {
       login: {
-        username: '',
+        email: '',
         password: ''
       }
     }

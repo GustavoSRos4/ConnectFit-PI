@@ -4,10 +4,11 @@
       <img src="~assets/background/parallax1.png">
     </template>
 
-    <h3 class="title text-h4 text-uppercase text-weight-regular">Bem-vindo(a) à Jornada de Transformação!</h3>
+    <h3 class="title text-h5 text-uppercase text-weight-regular">Bem-vindo(a) à Jornada de Transformação!</h3>
+    <q-btn class="bg-primary" icon-right="send" label="Começar" :to="{ name: 'LoginPage' }" />
   </q-parallax>
   <div class="row">
-    <div class="col-12 flex flex-center">
+    <div class="col-12 flex flex-center inicioContent">
       <h3> ConnectionFit</h3>
     </div>
     <div class="col-12 flex flex-center">
@@ -89,8 +90,8 @@ export default defineComponent({
         opacity: 1,
         ease: "power1.inOut",
         scrollTrigger: {
-          trigger: ".teste",
-          start: "top top",
+          trigger: ".char",
+          start: "top",
           end: "+=300",
           scrub: true,
           // markers: true,
@@ -110,10 +111,10 @@ export default defineComponent({
         stagger: 0.2,
         ease: SteppedEase.config(3),
         scrollTrigger: {
-          trigger: ".charac",
-          start: "top",
-          end: "bottom",
-          pin: true,
+          trigger: ".inicioContent",
+          start: "top ",
+          end: "=+350",
+          // pin: true,
           scrub: true,
           // markers: true,
         }

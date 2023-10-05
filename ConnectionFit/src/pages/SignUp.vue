@@ -16,15 +16,15 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md">
+          <q-form class="q-gutter-md" @submit.prevent="submit">
             <q-stepper v-model="step" color="primary" animated ref="Stepper" contracted keep-alive>
               <q-step :name="1" title="Passo 1" :done="step > 1">
                 <div class="q-mx-sm">
-                  <q-input ref="fieldUsername" label="Nome de Usuário" v-model="login.username" lazy-rules
+                  <q-input name="username" ref="fieldUsername" label="Nome Completo" v-model="login.username" lazy-rules
                     :rules="UsernameValidation">
                   </q-input>
-                  <q-input ref="fieldRefPass" label="Senha" :type="isPwd ? 'password' : 'text'" v-model="login.password"
-                    lazy-rules :rules="PasswordValidation">
+                  <q-input name="password" ref="fieldRefPass" label="Senha" :type="isPwd ? 'password' : 'text'"
+                    v-model="login.password" lazy-rules :rules="PasswordValidation">
                     <template v-slot:append>
                       <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer"
                         @click="isPwd = !isPwd"></q-icon>
@@ -42,15 +42,15 @@
 
               <q-step :name="2" title="Passo 2" :done="step > 2">
                 <div class="q-mx-sm">
-                  <q-input ref="fieldEmail" label="Email" v-model="login.email" lazy-rules
+                  <q-input name="email" ref="fieldEmail" label="Email" v-model="login.email" lazy-rules
                     :rules="[(val) => validEmail(val) || 'O email deve ser válido']">
                   </q-input>
-                  <q-input ref="fieldCPF" label="CPF" v-model="login.CPF" lazy-rules unmasked-value mask="###.###.###-##"
-                    @input="login.CPF = parseInt(login.CPF)"
+                  <q-input name="CPF" ref="fieldCPF" label="CPF" v-model="login.CPF" lazy-rules unmasked-value
+                    mask="###.###.###-##" @input="login.CPF = parseInt(login.CPF)"
                     :rules="[(val) => validarCPF(val) || 'O cpf deve ser válido']"></q-input>
 
-                  <q-input v-model="login.dataNasc" mask="##/##/####" ref="fieldDataNasc"
-                    :rules="[(val) => validDateBr(val) || 'A data de nascimento deve ser válida']">
+                  <q-input label="Data de Nascimento" name="dataNasc" v-model="login.dataNasc" mask="##/##/####"
+                    ref="fieldDataNasc" :rules="[(val) => validDateBr(val) || 'A data de nascimento deve ser válida']">
                     <template v-slot:append>
                       <q-icon name="event" class="cursor-pointer">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -63,6 +63,9 @@
                       </q-icon>
                     </template>
                   </q-input>
+                  <q-select label="Sexo" filled v-model="login.sexo" :options="option" option-value="id"
+                    option-label="desc" option-disable="inactive" emit-value map-options style="min-width: 250px;" />
+
                 </div>
               </q-step>
 
@@ -72,14 +75,16 @@
 
                   <p> Este Termo de Licença do Usuário Final ("EULA") é um acordo legal entre você (doravante referido
                     como
-                    "Usuário") e [Nome da Empresa] (doravante referida como "ConnectionFit"). Este EULA regula o uso do
+                    "Usuário") e [Nome da Empresa] (doravante referida como "ConnectionFit"). Este EULA regula o uso
+                    do
                     aplicativo móvel ConnectionFit e quaisquer serviços relacionados (doravante referidos como
                     "Aplicativo").</p>
 
                   <ul>
                     <li>1. Aceitação dos Termos
 
-                      Ao instalar, acessar ou usar o Aplicativo, o Usuário concorda com os termos e condições deste EULA.
+                      Ao instalar, acessar ou usar o Aplicativo, o Usuário concorda com os termos e condições deste
+                      EULA.
                       Se
                       o
                       Usuário não concordar com estes termos, não deverá usar o Aplicativo.
@@ -87,7 +92,8 @@
                     <li>
                       2. Dados Pessoais e de Saúde
 
-                      O Aplicativo pode coletar e armazenar dados pessoais e de saúde do Usuário, incluindo, mas não se
+                      O Aplicativo pode coletar e armazenar dados pessoais e de saúde do Usuário, incluindo, mas não
+                      se
                       limitando a:
 
                       Medidas do corpo, como peso, altura, IMC, etc.
@@ -102,16 +108,19 @@
                       Fornecer serviços personalizados relacionados à saúde e bem-estar.
                       Melhorar a qualidade e a eficácia do Aplicativo.
                       Cumprir as leis e regulamentos aplicáveis.
-                      Os dados do Usuário serão armazenados de forma segura e serão acessíveis apenas para fins internos
+                      Os dados do Usuário serão armazenados de forma segura e serão acessíveis apenas para fins
+                      internos
                       da
                       ConnectionFit. Não compartilharemos seus dados com terceiros sem seu consentimento explícito.
                     </li>
                     <li>
                       4. Consentimento Informado
 
-                      O Usuário concorda em fornecer informações precisas e atualizadas. O Usuário também compreende que o
+                      O Usuário concorda em fornecer informações precisas e atualizadas. O Usuário também compreende
+                      que o
                       uso
-                      do Aplicativo é de sua própria responsabilidade e que a ConnectionFit não assume responsabilidade
+                      do Aplicativo é de sua própria responsabilidade e que a ConnectionFit não assume
+                      responsabilidade
                       por
                       quaisquer ações tomadas com base nas informações fornecidas.
                     </li>
@@ -129,7 +138,8 @@
                     <li>
                       6. Encerramento
 
-                      A ConnectionFit se reserva o direito de encerrar a conta do Usuário e excluir seus dados a qualquer
+                      A ConnectionFit se reserva o direito de encerrar a conta do Usuário e excluir seus dados a
+                      qualquer
                       momento, se o Usuário violar este EULA ou se a empresa decidir encerrar o Aplicativo.
                     </li>
                     <li>
@@ -138,13 +148,15 @@
                       A ConnectionFit se reserva o direito de modificar este EULA a qualquer momento. As alterações
                       entrarão
                       em
-                      vigor após a publicação das versões atualizadas no Aplicativo. O uso contínuo do Aplicativo após a
+                      vigor após a publicação das versões atualizadas no Aplicativo. O uso contínuo do Aplicativo após
+                      a
                       modificação será considerado como aceitação das alterações.
                     </li>
                     <li>
                       8. Contato
 
-                      Para entrar em contato com a ConnectionFit ou fazer perguntas sobre este EULA, envie um email para
+                      Para entrar em contato com a ConnectionFit ou fazer perguntas sobre este EULA, envie um email
+                      para
                       [Endereço de Email de Suporte].
                     </li>
                   </ul>
@@ -176,10 +188,11 @@
 
 
 <script>
-import { defineComponent } from 'vue'
-import { date, useQuasar } from 'quasar'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue';
+import { date, useQuasar } from 'quasar';
 import { gsap } from 'gsap';
+import axios from 'axios';
+import { useRouter } from "vue-router";
 
 let $q
 
@@ -192,12 +205,21 @@ export default defineComponent({
     const fieldCPF = ref(null)
     const fieldDataNasc = ref(null)
     const stepperRef = ref(null)
+    const router = useRouter();
+
+
+
     return {
       fieldUsername: ref(null),
       isPwd: ref(true),
       isPwd2: ref(true),
       step: ref(1),
       aceiteEULA: ref(false),
+
+      option: [
+        { id: 0, desc: 'Mulher' },
+        { id: 1, desc: 'Homem' },
+      ]
     }
   },
   computed: {
@@ -326,12 +348,14 @@ export default defineComponent({
         email: '',
         CPF: '',
         dataNasc: '',
+        sexo: ref(null),
       }
     }
   },
 
   methods: {
     onContinueStep() {
+      console.log(this.step);
       switch (this.step) {
         case 1:
           this.$refs.fieldUsername.validate()
@@ -353,21 +377,24 @@ export default defineComponent({
             this.$refs.Stepper.next();
           }
           break;
-        default:
+        case 3:
           if (this.aceiteEULA == true) {
-            $q.notify({
-              type: 'positive',
-              message: `nome: ${this.login.username}, senha: ${this.login.password}, email: ${this.login.email}, dataNascimento: ${this.transformDateToISO(this.login.dataNasc)
-                }, CPF: ${this.login.CPF}`,
-              multiLine: true,
-            })
+
+            var inputs = new FormData();
+            inputs.append('username', this.login.username);
+            inputs.append('password', this.login.password);
+            inputs.append('sexo', this.login.sexo);
+            inputs.append('email', this.login.email);
+            inputs.append('CPF', this.login.CPF);
+            inputs.append('dataNascm', this.transformDateToISO(this.login.dataNasc));
+
+            for (const pair of inputs.entries()) {
+              const [key, value] = pair;
+              console.log(`Campo: ${key}, Valor: ${value}`);
+            }
           }
           break;
       }
-    },
-    btntest(a) {
-      console.log(validarCPF(a));
-
     }
   },
   mounted() {
@@ -376,7 +403,7 @@ export default defineComponent({
       xPercent: 100,
     })
   }
-})
+});
 
 </script>
 
