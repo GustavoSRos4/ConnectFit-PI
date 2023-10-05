@@ -20,7 +20,7 @@
             <q-stepper v-model="step" color="primary" animated ref="Stepper" contracted keep-alive>
               <q-step :name="1" title="Passo 1" :done="step > 1">
                 <div class="q-mx-sm">
-                  <q-input name="username" ref="fieldUsername" label="Nome Completo" v-model="login.username" lazy-rules
+                  <q-input name="name" ref="fieldUsername" label="Nome Completo" v-model="login.name" lazy-rules
                     :rules="UsernameValidation">
                   </q-input>
                   <q-input name="password" ref="fieldRefPass" label="Senha" :type="isPwd ? 'password' : 'text'"
@@ -192,9 +192,14 @@ import { defineComponent, ref } from 'vue';
 import { date, useQuasar } from 'quasar';
 import { gsap } from 'gsap';
 import axios from 'axios';
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
+import { api } from 'src/boot/axios';
+import {
+  Loading, QSpinnerGears
+} from 'quasar'
 
-let $q
+
+const $q = useQuasar()
 
 export default defineComponent({
   name: 'SignUp',
@@ -205,7 +210,7 @@ export default defineComponent({
     const fieldCPF = ref(null)
     const fieldDataNasc = ref(null)
     const stepperRef = ref(null)
-    const router = useRouter();
+
 
 
 
@@ -342,7 +347,7 @@ export default defineComponent({
   data() {
     return {
       login: {
-        username: '',
+        name: '',
         password: '',
         repassword: '',
         email: '',
@@ -354,7 +359,10 @@ export default defineComponent({
   },
 
   methods: {
-    onContinueStep() {
+
+
+    async onContinueStep() {
+      const router = useRouter();
       console.log(this.step);
       switch (this.step) {
         case 1:
@@ -378,27 +386,73 @@ export default defineComponent({
           }
           break;
         case 3:
-          if (this.aceiteEULA == true) {
+          console.log(this.aceiteEULA)
 
+          if (!this.aceiteEULA === false) {
+            Loading.show({
+              message: "Aguarde...",
+              spinnerColor: 'primary',
+              spinnerSize: 200,
+            });
             var inputs = new FormData();
-            inputs.append('username', this.login.username);
-            inputs.append('password', this.login.password);
-            inputs.append('sexo', this.login.sexo);
+            inputs.append('name', this.login.name);
             inputs.append('email', this.login.email);
-            inputs.append('CPF', this.login.CPF);
-            inputs.append('dataNascm', this.transformDateToISO(this.login.dataNasc));
+            inputs.append('password', this.login.password);
+            // inputs.append('sexo', this.login.sexo);
+            // inputs.append('CPF', this.login.CPF);
+            // inputs.append('dataNascm', this.transformDateToISO(this.login.dataNasc));
 
             for (const pair of inputs.entries()) {
               const [key, value] = pair;
               console.log(`Campo: ${key}, Valor: ${value}`);
             }
+            var data = {};
+
+            const params = new URLSearchParams({
+              name: this.login.name,
+              email: this.login.email,
+              password: this.login.password,
+              password_confirmation: this.login.repassword,
+            }).toString();
+
+            const url =
+              "http://127.0.0.1:8000/api/registrarUsuario?" +
+              params;
+
+            await axios
+              .post(url, data, {
+                // headers: {
+                //   aaid: this.ID,
+                //   token: this.Token
+                // }
+              })
+              .then(res => {
+                const token = res.data.token;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                console.log(token)
+                Loading.hide()
+                this.$q.notify({
+                  type: 'positive',
+                  message: "Sucesso!!! Por favor faça o login",
+                })
+                this.$router.push('/login');
+              })
+              .catch(err => {
+                console.log(err);
+                Loading.hide()
+              });
+
+          } else {
+            this.$q.notify({
+              type: 'warning',
+              message: "Você deve aceitar o EULA para se registrar.",
+            })
           }
           break;
       }
     }
   },
   mounted() {
-    $q = useQuasar();
     gsap.from(".geral", {
       xPercent: 100,
     })

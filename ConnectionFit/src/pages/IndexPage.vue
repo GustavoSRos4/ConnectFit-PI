@@ -77,6 +77,11 @@ import { defineComponent, onMounted } from 'vue'
 import { gsap } from 'gsap';
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { SteppedEase } from 'gsap';
+import {
+  Loading, QSpinnerGears
+} from 'quasar'
+
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -98,11 +103,11 @@ export default defineComponent({
         }
       })
       gsap.from('.title, .text', {
-        opacity: 0.6,
+        opacity: 0.5,
         duration: 2,
         yoyo: true,
         repeat: -1,
-        stagger: 1,
+        stagger: 2,
       });
       //Animacao p/ o scroll
       gsap.to(".char", {
@@ -111,10 +116,10 @@ export default defineComponent({
         stagger: 0.2,
         ease: SteppedEase.config(3),
         scrollTrigger: {
-          trigger: ".inicioContent",
+          trigger: ".charac",
           start: "top ",
           end: "=+350",
-          // pin: true,
+          pin: true,
           scrub: true,
           // markers: true,
         }
