@@ -14,9 +14,6 @@ class Register1 extends StatefulWidget {
 class _Register1State extends State<Register1> {
   var navKey = GlobalKey<NavigatorState>();
 
-  ValueNotifier<VoidCallback?> floatingButtonAction =
-      ValueNotifier<VoidCallback?>(null);
-
   void _sairCadastro() {
     Navigator.of(context, rootNavigator: true).pop();
   }
@@ -53,13 +50,13 @@ class _Register1State extends State<Register1> {
             Widget page;
             switch (route) {
               case '/one':
-                page = OnePage(floatingButtonAction: floatingButtonAction);
+                page = const OnePage();
                 break;
               case '/two':
-                page = TwoPage(floatingButtonAction: floatingButtonAction);
+                page = const TwoPage();
                 break;
               case '/three':
-                page = ThreePage(floatingButtonAction: floatingButtonAction);
+                page = const ThreePage();
                 break;
               default:
                 return null;
@@ -69,10 +66,6 @@ class _Register1State extends State<Register1> {
               settings: settings,
             );
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => floatingButtonAction.value?.call(),
-          child: const Icon(Icons.arrow_forward_ios),
         ),
       ),
     );
