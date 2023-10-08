@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/HomePage/home.dart';
+import 'package:projeto/Pages/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Pages/Shared/Models/login_model.dart';
 import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Pages/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:http/http.dart' as http;
+
+import '../../Shared/Blocs/globals.dart';
 
 class ThreePage extends StatefulWidget {
   const ThreePage({super.key});
@@ -35,6 +42,37 @@ class _ThreePageState extends State<ThreePage> {
       senha: senhaEC.text,
     );
     debugPrint(model.toString());
+  }
+
+  createAccountPressed() async {
+    bool emailValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(emailEC.text);
+    if (emailValid) {
+      http.Response response = await AuthServices.register(
+        loginModel.nome.toString(),
+        emailEC.text,
+        senhaEC.text,
+      );
+      Map responseMap = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        if (mounted) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const Home(),
+              ));
+        } else {
+          if (mounted) {
+            errorSnackBar(context, responseMap.values.first[0]);
+          }
+        }
+      }
+    } else {
+      if (mounted) {
+        errorSnackBar(context, 'email not valid');
+      }
+    }
   }
 
   @override

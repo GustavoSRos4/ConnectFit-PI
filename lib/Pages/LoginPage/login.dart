@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Pages/RecoverPassword/recuperar_senha.dart';
+import 'package:projeto/Pages/Shared/Blocs/auth_services.dart';
+import 'package:projeto/Pages/Shared/Blocs/globals.dart';
 import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +17,30 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool obscureTextPassword = true;
   bool obscureTextPasswordConfirm = true;
+  final String _email = "";
+  final String _password = "";
+
+  loginPressed() async {
+    if (_email.isNotEmpty && _password.isNotEmpty) {
+      http.Response response = await AuthServices.login(_email, _password);
+      Map responseMap = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        if (mounted) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const Home(),
+              ));
+        }
+      } else {
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.first);
+        }
+      }
+    } else {
+      errorSnackBar(context, "Preencha todos os campos");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
