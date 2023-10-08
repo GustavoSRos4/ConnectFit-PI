@@ -80,6 +80,6 @@ class LoginModel {
       País: $pais,
       Usuario: $usuario,
       Email: $email, 
-      site: $senha,
+      Senha: $senha,
       )""";
 }
