@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Pages/Shared/Blocs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class AuthServices {
   static Future<http.Response> register(

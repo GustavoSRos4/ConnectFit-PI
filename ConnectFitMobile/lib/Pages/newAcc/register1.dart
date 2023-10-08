@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/Shared/Widgets/custom_app_bar.dart';
+import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Pages/newAcc/Steps/one_page.dart';
 import 'package:projeto/Pages/newAcc/Steps/three_page.dart';
 import 'package:projeto/Pages/newAcc/Steps/two_page.dart';

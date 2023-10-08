@@ -1,7 +1,7 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:get/get.dart';
 

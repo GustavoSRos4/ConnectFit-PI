@@ -1,9 +1,9 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/Pages/Shared/Models/login_model.dart';
-import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
-import 'package:projeto/Pages/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:projeto/Shared/Models/login_model.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
+import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 
 class TwoPage extends StatefulWidget {
   const TwoPage({super.key});

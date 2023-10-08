@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
-import 'package:projeto/Pages/Shared/Blocs/auth_services.dart';
-import 'package:projeto/Pages/Shared/Models/login_model.dart';
-import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
-import 'package:projeto/Pages/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:projeto/Shared/Blocs/auth_services.dart';
+import 'package:projeto/Shared/Models/login_model.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
+import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:http/http.dart' as http;
 
-import '../../Shared/Blocs/globals.dart';
+import '../../../Shared/Blocs/globals.dart';
 
 class ThreePage extends StatefulWidget {
   const ThreePage({super.key});

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Pages/RecoverPassword/recuperar_senha.dart';
-import 'package:projeto/Pages/Shared/Blocs/auth_services.dart';
-import 'package:projeto/Pages/Shared/Blocs/globals.dart';
-import 'package:projeto/Pages/Shared/Widgets/custom_text_field.dart';
+import 'package:projeto/Shared/Blocs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
