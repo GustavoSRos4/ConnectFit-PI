@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('person', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->integer('cpf');
-            $table->text('descricao')->nullable();
-            $table->date('dataNas');
+        Schema::create('niveis_ati_fis', function (Blueprint $table) {
+            $table->tinyIncrements('idNivelAtiFis');
+            $table->string("Descricao", 16);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('person');
+        Schema::dropIfExists('niveis_ati_fis');
     }
 };

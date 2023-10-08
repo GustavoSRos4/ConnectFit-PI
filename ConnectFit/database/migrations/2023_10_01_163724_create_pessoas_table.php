@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pessoas', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->integer('cpf');
+            $table->unsignedInteger('idPessoa')->primary();
+            $table->bigInteger('cpf');
             $table->text('descricao')->nullable();
             $table->date('dataNas');
+            $table->string('SiglaSexo',1);
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('idPessoa')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('SiglaSexo')->references('Sigla')->on('sexos')->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('person');
+        Schema::dropIfExists('pessoas');
     }
 };

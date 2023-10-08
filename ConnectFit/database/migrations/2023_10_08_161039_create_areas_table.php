@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',60);
-            $table->string('email',50)->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password',20);
-            $table->rememberToken();
+        Schema::create('areas', function (Blueprint $table) {
+            $table->tinyIncrements('idArea');
+            $table->string("Descricao",50);
+            $table->smallInteger('Medida');
+            $table->char('SiglaLado',1);
             $table->timestamps();
+
+            $table->foreign('SiglaLado')->references('Sigla')->on('lados')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('areas');
     }
 };
