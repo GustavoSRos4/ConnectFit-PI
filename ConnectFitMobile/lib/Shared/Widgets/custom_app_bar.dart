@@ -18,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      primary: false,
+      //primary: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadiusDirectional.vertical(
           bottom: Radius.circular(20),
@@ -32,9 +32,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Column(
         children: [
-          const SizedBox(
-            height: 70,
-          ),
           title,
         ],
       ),
