@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/PerfilPage/perfil.dart';
-import 'package:projeto/Pages/Training_Page/training.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -43,14 +41,7 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: const <Widget>[
-          HomePage(),
-          TrainingPage(),
-          PerfilPage(),
-        ],
-      ),
+      body: const HomePage(),
       bottomNavigationBar: BottomNavBar(
         onIndexChanged: _onIndexChanged,
       ),
@@ -171,6 +162,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
       currentIndex: _currentIndex,
       onTap: (index) {
         setIndex(index);
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, '/home');
+            break;
+          case 1:
+            Navigator.pushNamed(context, '/trainingList');
+            break;
+          case 2:
+            Navigator.pushNamed(context, '/perfil');
+            break;
+          default:
+            return;
+        }
       },
       items: const [
         BottomNavigationBarItem(
