@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 
 class TrainingList extends StatelessWidget {
   const TrainingList({super.key});
@@ -6,13 +7,9 @@ class TrainingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadiusDirectional.vertical(
-            bottom: Radius.circular(20),
-          ),
-        ),
-        title: const Text("Fichas de treino"),
+      appBar: const CustomAppBar(
+        title: Text('Fichas de treino'),
+        actions: [],
       ),
       body: Column(
         children: <Widget>[
@@ -53,13 +50,17 @@ class TrainingList extends StatelessWidget {
           ),
           Flexible(
             child: ListView.builder(
-              itemCount: 50,
+              itemCount: 5,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 40, left: 40),
                   child: Card(
                     color: Colors.deepOrange,
                     child: ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/formDetails',
+                            arguments: (index + 1));
+                      },
                       textColor: Colors.white,
                       title: Text('Ficha ${index + 1}'),
                       subtitle: Text('Detalhes da ficha ${index + 1}'),

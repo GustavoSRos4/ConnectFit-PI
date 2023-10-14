@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Pages/PerfilPage/perfil.dart';
+import 'package:projeto/Pages/Training_Page/form_details.dart';
 import 'package:projeto/Pages/Training_Page/training_list.dart';
 import 'package:projeto/Pages/newAcc/register1.dart';
 import 'Pages/LoginPage/login.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/register': (_) => const Register1(),
         '/perfil': (_) => const PerfilPage(),
         '/trainingList': (_) => const TrainingList(),
+        '/formDetails': (_) => const FormDetails(),
       },
     );
   }
