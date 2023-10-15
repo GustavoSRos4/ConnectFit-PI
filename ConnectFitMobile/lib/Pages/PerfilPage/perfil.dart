@@ -7,6 +7,7 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepOrange,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200),
         child: AppBar(
@@ -33,21 +34,12 @@ class PerfilPage extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
+          Container(
+            height: double.infinity,
+            color: Colors.pretoPag,
+          ),
           const Column(
             children: [
-              SizedBox(
-                height: 100,
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: CustomText(
-                      text: 'João Vitor Pereira Sousa',
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
               ContainerTitlePerfil(text: 'Opções Gerais'),
               ListTilePerfil(text: 'Alterar senha'),
               ContainerTitlePerfil(text: 'Informações'),

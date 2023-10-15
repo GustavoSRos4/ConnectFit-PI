@@ -3,8 +3,9 @@ import 'package:projeto/Pages/Graphics/graphics.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Pages/Measures/measures.dart';
 import 'package:projeto/Pages/PerfilPage/perfil.dart';
-import 'package:projeto/Pages/Training_Page/form_details.dart';
-import 'package:projeto/Pages/Training_Page/training_list.dart';
+import 'package:projeto/Pages/PersonalPage/personal_page.dart';
+import 'package:projeto/Pages/TrainingPage/form_details.dart';
+import 'package:projeto/Pages/TrainingPage/training_list.dart';
 import 'package:projeto/Pages/newAcc/register1.dart';
 import 'Pages/LoginPage/login.dart';
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/formDetails': (_) => const FormDetails(),
         '/graphics': (_) => const GraphicsPage(),
         '/measures': (_) => const MeasuresPage(),
+        '/personal': (_) => const PersonalPage(),
       },
     );
   }
