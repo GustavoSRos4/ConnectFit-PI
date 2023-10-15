@@ -19,18 +19,16 @@ class _HomePageState extends State<HomePage> {
     return Column(children: [
       Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 20.5, right: 20.5, left: 20.5),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.deepOrange,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+          Container(
+            margin: const EdgeInsets.only(top: 20.5, right: 20.5, left: 20.5),
+            decoration: const BoxDecoration(
+              color: Colors.deepOrange,
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
               ),
-              height: 230,
-              width: double.infinity,
             ),
+            height: 230,
+            width: double.infinity,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20, right: 30.5, left: 20),

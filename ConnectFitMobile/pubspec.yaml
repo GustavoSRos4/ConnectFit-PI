@@ -40,6 +40,7 @@ dependencies:
   brasil_fields: ^1.14.0  #usado para formatar CPF e data
   get: ^4.6.6
   http: ^1.1.0
+  fl_chart: ^0.64.0
   
 dev_dependencies:
   flutter_test:

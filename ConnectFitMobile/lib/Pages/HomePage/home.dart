@@ -9,7 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
+  int currentIndex = 0;
 
   void _teste() {
     debugPrint("Deu certo BUSCA");
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
 
   void _onIndexChanged(int index) {
     setState(() {
-      _currentIndex = index;
+      currentIndex = index;
     });
   }
 
