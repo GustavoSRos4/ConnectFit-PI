@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/text_white.dart';
@@ -12,8 +14,64 @@ class FormDetails extends StatefulWidget {
 
 class _FormDetailsState extends State<FormDetails> {
   late int index;
-  DateTime agora = DateTime.now();
+  DateTime now = DateTime.now();
   final List<Item> _data = generateItems(5);
+
+  int miliseconds = 0;
+  bool timerStarted = false;
+  bool timerPaused = false;
+  late Timer timer;
+
+  void startTimer() {
+    if (!timerStarted) {
+      timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        miliseconds += 100;
+        setState(() {});
+      });
+      timerStarted = !timerStarted;
+    } else if (timerPaused) {
+      timerPaused = !timerPaused;
+      timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        miliseconds += 100;
+        setState(() {});
+      });
+    }
+  }
+
+  void resetTimer() {
+    timer.cancel();
+    miliseconds = 0;
+    timerStarted = false;
+    timerPaused = false;
+    setState(() {});
+  }
+
+  void pauseTimer() {
+    timer.cancel();
+    setState(() {});
+    timerPaused = !timerPaused;
+  }
+
+  String formatTime() {
+    Duration duration = Duration(milliseconds: miliseconds);
+
+    String twoDigits(int valor) {
+      return valor >= 10 ? "$valor" : "0$valor";
+    }
+
+    String hours = twoDigits(duration.inHours);
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String seconds = twoDigits(duration.inSeconds.remainder(60));
+    String milliseconds = twoDigits(duration.inMilliseconds.remainder(1000));
+
+    return "$hours:$minutes:$seconds:$milliseconds";
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -46,7 +104,7 @@ class _FormDetailsState extends State<FormDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextWhite(
-                  text: '${dateFormat(agora)}',
+                  text: '${dateFormat(now)}',
                   fontSize: 20,
                 ),
                 IconButton(
@@ -114,20 +172,52 @@ class _FormDetailsState extends State<FormDetails> {
                 const TextWhite(text: 'Carga: ', isBold: true),
                 const TextWhite(text: 'Inicio: ', isBold: true),
                 const TextWhite(text: 'Fim: ', isBold: true),
-                const TextWhite(text: 'Tempo Gasto: ', isBold: true),
+                TextWhite(text: 'Tempo Gasto: ${formatTime()}', isBold: true),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pretoPag,
-                      ),
-                      onPressed: () {},
-                      child: const TextWhite(
-                        text: 'Iniciar',
-                      ),
-                    ),
+                    timerStarted
+                        ? Row(
+                            children: [
+                              timerPaused
+                                  ? IconButton(
+                                      color: Colors.pretoPag,
+                                      iconSize: 40,
+                                      onPressed: () {
+                                        startTimer();
+                                      },
+                                      icon: const Icon(Icons.play_arrow),
+                                    )
+                                  : IconButton(
+                                      color: Colors.pretoPag,
+                                      iconSize: 40,
+                                      onPressed: () {
+                                        pauseTimer();
+                                      },
+                                      icon: const Icon(Icons.pause),
+                                    ),
+                              IconButton(
+                                color: Colors.pretoPag,
+                                iconSize: 40,
+                                onPressed: () {
+                                  resetTimer();
+                                },
+                                icon: const Icon(Icons.stop),
+                              ),
+                            ],
+                          )
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pretoPag,
+                            ),
+                            onPressed: () {
+                              startTimer();
+                            },
+                            child: const TextWhite(
+                              text: 'Iniciar',
+                            ),
+                          ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pretoPag,
