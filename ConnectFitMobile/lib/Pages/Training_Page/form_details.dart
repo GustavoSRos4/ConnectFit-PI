@@ -172,45 +172,50 @@ class _FormDetailsState extends State<FormDetails> {
                 const TextWhite(text: 'Carga: ', isBold: true),
                 const TextWhite(text: 'Inicio: ', isBold: true),
                 const TextWhite(text: 'Fim: ', isBold: true),
-                TextWhite(text: 'Tempo Gasto: ${formatTime()}', isBold: true),
+                Row(
+                  children: [
+                    const TextWhite(text: 'Tempo Gasto:', isBold: true),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    TextWhite(text: formatTime()),
+                  ],
+                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: <Widget>[
                     timerStarted
                         ? Row(
                             children: [
                               timerPaused
-                                  ? IconButton(
-                                      color: Colors.pretoPag,
-                                      iconSize: 40,
+                                  ? CustomElevatedButton(
+                                      twoButtons: true,
                                       onPressed: () {
                                         startTimer();
                                       },
-                                      icon: const Icon(Icons.play_arrow),
+                                      child: const Icon(Icons.play_arrow),
                                     )
-                                  : IconButton(
-                                      color: Colors.pretoPag,
-                                      iconSize: 40,
+                                  : CustomElevatedButton(
+                                      twoButtons: true,
                                       onPressed: () {
                                         pauseTimer();
                                       },
-                                      icon: const Icon(Icons.pause),
+                                      child: const Icon(Icons.pause),
                                     ),
-                              IconButton(
-                                color: Colors.pretoPag,
-                                iconSize: 40,
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              CustomElevatedButton(
+                                twoButtons: true,
                                 onPressed: () {
                                   resetTimer();
                                 },
-                                icon: const Icon(Icons.stop),
+                                child: const Icon(Icons.stop),
                               ),
                             ],
                           )
-                        : ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pretoPag,
-                            ),
+                        : CustomElevatedButton(
                             onPressed: () {
                               startTimer();
                             },
@@ -218,10 +223,7 @@ class _FormDetailsState extends State<FormDetails> {
                               text: 'Iniciar',
                             ),
                           ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pretoPag,
-                      ),
+                    CustomElevatedButton(
                       onPressed: () {},
                       child: const TextWhite(
                         text: 'Finalizar',
@@ -234,6 +236,33 @@ class _FormDetailsState extends State<FormDetails> {
           ),
         );
       }).toList(),
+    );
+  }
+}
+
+class CustomElevatedButton extends StatelessWidget {
+  final void Function() onPressed;
+  final bool twoButtons;
+  final Widget child;
+  const CustomElevatedButton({
+    super.key,
+    required this.onPressed,
+    required this.child,
+    this.twoButtons = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: twoButtons ? 60 : 122,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.pretoPag,
+            ),
+            onPressed: onPressed,
+            child: child),
+      ),
     );
   }
 }
