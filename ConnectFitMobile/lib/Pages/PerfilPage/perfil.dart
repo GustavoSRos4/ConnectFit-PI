@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -9,31 +10,15 @@ class PerfilPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200),
         child: AppBar(
-          primary: false,
           toolbarHeight: 100,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadiusDirectional.vertical(
               bottom: Radius.circular(20),
             ),
           ),
-          flexibleSpace: const Column(
-            children: [
-              SizedBox(height: 35),
-              Image(
-                height: 140,
-                image: AssetImage('assets/images/iconePerfil.png'),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "João Vitor Pereira Sousa",
-                style: TextStyle(
-                    color: Colors.begeclaro,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
+          flexibleSpace: const Image(
+            alignment: Alignment.bottomCenter,
+            image: AssetImage('assets/images/iconePerfil.png'),
           ),
           actions: [
             Padding(
@@ -48,11 +33,21 @@ class PerfilPage extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            color: Colors.begeclaro,
-          ),
           const Column(
             children: [
+              SizedBox(
+                height: 100,
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: CustomText(
+                      text: 'João Vitor Pereira Sousa',
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
               ContainerTitlePerfil(text: 'Opções Gerais'),
               ListTilePerfil(text: 'Alterar senha'),
               ContainerTitlePerfil(text: 'Informações'),
@@ -88,7 +83,7 @@ class ContainerTitlePerfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.pretoPag,
+      color: Colors.deepOrange,
       height: 50,
       width: double.infinity,
       child: Align(
@@ -99,7 +94,10 @@ class ContainerTitlePerfil extends StatelessWidget {
             text,
             textAlign: TextAlign.left,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+            ),
           ),
         ),
       ),
@@ -123,8 +121,14 @@ class ListTilePerfil extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text),
-            const Icon(Icons.arrow_drop_down),
+            CustomText(
+              text: text,
+              fontSize: 17,
+            ),
+            const Icon(
+              Icons.arrow_drop_down,
+              color: Colors.white,
+            ),
           ],
         ),
       ),

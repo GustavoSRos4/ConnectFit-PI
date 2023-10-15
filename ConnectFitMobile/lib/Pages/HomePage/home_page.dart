@@ -80,68 +80,70 @@ class _HomePageState extends State<HomePage> {
       ),
       Padding(
         padding: const EdgeInsets.only(top: 50),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GlobalCustomElevatedButton(
-                  height: 80,
-                  width: 150,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/trainingList');
-                  },
-                  child: const CustomText(
-                    text: 'Treinos',
-                    isBold: true,
-                    fontSize: 25,
+        child: Center(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GlobalCustomElevatedButton(
+                    height: 80,
+                    width: 150,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/trainingList');
+                    },
+                    child: const CustomText(
+                      text: 'Treinos',
+                      isBold: true,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-                GlobalCustomElevatedButton(
-                  height: 80,
-                  width: 150,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/graphics');
-                  },
-                  child: const CustomText(
-                    text: 'Gráficos',
-                    isBold: true,
-                    fontSize: 25,
+                  GlobalCustomElevatedButton(
+                    height: 80,
+                    width: 150,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/graphics');
+                    },
+                    child: const CustomText(
+                      text: 'Gráficos',
+                      isBold: true,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                GlobalCustomElevatedButton(
-                  height: 80,
-                  width: 150,
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/measures');
-                  },
-                  child: const CustomText(
-                    text: 'Medidas',
-                    isBold: true,
-                    fontSize: 25,
+                ],
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  GlobalCustomElevatedButton(
+                    height: 80,
+                    width: 150,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/measures');
+                    },
+                    child: const CustomText(
+                      text: 'Medidas',
+                      isBold: true,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-                GlobalCustomElevatedButton(
-                  height: 80,
-                  width: 150,
-                  onPressed: () {},
-                  child: const CustomText(
-                    text: 'Ranking',
-                    isBold: true,
-                    fontSize: 25,
+                  GlobalCustomElevatedButton(
+                    height: 80,
+                    width: 150,
+                    onPressed: () {},
+                    child: const CustomText(
+                      text: 'Ranking',
+                      isBold: true,
+                      fontSize: 25,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       )
     ]);
