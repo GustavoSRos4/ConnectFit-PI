@@ -11,6 +11,7 @@ class PerfilPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200),
         child: AppBar(
+          automaticallyImplyLeading: false,
           toolbarHeight: 100,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadiusDirectional.vertical(

@@ -4,12 +4,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
   final List<Widget> actions;
   final double height;
+  final bool automaticallyImplyLeading;
 
   const CustomAppBar({
     super.key,
     required this.title,
     required this.actions,
     this.height = kToolbarHeight,
+    this.automaticallyImplyLeading = true,
   });
 
   @override
@@ -18,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      //primary: false,
+      automaticallyImplyLeading: automaticallyImplyLeading,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadiusDirectional.vertical(
           bottom: Radius.circular(20),

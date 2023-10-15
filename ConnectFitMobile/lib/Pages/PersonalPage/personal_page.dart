@@ -8,6 +8,7 @@ class PersonalPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: CustomAppBar(
+        automaticallyImplyLeading: false,
         title: Text('Buscar Personal'),
         actions: [],
       ),

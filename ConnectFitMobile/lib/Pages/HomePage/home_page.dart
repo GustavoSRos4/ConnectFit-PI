@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/date_format.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Shared/Widgets/custom_elevated_button_global.dart';
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateTime now = DateTime.now();
-  String text = 'Aparentemente aparente';
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +20,6 @@ class _HomePageState extends State<HomePage> {
       appBar: CustomAppBar(
         title: const Text("Olá, João"),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {},
