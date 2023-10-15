@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class TextWhite extends StatelessWidget {
   final String text;
   final double? fontSize;
+  final bool isBold;
   const TextWhite({
     super.key,
     required this.text,
     this.fontSize,
+    this.isBold = false,
   });
 
   @override
@@ -16,6 +18,7 @@ class TextWhite extends StatelessWidget {
       style: TextStyle(
         color: Colors.white,
         fontSize: fontSize,
+        fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
       ),
     );
   }

@@ -77,6 +77,7 @@ class _FormDetailsState extends State<FormDetails> {
 
   Widget _buildPanel() {
     return ExpansionPanelList.radio(
+      expandedHeaderPadding: const EdgeInsets.all(0),
       children: _data.map<ExpansionPanelRadio>((Item item) {
         return ExpansionPanelRadio(
           value: item.id,
@@ -84,21 +85,63 @@ class _FormDetailsState extends State<FormDetails> {
           backgroundColor: Colors.deepOrange,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              title: TextWhite(
-                text: item.headerValue,
-                fontSize: 17,
-              ),
+              title:
+                  TextWhite(isBold: true, text: item.headerValue, fontSize: 17),
             );
           },
           body: ListTile(
-              title: TextWhite(text: item.expandedValue),
-              subtitle: const TextWhite(text: 'Para deletar clique aqui'),
-              trailing: const Icon(Icons.delete),
-              onTap: () {
-                setState(() {
-                  _data.removeWhere((Item currentItem) => item == currentItem);
-                });
-              }),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: Colors.bege,
+                  height: 100,
+                  child: const Center(
+                    child: Text('VIDEO'),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Existem muitas variações das passagens do Lorem Ipsum disponíveis, mas a maior parte sofreu alterações de alguma forma, pela injecção de humor, ou de palavras aleatórias que nem sequer parecem suficientemente credíveis.',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const TextWhite(text: 'Repetições: ', isBold: true),
+                const TextWhite(text: 'Descanso: ', isBold: true),
+                const TextWhite(text: 'Carga: ', isBold: true),
+                const TextWhite(text: 'Inicio: ', isBold: true),
+                const TextWhite(text: 'Fim: ', isBold: true),
+                const TextWhite(text: 'Tempo Gasto: ', isBold: true),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pretoPag,
+                      ),
+                      onPressed: () {},
+                      child: const TextWhite(
+                        text: 'Iniciar',
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pretoPag,
+                      ),
+                      onPressed: () {},
+                      child: const TextWhite(
+                        text: 'Finalizar',
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         );
       }).toList(),
     );
