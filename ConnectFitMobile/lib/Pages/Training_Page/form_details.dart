@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Shared/Widgets/text_white.dart';
+import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Blocs/date_format.dart';
 
 class FormDetails extends StatefulWidget {
@@ -103,7 +104,7 @@ class _FormDetailsState extends State<FormDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWhite(
+                CustomText(
                   text: '${dateFormat(now)}',
                   fontSize: 20,
                 ),
@@ -143,8 +144,8 @@ class _FormDetailsState extends State<FormDetails> {
           backgroundColor: Colors.deepOrange,
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              title:
-                  TextWhite(isBold: true, text: item.headerValue, fontSize: 17),
+              title: CustomText(
+                  isBold: true, text: item.headerValue, fontSize: 17),
             );
           },
           body: ListTile(
@@ -167,18 +168,18 @@ class _FormDetailsState extends State<FormDetails> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const TextWhite(text: 'Repetições: ', isBold: true),
-                const TextWhite(text: 'Descanso: ', isBold: true),
-                const TextWhite(text: 'Carga: ', isBold: true),
-                const TextWhite(text: 'Inicio: ', isBold: true),
-                const TextWhite(text: 'Fim: ', isBold: true),
+                const CustomText(text: 'Repetições: ', isBold: true),
+                const CustomText(text: 'Descanso: ', isBold: true),
+                const CustomText(text: 'Carga: ', isBold: true),
+                const CustomText(text: 'Inicio: ', isBold: true),
+                const CustomText(text: 'Fim: ', isBold: true),
                 Row(
                   children: [
-                    const TextWhite(text: 'Tempo Gasto:', isBold: true),
+                    const CustomText(text: 'Tempo Gasto:', isBold: true),
                     const SizedBox(
                       width: 5,
                     ),
-                    TextWhite(text: formatTime()),
+                    CustomText(text: formatTime()),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -219,13 +220,13 @@ class _FormDetailsState extends State<FormDetails> {
                             onPressed: () {
                               startTimer();
                             },
-                            child: const TextWhite(
+                            child: const CustomText(
                               text: 'Iniciar',
                             ),
                           ),
                     CustomElevatedButton(
                       onPressed: () {},
-                      child: const TextWhite(
+                      child: const CustomText(
                         text: 'Finalizar',
                       ),
                     ),
@@ -236,33 +237,6 @@ class _FormDetailsState extends State<FormDetails> {
           ),
         );
       }).toList(),
-    );
-  }
-}
-
-class CustomElevatedButton extends StatelessWidget {
-  final void Function() onPressed;
-  final bool twoButtons;
-  final Widget child;
-  const CustomElevatedButton({
-    super.key,
-    required this.onPressed,
-    required this.child,
-    this.twoButtons = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: twoButtons ? 60 : 122,
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.pretoPag,
-            ),
-            onPressed: onPressed,
-            child: child),
-      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/Graphics/graphics.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
+import 'package:projeto/Pages/Measures/measures.dart';
 import 'package:projeto/Pages/PerfilPage/perfil.dart';
 import 'package:projeto/Pages/Training_Page/form_details.dart';
 import 'package:projeto/Pages/Training_Page/training_list.dart';
@@ -25,11 +27,13 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (_) => const LoginPage(),
-        '/home': (_) => const HomePage(),
+        '/home': (_) => const Home(),
         '/register': (_) => const Register1(),
         '/perfil': (_) => const PerfilPage(),
         '/trainingList': (_) => const TrainingList(),
         '/formDetails': (_) => const FormDetails(),
+        '/graphics': (_) => const GraphicsPage(),
+        '/measures': (_) => const MeasuresPage(),
       },
     );
   }

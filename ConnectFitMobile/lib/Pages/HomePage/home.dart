@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/HomePage/home_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -108,26 +109,6 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  String text = 'Aparentemente aparente';
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        "Página Inicial",
       ),
     );
   }
