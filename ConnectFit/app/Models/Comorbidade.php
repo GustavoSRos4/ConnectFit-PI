@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Comorbidade extends Model
 {
     use HasFactory;
+    public function pessoaUsuario()
+    {
+        return $this->belongsTo(PessoaUsuario::class, 'idPessoaUsuario');
+    }
 }

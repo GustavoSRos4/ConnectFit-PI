@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Lado extends Model
 {
     use HasFactory;
+    public function area()
+    {
+        return $this->hasMany(Area::class);
+    }
 }

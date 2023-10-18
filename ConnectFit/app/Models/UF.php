@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UF extends Model
 {
     use HasFactory;
+    public function cidade()
+    {
+        return $this->hasMany(Cidade::class);
+    }
 }

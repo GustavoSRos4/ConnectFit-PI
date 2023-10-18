@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ComposicaoCorporal extends Model
 {
     use HasFactory;
+    public function medida()
+    {
+        return $this->belongsTo(Medida::class, 'idMedidaCompCorp');
+    }
 }
