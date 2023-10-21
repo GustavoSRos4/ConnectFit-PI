@@ -2,8 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
-class TrainingList extends StatelessWidget {
+class TrainingList extends StatefulWidget {
   const TrainingList({super.key});
+
+  @override
+  State<TrainingList> createState() => _TrainingListState();
+}
+
+class _TrainingListState extends State<TrainingList> {
+  bool _isExpanded = false;
+
+  void _toggleExpand() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +72,7 @@ class TrainingList extends StatelessWidget {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 5,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -103,9 +116,9 @@ class TrainingList extends StatelessWidget {
                                               arguments: (index + 1));
                                         },
                                         textColor: Colors.white,
-                                        title: Text('Ficha ${index + 1}'),
+                                        title: Text(textos[index]),
                                         subtitle: Text(
-                                            'Detalhes da ficha ${index + 1}'),
+                                            'Detalhes do ${textos[index]}'),
                                       ),
                                     ),
                                   );
@@ -119,6 +132,36 @@ class TrainingList extends StatelessWidget {
                   ),
                 ],
               ),
+              GestureDetector(
+                onTap: _toggleExpand,
+                child: Container(
+                  color: Colors.blue,
+                  width: 200,
+                  height: 50,
+                  child: const Center(
+                    child: Text(
+                      'Clique para Expandir',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeInOut,
+                height: _isExpanded ? null : 0,
+                color: Colors.green,
+                child: const Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Conteúdo Expandido',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -126,3 +169,11 @@ class TrainingList extends StatelessWidget {
     );
   }
 }
+
+List<String> textos = [
+  "Treino A",
+  "Treino B",
+  "Treino C",
+  "Treino D",
+  "Treino E",
+];
