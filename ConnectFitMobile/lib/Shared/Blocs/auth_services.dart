@@ -13,7 +13,8 @@ class AuthServices {
       "password": password,
     };
     var body = json.encode(data);
-    var url = Uri.parse('${baseURL}api/login'); //trocar pela rota do laravel
+    var url = Uri.parse(
+        '${baseURL}api/registrarUsuario'); //trocar pela rota do laravel
     http.Response response = await http.post(
       url,
       headers: headers,
@@ -29,7 +30,7 @@ class AuthServices {
       "password": password,
     };
     var body = json.encode(data);
-    var url = Uri.parse('${baseURL}auth/login'); //trocar pela rota do laravel
+    var url = Uri.parse('${baseURL}api/login'); //trocar pela rota do laravel
     http.Response response = await http.post(
       url,
       headers: headers,
