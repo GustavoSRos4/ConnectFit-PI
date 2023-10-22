@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -45,6 +44,8 @@ class _ThreePageState extends State<ThreePage> {
   }
 
   createAccountPressed() async {
+    getDados();
+    debugPrint("DEu");
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(emailEC.text);
@@ -53,15 +54,12 @@ class _ThreePageState extends State<ThreePage> {
         loginModel.nome.toString(),
         emailEC.text,
         senhaEC.text,
+        confirmarSenhaEC.text,
       );
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
         if (mounted) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Home(),
-              ));
+          Navigator.of(context, rootNavigator: true).popAndPushNamed('/home');
         } else {
           if (mounted) {
             errorSnackBar(context, responseMap.values.first[0]);
@@ -203,7 +201,9 @@ class _ThreePageState extends State<ThreePage> {
               const SizedBox(height: 30),
             ],
           ),
-          PositionedActionButton(onPressed: getDados),
+          PositionedActionButton(
+            onPressed: () => createAccountPressed(),
+          ),
         ],
       ),
     );

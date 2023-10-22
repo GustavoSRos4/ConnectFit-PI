@@ -23,7 +23,6 @@ class _MeasuresPageState extends State<MeasuresPage> {
   MedidasModel? model;
 
   testeDados(String nome) {
-    debugPrint("opa");
     setState(() {
       model = MedidasModel(
         abdominal: abdominalEC.text,
@@ -37,6 +36,7 @@ class _MeasuresPageState extends State<MeasuresPage> {
         triceps: tricepsEC.text,
       );
     });
+    debugPrint(model.toString());
   }
 
   @override

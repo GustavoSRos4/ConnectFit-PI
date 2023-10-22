@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/HomePage/home.dart';
+
 import 'package:projeto/Pages/RecoverPassword/recuperar_senha.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/globals.dart';
@@ -17,8 +17,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool obscureTextPassword = true;
   bool obscureTextPasswordConfirm = true;
-  final String _email = "";
-  final String _password = "";
+
+  late String _email = "";
+  late String _password = "";
 
   loginPressed() async {
     if (_email.isNotEmpty && _password.isNotEmpty) {
@@ -26,11 +27,7 @@ class _LoginPageState extends State<LoginPage> {
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
         if (mounted) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Home(),
-              ));
+          Navigator.pushNamed(context, '/home');
         }
       } else {
         if (mounted) {
@@ -122,7 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        const CustomTextField(
+                        CustomTextField(
+                          onChanged: (value) {
+                            _email = value;
+                          },
                           label: "Email",
                           icon: Icons.mail,
                         ),
@@ -130,6 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
                         CustomTextField(
+                          onChanged: (value) {
+                            _password = value;
+                          },
                           label: "Senha",
                           icon: Icons.vpn_key,
                           sufix: IconButton(
@@ -186,14 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 25,
                                 ),
                               ),
-                              onPressed: () => {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Home(),
-                                  ),
-                                )
-                              },
+                              onPressed: () => loginPressed(),
                             ),
                           ),
                         ),

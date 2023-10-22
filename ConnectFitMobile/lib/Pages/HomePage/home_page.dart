@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Olá, João"),
         actions: [
           IconButton(

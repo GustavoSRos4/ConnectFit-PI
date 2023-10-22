@@ -44,4 +44,17 @@ class MedidasModel {
       femuralMedia: femuralMedia ?? this.femuralMedia,
     );
   }
+
+  @override
+  String toString() => """MedidasModel(
+      peso: $peso 
+      percentual: $percentual
+      subescapular: $subescapular 
+      triceps: $triceps 
+      peitoral: $peitoral 
+      axilarMedia: $axilarMedia 
+      supraIliaca: $supraIliaca 
+      abdominal: $abdominal 
+      femuralMedia: $femuralMedia 
+      )""";
 }
