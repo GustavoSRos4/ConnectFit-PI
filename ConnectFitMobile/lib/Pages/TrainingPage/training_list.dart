@@ -166,6 +166,19 @@ class _TrainingListState extends State<TrainingList> {
                               text: "${fichas[index]['nome']}",
                               isBold: true,
                             ),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                    text:
+                                        "Início: ${fichas[index]['dataInicio']}"),
+                                fichas[index]['dataFim'] != null
+                                    ? CustomText(
+                                        text:
+                                            "Fim: ${fichas[index]['dataFim']}")
+                                    : const SizedBox.shrink()
+                              ],
+                            ),
                             children: <Widget>[
                               ListView.builder(
                                 shrinkWrap: true,
@@ -221,15 +234,21 @@ var fichas = [
     'id': 1,
     'nome': "Ficha teeste 1",
     'status': "Ativo",
+    'dataInicio': "01/10/2023",
+    'dataFim': null
   },
   {
     'id': 2,
     'nome': "Ficha teeste 2",
-    'status': "Ativo",
+    'status': "Concluido",
+    'dataInicio': "01/08/2023",
+    'dataFim': "31/08/2023"
   },
   {
     'id': 3,
     'nome': "Ficha teeste 3",
     'status': "Concluido",
+    'dataInicio': "01/09/2023",
+    'dataFim': "30/09/2023"
   },
 ];
