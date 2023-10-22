@@ -11,31 +11,41 @@ class MeasuresPage extends StatefulWidget {
 }
 
 class _MeasuresPageState extends State<MeasuresPage> {
-  final pesoEC = TextEditingController();
-  final percentualEC = TextEditingController();
-  final subescapularEC = TextEditingController();
-  final tricepsEC = TextEditingController();
-  final peitoralEC = TextEditingController();
-  final axilarMediaEC = TextEditingController();
-  final supraIliacaEC = TextEditingController();
   final abdominalEC = TextEditingController();
+  final axilarMediaEC = TextEditingController();
   final femuralMediaEC = TextEditingController();
+  final peitoralEC = TextEditingController();
+  final percentualEC = TextEditingController();
+  final pesoEC = TextEditingController();
+  final subescapularEC = TextEditingController();
+  final supraIliacaEC = TextEditingController();
+  final tricepsEC = TextEditingController();
   MedidasModel? model;
 
-  void testeDados() {
+  testeDados(String nome) {
+    debugPrint("opa");
     setState(() {
-      model = MedidasModel(
-          peso: pesoEC.text,
-          abdominal: abdominalEC.text,
-          axilarMedia: abdominalEC.text,
-          femuralMedia: femuralMediaEC.text,
-          peitoral: peitoralEC.text,
-          percentual: percentualEC.text,
-          subescapular: subescapularEC.text,
-          supraIliaca: supraIliacaEC.text,
-          triceps: tricepsEC.text);
+      if (nome == "abdominaEC") {
+        model = MedidasModel(abdominal: abdominalEC.text);
+      } else if (nome == "axilarMediaEC") {
+        model = MedidasModel(axilarMedia: axilarMediaEC.text);
+      } else if (nome == "femuralMediaEC") {
+        model = MedidasModel(femuralMedia: femuralMediaEC.text);
+      } else if (nome == "peitoralEC") {
+        model = MedidasModel(peitoral: peitoralEC.text);
+      } else if (nome == "percentualEC") {
+        model = MedidasModel(percentual: percentualEC.text);
+      } else if (nome == "pesoEC") {
+        model = MedidasModel(peso: pesoEC.text);
+      } else if (nome == "subescapularEC") {
+        model = MedidasModel(subescapular: subescapularEC.text);
+      } else if (nome == "supraIliacaEC") {
+        model = MedidasModel(supraIliaca: supraIliacaEC.text);
+      } else if (nome == "tricepsEC") {
+        model = MedidasModel(triceps: tricepsEC.text);
+      }
     });
-    debugPrint(model!.peso);
+    return null;
   }
 
   @override
@@ -53,76 +63,56 @@ class _MeasuresPageState extends State<MeasuresPage> {
             MedidasButton(
               nomeMedida: "Peso",
               valorMedida: model?.peso ?? 'Não definido',
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => Dialog(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const CustomText(
-                          text: 'Insira a nova medida:',
-                          color: Colors.black,
-                          fontSize: 15,
-                        ),
-                        TextField(
-                          controller: pesoEC,
-                        ),
-                        const SizedBox(height: 15),
-                        ElevatedButton(
-                          onPressed: () {
-                            testeDados();
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Inserir'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              controller: pesoEC,
+              funcao: () => testeDados("pesoEC"),
             ),
             MedidasButton(
               nomeMedida: "Percentual de Gordura",
               valorMedida: model?.percentual ?? 'Não definido',
-              onPressed: () => {},
+              controller: percentualEC,
+              funcao: () => testeDados("percentualEC"),
             ),
             MedidasButton(
               nomeMedida: "Subescapular",
               valorMedida: model?.subescapular ?? 'Não definido',
-              onPressed: () => {},
+              controller: subescapularEC,
+              funcao: () => testeDados("subescapularEC"),
             ),
             MedidasButton(
               nomeMedida: "Triceps",
               valorMedida: model?.triceps ?? 'Não definido',
-              onPressed: () => {},
+              controller: tricepsEC,
+              funcao: () => testeDados("tricepsEC"),
             ),
             MedidasButton(
               nomeMedida: "Peitoral",
               valorMedida: model?.peitoral ?? 'Não definido',
-              onPressed: () => {},
+              controller: peitoralEC,
+              funcao: () => testeDados("peitoralEC"),
             ),
             MedidasButton(
               nomeMedida: "Axilar Media",
               valorMedida: model?.axilarMedia ?? 'Não definido',
-              onPressed: () => {},
+              controller: axilarMediaEC,
+              funcao: () => testeDados("axilarMediaEC"),
             ),
             MedidasButton(
               nomeMedida: "SupraIliaca",
               valorMedida: model?.supraIliaca ?? 'Não definido',
-              onPressed: () => {},
+              controller: supraIliacaEC,
+              funcao: () => testeDados("supraIliacaEC"),
             ),
             MedidasButton(
               nomeMedida: "Abdominal",
               valorMedida: model?.abdominal ?? 'Não definido',
-              onPressed: () => {},
+              controller: abdominalEC,
+              funcao: () => testeDados("abdominalEC"),
             ),
             MedidasButton(
               nomeMedida: "FemuralMedia",
               valorMedida: model?.femuralMedia ?? 'Não definido',
-              onPressed: () => {},
+              controller: femuralMediaEC,
+              funcao: () => testeDados("femuralMediaEC"),
             ),
           ],
         ));
@@ -132,12 +122,14 @@ class _MeasuresPageState extends State<MeasuresPage> {
 class MedidasButton extends StatelessWidget {
   final String nomeMedida;
   final String valorMedida;
-  final void Function() onPressed;
+  final TextEditingController controller;
+  final void Function() funcao;
   const MedidasButton({
     super.key,
     required this.nomeMedida,
     required this.valorMedida,
-    required this.onPressed,
+    required this.controller,
+    required this.funcao,
   });
 
   @override
@@ -145,7 +137,36 @@ class MedidasButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: OutlinedButton(
-        onPressed: onPressed,
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => Dialog(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const CustomText(
+                    text: 'Insira a nova medida:',
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+                  TextField(
+                    controller: controller,
+                  ),
+                  const SizedBox(height: 15),
+                  ElevatedButton(
+                    onPressed: () {
+                      funcao();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Inserir'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
