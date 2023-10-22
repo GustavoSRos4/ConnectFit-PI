@@ -10,7 +10,7 @@ class TrainingList extends StatefulWidget {
 }
 
 class _TrainingListState extends State<TrainingList> {
-  String _selectedStatus = "todos";
+  String _selectedStatus = "Todas";
 
   void _applyFilter(String status) {
     setState(() {
@@ -21,29 +21,9 @@ class _TrainingListState extends State<TrainingList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: const Text('Fichas de treino'),
-        actions: [
-          PopupMenuButton<String>(
-            onSelected: _applyFilter,
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem(
-                  value: 'ativo',
-                  child: Text('Ativo'),
-                ),
-                const PopupMenuItem(
-                  value: 'Concluido',
-                  child: Text('Concluído'),
-                ),
-                const PopupMenuItem(
-                  value: 'Todos',
-                  child: Text('Todos'),
-                ),
-              ];
-            },
-          ),
-        ],
+      appBar: const CustomAppBar(
+        title: Text('Fichas de treino'),
+        actions: [],
       ),
       body: SingleChildScrollView(
         child: Flexible(
@@ -51,8 +31,8 @@ class _TrainingListState extends State<TrainingList> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                  right: 40,
-                  left: 45,
+                  right: 30,
+                  left: 30,
                   top: 15,
                   bottom: 15,
                 ),
@@ -94,13 +74,13 @@ class _TrainingListState extends State<TrainingList> {
                               height: MediaQuery.of(context).size.height * 0.5,
                               child: Center(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    const Text('Modal BottomSheet'),
-                                    ElevatedButton(
-                                      child: const Text('Close BottomSheet'),
-                                      onPressed: () => Navigator.pop(context),
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: IconButton(
+                                          icon: const Icon(Icons.close),
+                                          onPressed: () =>
+                                              Navigator.pop(context)),
                                     ),
                                   ],
                                 ),
@@ -118,12 +98,44 @@ class _TrainingListState extends State<TrainingList> {
               ),
               Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: _selectedStatus,
+                        ),
+                        PopupMenuButton<String>(
+                          icon: const Icon(Icons.filter_list),
+                          color: Colors.white,
+                          onSelected: _applyFilter,
+                          itemBuilder: (BuildContext context) {
+                            return [
+                              const PopupMenuItem(
+                                value: 'Ativo',
+                                child: Text('Ativo'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'Concluido',
+                                child: Text('Concluído'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'Todas',
+                                child: Text('Todas'),
+                              ),
+                            ];
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     itemBuilder: (context, index) {
-                      if (_selectedStatus != "Todos" &&
+                      if (_selectedStatus != "Todas" &&
                           _selectedStatus != fichas[index]['status']) {
                         return const SizedBox
                             .shrink(); // Retorna um widget vazio
@@ -137,8 +149,8 @@ class _TrainingListState extends State<TrainingList> {
                               Radius.circular(10),
                             ),
                             border: Border.all(
-                              color: fichas[index]['status'] == 'ativo'
-                                  ? Colors.white38
+                              color: fichas[index]['status'] == 'Ativo'
+                                  ? Colors.green
                                   : Colors.red,
                               width: 2,
                             ),
@@ -208,12 +220,12 @@ var fichas = [
   {
     'id': 1,
     'nome': "Ficha teeste 1",
-    'status': "ativo",
+    'status': "Ativo",
   },
   {
     'id': 2,
     'nome': "Ficha teeste 2",
-    'status': "ativo",
+    'status': "Ativo",
   },
   {
     'id': 3,
