@@ -25,27 +25,18 @@ class _MeasuresPageState extends State<MeasuresPage> {
   testeDados(String nome) {
     debugPrint("opa");
     setState(() {
-      if (nome == "abdominaEC") {
-        model = MedidasModel(abdominal: abdominalEC.text);
-      } else if (nome == "axilarMediaEC") {
-        model = MedidasModel(axilarMedia: axilarMediaEC.text);
-      } else if (nome == "femuralMediaEC") {
-        model = MedidasModel(femuralMedia: femuralMediaEC.text);
-      } else if (nome == "peitoralEC") {
-        model = MedidasModel(peitoral: peitoralEC.text);
-      } else if (nome == "percentualEC") {
-        model = MedidasModel(percentual: percentualEC.text);
-      } else if (nome == "pesoEC") {
-        model = MedidasModel(peso: pesoEC.text);
-      } else if (nome == "subescapularEC") {
-        model = MedidasModel(subescapular: subescapularEC.text);
-      } else if (nome == "supraIliacaEC") {
-        model = MedidasModel(supraIliaca: supraIliacaEC.text);
-      } else if (nome == "tricepsEC") {
-        model = MedidasModel(triceps: tricepsEC.text);
-      }
+      model = MedidasModel(
+        abdominal: abdominalEC.text,
+        axilarMedia: axilarMediaEC.text,
+        femuralMedia: femuralMediaEC.text,
+        peitoral: peitoralEC.text,
+        percentual: percentualEC.text,
+        peso: pesoEC.text,
+        subescapular: subescapularEC.text,
+        supraIliaca: supraIliacaEC.text,
+        triceps: tricepsEC.text,
+      );
     });
-    return null;
   }
 
   @override
@@ -62,55 +53,55 @@ class _MeasuresPageState extends State<MeasuresPage> {
           children: [
             MedidasButton(
               nomeMedida: "Peso",
-              valorMedida: model?.peso ?? 'Não definido',
+              valorMedida: model?.peso ?? '',
               controller: pesoEC,
               funcao: () => testeDados("pesoEC"),
             ),
             MedidasButton(
               nomeMedida: "Percentual de Gordura",
-              valorMedida: model?.percentual ?? 'Não definido',
+              valorMedida: model?.percentual ?? '',
               controller: percentualEC,
               funcao: () => testeDados("percentualEC"),
             ),
             MedidasButton(
               nomeMedida: "Subescapular",
-              valorMedida: model?.subescapular ?? 'Não definido',
+              valorMedida: model?.subescapular ?? '',
               controller: subescapularEC,
               funcao: () => testeDados("subescapularEC"),
             ),
             MedidasButton(
               nomeMedida: "Triceps",
-              valorMedida: model?.triceps ?? 'Não definido',
+              valorMedida: model?.triceps ?? '',
               controller: tricepsEC,
               funcao: () => testeDados("tricepsEC"),
             ),
             MedidasButton(
               nomeMedida: "Peitoral",
-              valorMedida: model?.peitoral ?? 'Não definido',
+              valorMedida: model?.peitoral ?? '',
               controller: peitoralEC,
               funcao: () => testeDados("peitoralEC"),
             ),
             MedidasButton(
               nomeMedida: "Axilar Media",
-              valorMedida: model?.axilarMedia ?? 'Não definido',
+              valorMedida: model?.axilarMedia ?? '',
               controller: axilarMediaEC,
               funcao: () => testeDados("axilarMediaEC"),
             ),
             MedidasButton(
               nomeMedida: "SupraIliaca",
-              valorMedida: model?.supraIliaca ?? 'Não definido',
+              valorMedida: model?.supraIliaca ?? '',
               controller: supraIliacaEC,
               funcao: () => testeDados("supraIliacaEC"),
             ),
             MedidasButton(
               nomeMedida: "Abdominal",
-              valorMedida: model?.abdominal ?? 'Não definido',
+              valorMedida: model?.abdominal ?? '',
               controller: abdominalEC,
               funcao: () => testeDados("abdominalEC"),
             ),
             MedidasButton(
               nomeMedida: "FemuralMedia",
-              valorMedida: model?.femuralMedia ?? 'Não definido',
+              valorMedida: model?.femuralMedia ?? '',
               controller: femuralMediaEC,
               funcao: () => testeDados("femuralMediaEC"),
             ),
