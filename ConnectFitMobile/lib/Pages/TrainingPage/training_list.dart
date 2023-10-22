@@ -10,20 +10,40 @@ class TrainingList extends StatefulWidget {
 }
 
 class _TrainingListState extends State<TrainingList> {
-  bool _isExpanded = false;
+  String _selectedStatus = "todos";
 
-  void _toggleExpand() {
+  void _applyFilter(String status) {
     setState(() {
-      _isExpanded = !_isExpanded;
+      _selectedStatus = status;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: Text('Fichas de treino'),
-        actions: [],
+      appBar: CustomAppBar(
+        title: const Text('Fichas de treino'),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: _applyFilter,
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 'ativo',
+                  child: Text('Ativo'),
+                ),
+                const PopupMenuItem(
+                  value: 'Concluido',
+                  child: Text('Concluído'),
+                ),
+                const PopupMenuItem(
+                  value: 'Todos',
+                  child: Text('Todos'),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Flexible(
@@ -59,7 +79,36 @@ class _TrainingListState extends State<TrainingList> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.begeclaro,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20)),
+                              ),
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    const Text('Modal BottomSheet'),
+                                    ElevatedButton(
+                                      child: const Text('Close BottomSheet'),
+                                      onPressed: () => Navigator.pop(context),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                       icon: const Icon(Icons.filter_alt),
                       color: Colors.brancoBege,
                       iconSize: 30,
@@ -72,8 +121,13 @@ class _TrainingListState extends State<TrainingList> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 1,
+                    itemCount: 3,
                     itemBuilder: (context, index) {
+                      if (_selectedStatus != "Todos" &&
+                          _selectedStatus != fichas[index]['status']) {
+                        return const SizedBox
+                            .shrink(); // Retorna um widget vazio
+                      }
                       return Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Container(
@@ -83,7 +137,9 @@ class _TrainingListState extends State<TrainingList> {
                               Radius.circular(10),
                             ),
                             border: Border.all(
-                              color: Colors.white38,
+                              color: fichas[index]['status'] == 'ativo'
+                                  ? Colors.white38
+                                  : Colors.red,
                               width: 2,
                             ),
                           ),
@@ -94,8 +150,8 @@ class _TrainingListState extends State<TrainingList> {
                           child: ExpansionTile(
                             collapsedIconColor: Colors.white,
                             iconColor: Colors.white,
-                            title: const CustomText(
-                              text: "Teste",
+                            title: CustomText(
+                              text: "${fichas[index]['nome']}",
                               isBold: true,
                             ),
                             children: <Widget>[
@@ -132,36 +188,6 @@ class _TrainingListState extends State<TrainingList> {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: _toggleExpand,
-                child: Container(
-                  color: Colors.blue,
-                  width: 200,
-                  height: 50,
-                  child: const Center(
-                    child: Text(
-                      'Clique para Expandir',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              AnimatedContainer(
-                duration: const Duration(seconds: 1),
-                curve: Curves.easeInOut,
-                height: _isExpanded ? null : 0,
-                color: Colors.green,
-                child: const Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Conteúdo Expandido',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),
@@ -176,4 +202,22 @@ List<String> textos = [
   "Treino C",
   "Treino D",
   "Treino E",
+];
+
+var fichas = [
+  {
+    'id': 1,
+    'nome': "Ficha teeste 1",
+    'status': "ativo",
+  },
+  {
+    'id': 2,
+    'nome': "Ficha teeste 2",
+    'status': "ativo",
+  },
+  {
+    'id': 3,
+    'nome': "Ficha teeste 3",
+    'status': "Concluido",
+  },
 ];
