@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/ContratoPage/page_contrato.dart';
 import 'package:projeto/Pages/Graphics/graphics.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Pages/Measures/measures.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/graphics': (_) => const GraphicsPage(),
         '/measures': (_) => const MeasuresPage(),
         '/personal': (_) => const PersonalPage(),
+        '/contrato': (_) => const PageContrato(),
       },
     );
   }

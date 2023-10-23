@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/ContratoPage/page_contrato.dart';
 import 'package:projeto/Pages/HomePage/home_page.dart';
 import 'package:projeto/Pages/PerfilPage/perfil.dart';
 import 'package:projeto/Pages/PersonalPage/personal_page.dart';
@@ -16,6 +17,7 @@ class _HomeState extends State<Home> {
   final _pageOptions = [
     const HomePage(),
     const PersonalPage(),
+    const PageContrato(),
     const PerfilPage(),
   ];
   void _onIndexChanged(int index) {
@@ -58,8 +60,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      selectedItemColor: Colors.white,
-      backgroundColor: Colors.deepOrange,
+      selectedItemColor: Colors.deepOrange,
+      showUnselectedLabels: false,
+      useLegacyColorScheme: false,
       currentIndex: _currentIndex,
       onTap: setIndex,
       items: const [
@@ -70,6 +73,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
           label: "Personal",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.wallet_travel),
+          label: "Contrato",
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_box),

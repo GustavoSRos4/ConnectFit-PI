@@ -22,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   late String _password = "";
 
   loginPressed() async {
+    Navigator.pushNamed(context, '/home');
+    /*
     if (_email.isNotEmpty && _password.isNotEmpty) {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
@@ -36,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     } else {
       errorSnackBar(context, "Preencha todos os campos");
-    }
+    }*/
   }
 
   @override
