@@ -198,8 +198,6 @@ class _TrainingListState extends State<TrainingList> {
                                         },
                                         textColor: Colors.white,
                                         title: Text(textos[index]),
-                                        subtitle: Text(
-                                            'Detalhes do ${textos[index]}'),
                                       ),
                                     ),
                                   );
