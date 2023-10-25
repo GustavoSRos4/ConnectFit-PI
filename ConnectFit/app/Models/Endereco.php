@@ -12,8 +12,8 @@ class Endereco extends Model
     {
         return $this->belongsTo(Cidade::class, 'idCidade');
     }
-    public function enderecoPessoa()
+    public function pessoas()
     {
-        return $this->hasMany(EnderecoPessoa::class);
+        return $this->belongsToMany(Pessoa::class, 'enderecos_pessoas', 'idEndereco', 'idPessoa');
     }
 }

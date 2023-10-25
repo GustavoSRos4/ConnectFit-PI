@@ -20,11 +20,11 @@ class Pessoa extends Model
     }
     public function telefone()
     {
-        return $this->hasMany(Telefone::class);
+        return $this->hasOne(Telefone::class);
     }
-    public function enderecoPessoa()
+    public function enderecos()
     {
-        return $this->hasMany(EnderecoPessoa::class);
+        return $this->belongsToMany(Endereco::class, 'enderecos_pessoas', 'idPessoa', 'idEndereco');
     }
     public function pessoaUsuario()
     {

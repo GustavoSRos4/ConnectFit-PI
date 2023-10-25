@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('telefones', function (Blueprint $table) {
             $table->unsignedInteger('idPessoaTelefone');
-            $table->tinyInteger('Sequencia');
             $table->tinyInteger('DDD');
             $table->integer('Numero');
             $table->timestamps();
-            $table->primary(["idPessoaTelefone","Sequencia"]);
+            $table->primary(["idPessoaTelefone"]);
             $table->foreign('idPessoaTelefone')->references('idPessoa')->on('pessoas')->onDelete('cascade');
         });
     }

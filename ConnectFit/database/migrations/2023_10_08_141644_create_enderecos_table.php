@@ -16,11 +16,11 @@ return new class extends Migration
             $table->unsignedInteger("idCidade");
             $table->string("Logradouro",50);
             $table->smallInteger("Numero");
-            $table->string("Complemento",15);
+            $table->string("Complemento",15)->nullable();
             $table->integer("CEP");
             $table->string("Bairro",50);
             $table->timestamps();
-
+            $table->unique(['Logradouro', 'Numero', 'Complemento','Bairro','CEP']);
             $table->foreign('idCidade')->references('idCidade')->on('cidades')->onDelete('cascade');
         });
     }
