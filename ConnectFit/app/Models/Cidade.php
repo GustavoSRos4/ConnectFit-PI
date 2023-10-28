@@ -10,7 +10,7 @@ class Cidade extends Model
     use HasFactory;
     public function uf()
     {
-        return $this->belongsTo(UF::class, 'SiglaUF');
+        return $this->belongsTo(Uf::class, 'SiglaUF');
     }
     public function endereco()
     {

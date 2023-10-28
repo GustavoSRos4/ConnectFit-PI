@@ -7,7 +7,9 @@ use App\Models\EnderecoPessoa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Pessoa;
+use App\Models\Sexo;
 use App\Models\Telefone;
+use App\Models\UF;
 use Illuminate\Support\Facades\DB;
 
 
@@ -88,5 +90,11 @@ class RegistroController extends Controller
 
             return response()->json(['message' => 'Falha no cadastro', 'error' => $e->getMessage()], 500);
         }
+    }
+    public function ufSexo()
+    {
+        $uf = Uf::all();
+        $sex = Sexo::all();
+        return response()->json(['Uf'=> $uf, 'Sexo'=> $sex], 200);
     }
 }
