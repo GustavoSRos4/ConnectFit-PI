@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:projeto/Pages/newAcc/Steps/three_infos.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Pages/newAcc/Steps/one_page.dart';
-import 'package:projeto/Pages/newAcc/Steps/three_page.dart';
-import 'package:projeto/Pages/newAcc/Steps/two_page.dart';
+import 'package:projeto/Pages/newAcc/Steps/two_dados.dart';
+import 'package:projeto/Pages/newAcc/Steps/one_login.dart';
 
 class Register1 extends StatefulWidget {
   const Register1({super.key});
@@ -44,21 +43,22 @@ class _Register1State extends State<Register1> {
           ],
         ),
         body: Navigator(
-          initialRoute: '/one',
+          initialRoute: '/oneLogin',
           key: navKey,
           onGenerateRoute: (settings) {
             var route = settings.name;
             Widget page;
             switch (route) {
-              case '/one':
-                page = const OnePage();
+              case '/oneLogin':
+                page = const OneLogin();
                 break;
-              case '/two':
-                page = const TwoPage();
+              case '/twoDados':
+                page = const TwoDados();
                 break;
-              case '/three':
-                page = const ThreePage();
+              case '/threeInfos':
+                page = const ThreeInfos();
                 break;
+
               default:
                 return null;
             }

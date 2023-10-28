@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
-import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:string_validator/string_validator.dart';
@@ -10,48 +9,28 @@ import 'package:http/http.dart' as http;
 
 import '../../../Shared/Blocs/globals.dart';
 
-class ThreePage extends StatefulWidget {
-  const ThreePage({super.key});
+class OneLogin extends StatefulWidget {
+  const OneLogin({super.key});
 
   @override
-  State<ThreePage> createState() => _ThreePageState();
+  State<OneLogin> createState() => _ThreePageState();
 }
 
-class _ThreePageState extends State<ThreePage> {
+class _ThreePageState extends State<OneLogin> {
+  final nomeEC = TextEditingController();
   final usuarioEC = TextEditingController();
   final emailEC = TextEditingController();
   final senhaEC = TextEditingController();
   final confirmarSenhaEC = TextEditingController();
-  late LoginModel loginModel;
-  LoginModel? model;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      loginModel = ModalRoute.of(context)?.settings.arguments as LoginModel;
-    });
-  }
-
-  void getDados() {
-    debugPrint("eita deu certo zé 3");
-    model = loginModel.copyWith(
-      usuario: usuarioEC.text,
-      email: emailEC.text,
-      senha: senhaEC.text,
-    );
-    debugPrint(model.toString());
-  }
 
   createAccountPressed() async {
-    getDados();
     debugPrint("DEu");
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(emailEC.text);
     if (emailValid) {
       http.Response response = await AuthServices.register(
-        loginModel.nome.toString(),
+        nomeEC.text,
         emailEC.text,
         senhaEC.text,
         confirmarSenhaEC.text,
@@ -59,7 +38,7 @@ class _ThreePageState extends State<ThreePage> {
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
         if (mounted) {
-          Navigator.of(context, rootNavigator: true).popAndPushNamed('/home');
+          Navigator.pushNamed(context, '/twoDados');
         } else {
           if (mounted) {
             errorSnackBar(context, responseMap.values.first[0]);
@@ -102,6 +81,22 @@ class _ThreePageState extends State<ThreePage> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
+                      CustomTextField(
+                        label: "Nome",
+                        icon: Icons.person,
+                        hint: "Digite seu nome...",
+                        controller: nomeEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          if (text.length < 5) {
+                            return "Esse campo precisa de mais de 5 letras. (Tem ${text.length})";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
                       CustomTextField(
                         label: "Usuário",
                         icon: Icons.person,
@@ -186,14 +181,7 @@ class _ThreePageState extends State<ThreePage> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 15),
-                      Text(
-                        model != null ? model.toString() : '',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),

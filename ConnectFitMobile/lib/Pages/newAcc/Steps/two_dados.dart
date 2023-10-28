@@ -6,25 +6,29 @@ import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 
-class OnePage extends StatefulWidget {
-  const OnePage({super.key});
+class TwoDados extends StatefulWidget {
+  const TwoDados({super.key});
 
   @override
-  State<OnePage> createState() => _OnePageState();
+  State<TwoDados> createState() => _OnePageState();
 }
 
-class _OnePageState extends State<OnePage> {
-  final nomeEC = TextEditingController();
+class _OnePageState extends State<TwoDados> {
   final cpfEC = TextEditingController();
   final dataNasEC = TextEditingController();
   final telefoneEC = TextEditingController();
+  final cepEC = TextEditingController();
+  final logradouroEC = TextEditingController();
+  final numeroEC = TextEditingController();
+  final cidadeEC = TextEditingController();
+  final bairroEC = TextEditingController();
+  final estadoEC = TextEditingController();
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
 
   void getDados() {
     debugPrint("eita deu certo zé");
     var model = LoginModel(
-      nome: nomeEC.text,
       cpf: cpfEC.text,
       dataNas: dataNasEC.text,
       telefone: telefoneEC.text,
@@ -35,7 +39,6 @@ class _OnePageState extends State<OnePage> {
   @override
   void dispose() {
     super.dispose();
-    nomeEC.dispose();
     cpfEC.dispose();
     dataNasEC.dispose();
   }
@@ -55,22 +58,6 @@ class _OnePageState extends State<OnePage> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      CustomTextField(
-                        label: "Nome",
-                        icon: Icons.person,
-                        hint: "Digite seu nome...",
-                        controller: nomeEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          if (text.length < 5) {
-                            return "Esse campo precisa de mais de 5 letras. (Tem ${text.length})";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
                       CustomTextField(
                         label: "CPF",
                         icon: Icons.credit_card,
@@ -181,15 +168,106 @@ class _OnePageState extends State<OnePage> {
                           return null;
                         },
                       ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: "Logradouro",
+                        icon: Icons.person,
+                        hint: "Digite o logradouro...",
+                        controller: logradouroEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: CustomTextField(
+                              label: "CEP",
+                              icon: Icons.person,
+                              hint: "Digite o CEP...",
+                              controller: cepEC,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                CepInputFormatter(),
+                              ],
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Esse campo não pode ficar vazio";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: CustomTextField(
+                              label: "Numero",
+                              icon: Icons.person,
+                              hint: "Digite o numero...",
+                              controller: numeroEC,
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Esse campo não pode ficar vazio";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: "Cidade",
+                        icon: Icons.person,
+                        hint: "Digite a cidade...",
+                        controller: cidadeEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: "Bairro",
+                        icon: Icons.person,
+                        hint: "Digite o bairro...",
+                        controller: bairroEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: "Estado",
+                        icon: Icons.person,
+                        hint: "Digite o estado...",
+                        controller: estadoEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          return null;
+                        },
+                      ),
                     ],
                   ),
                 ),
               ),
             ],
           ),
-          PositionedActionButton(
-            onPressed: getDados,
-          ),
+          PositionedActionButton(onPressed: () {
+            Navigator.pushNamed(context, '/threeInfos');
+          }),
         ],
       ),
     );
