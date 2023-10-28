@@ -7,7 +7,7 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepOrange,
+      backgroundColor: Colors.pretoPag,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(200),
         child: AppBar(
@@ -18,9 +18,18 @@ class PerfilPage extends StatelessWidget {
               bottom: Radius.circular(20),
             ),
           ),
-          flexibleSpace: const Image(
-            alignment: Alignment.bottomCenter,
-            image: AssetImage('assets/images/iconePerfil.png'),
+          flexibleSpace: const Column(
+            children: [
+              SizedBox(height: 20),
+              Image(
+                alignment: Alignment.bottomCenter,
+                image: AssetImage('assets/images/iconePerfil.png'),
+              ),
+              CustomText(
+                text: "João Vitor Pereira Sousa",
+                fontSize: 18,
+              )
+            ],
           ),
           actions: [
             Padding(
@@ -33,35 +42,90 @@ class PerfilPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: double.infinity,
-            color: Colors.pretoPag,
-          ),
-          const Column(
-            children: [
-              ContainerTitlePerfil(text: 'Opções Gerais'),
-              ListTilePerfil(text: 'Alterar senha'),
-              ContainerTitlePerfil(text: 'Informações'),
-              ListTilePerfil(text: 'Sobre o aplicativo'),
-            ],
-          ),
-          Positioned(
-            bottom: 20,
-            right: 25,
-            child: TextButton(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
+              child: Column(
+                children: [
+                  RowPerfilDados(indicador: 'Peso', valor: '70 kg'),
+                  SizedBox(height: 10),
+                  RowPerfilDados(indicador: 'Altura', valor: '180 cm'),
+                  SizedBox(height: 10),
+                  RowPerfilDados(
+                    indicador: 'Medicamentos',
+                    valor: 'Dorflex',
+                  ),
+                  SizedBox(height: 10),
+                  RowPerfilDados(
+                    indicador: 'Comorbidades',
+                    valor: 'bico de pagagaio, Ernia',
+                  ),
+                  SizedBox(height: 10),
+                  RowPerfilDados(
+                    indicador: 'Objetivo',
+                    valor: 'Descrição, Descrição, Descrição',
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            const ContainerTitlePerfil(text: 'Opções Gerais'),
+            const ListTilePerfil(text: 'Alterar senha'),
+            const ContainerTitlePerfil(text: 'Informações'),
+            const ListTilePerfil(text: 'Sobre o aplicativo'),
+            const SizedBox(height: 50),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 20),
+              child: TextButton(
                 onPressed: () {},
-                child: const Row(
-                  children: [
-                    Text('Sair do aplicativo'),
-                    SizedBox(width: 10),
-                    Icon(Icons.logout),
-                  ],
-                )),
-          )
-        ],
+                child: const IntrinsicWidth(
+                  child: Row(
+                    children: [
+                      Text('Sair do aplicativo'),
+                      SizedBox(width: 10),
+                      Icon(Icons.logout),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class RowPerfilDados extends StatelessWidget {
+  final String indicador;
+  final String valor;
+
+  const RowPerfilDados({
+    super.key,
+    required this.indicador,
+    required this.valor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CustomText(
+          text: '$indicador:',
+          isBold: true,
+          fontSize: 15,
+        ),
+        const SizedBox(
+          width: 7,
+        ),
+        CustomText(text: valor),
+      ],
     );
   }
 }
@@ -89,7 +153,7 @@ class ContainerTitlePerfil extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
-              fontSize: 18,
+              fontSize: 17,
             ),
           ),
         ),
@@ -116,7 +180,7 @@ class ListTilePerfil extends StatelessWidget {
           children: [
             CustomText(
               text: text,
-              fontSize: 17,
+              fontSize: 15,
             ),
             const Icon(
               Icons.arrow_drop_down,
