@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
+import 'package:projeto/Shared/Widgets/row_custom_text.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -27,7 +28,7 @@ class PerfilPage extends StatelessWidget {
               ),
               CustomText(
                 text: "João Vitor Pereira Sousa",
-                fontSize: 18,
+                fontSize: 15,
               )
             ],
           ),
@@ -49,25 +50,35 @@ class PerfilPage extends StatelessWidget {
               padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
               child: Column(
                 children: [
-                  RowPerfilDados(indicador: 'Peso', valor: '70 kg'),
+                  RowCustomText(indicador: 'Peso', valor: '70 kg'),
                   SizedBox(height: 10),
-                  RowPerfilDados(indicador: 'Altura', valor: '180 cm'),
+                  RowCustomText(indicador: 'Altura', valor: '180 cm'),
                   SizedBox(height: 10),
-                  RowPerfilDados(
+                  RowCustomText(
                     indicador: 'Medicamentos',
                     valor: 'Dorflex',
                   ),
                   SizedBox(height: 10),
-                  RowPerfilDados(
+                  RowCustomText(
                     indicador: 'Comorbidades',
                     valor: 'bico de pagagaio, Ernia',
                   ),
                   SizedBox(height: 10),
-                  RowPerfilDados(
-                    indicador: 'Objetivo',
-                    valor: 'Descrição, Descrição, Descrição',
+                  ExpansionTile(
+                    collapsedIconColor: Colors.white,
+                    iconColor: Colors.white,
+                    tilePadding: EdgeInsets.all(0),
+                    title: CustomText(
+                      text: 'Descrição',
+                      isBold: true,
+                    ),
+                    children: [
+                      CustomText(
+                        text:
+                            'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
                 ],
               ),
             ),
@@ -102,34 +113,6 @@ class PerfilPage extends StatelessWidget {
   }
 }
 
-class RowPerfilDados extends StatelessWidget {
-  final String indicador;
-  final String valor;
-
-  const RowPerfilDados({
-    super.key,
-    required this.indicador,
-    required this.valor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CustomText(
-          text: '$indicador:',
-          isBold: true,
-          fontSize: 15,
-        ),
-        const SizedBox(
-          width: 7,
-        ),
-        CustomText(text: valor),
-      ],
-    );
-  }
-}
-
 class ContainerTitlePerfil extends StatelessWidget {
   final String text;
   const ContainerTitlePerfil({
@@ -153,7 +136,7 @@ class ContainerTitlePerfil extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
-              fontSize: 17,
+              fontSize: 15,
             ),
           ),
         ),
@@ -180,7 +163,6 @@ class ListTilePerfil extends StatelessWidget {
           children: [
             CustomText(
               text: text,
-              fontSize: 15,
             ),
             const Icon(
               Icons.arrow_drop_down,

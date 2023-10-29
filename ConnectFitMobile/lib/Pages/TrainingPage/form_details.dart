@@ -160,12 +160,9 @@ class _FormDetailsState extends State<FormDetails> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Existem muitas variações das passagens do Lorem Ipsum disponíveis, mas a maior parte sofreu alterações de alguma forma, pela injecção de humor, ou de palavras aleatórias que nem sequer parecem suficientemente credíveis.',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                const CustomText(
+                  text:
+                      'Existem muitas variações das passagens do Lorem Ipsum disponíveis, mas a maior parte sofreu alterações de alguma forma, pela injecção de humor, ou de palavras aleatórias que nem sequer parecem suficientemente credíveis.',
                 ),
                 const SizedBox(height: 10),
                 const CustomText(text: 'Repetições: ', isBold: true),
