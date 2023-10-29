@@ -39,21 +39,19 @@ class _TrainingListState extends State<TrainingList> {
                   top: 15,
                   bottom: 15,
                 ),
-                child: Expanded(
-                  child: SizedBox(
-                    height: 35,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        filled: true,
-                        fillColor: Colors.brancoBege,
-                        labelText: 'Buscar',
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
+                child: SizedBox(
+                  height: 35,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      filled: true,
+                      fillColor: Colors.brancoBege,
+                      labelText: 'Buscar',
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
                         ),
                       ),
                     ),

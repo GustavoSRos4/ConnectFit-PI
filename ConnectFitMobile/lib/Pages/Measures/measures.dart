@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/PerfilPage/perfil.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
@@ -46,82 +47,75 @@ class _MeasuresPageState extends State<MeasuresPage> {
           title: Text("Medidas"),
           actions: [],
         ),
-        body: Column(
-          children: [
-            const SizedBox(height: 20),
-            const CustomText(
-              text: 'Composição Corporal',
-              fontSize: 15,
-              isBold: true,
-            ),
-            const SizedBox(height: 20),
-            MedidasButton(
-              nomeMedida: "Axilar Media",
-              valorMedida: model?.axilarMedia ?? '',
-              controller: axilarMediaEC,
-              funcao: () => testeDados("axilarMediaEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "FemuralMedia",
-              valorMedida: model?.femuralMedia ?? '',
-              controller: femuralMediaEC,
-              funcao: () => testeDados("femuralMediaEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Percentual de Gordura",
-              valorMedida: model?.percentual ?? '',
-              controller: percentualEC,
-              funcao: () => testeDados("percentualEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Peso",
-              valorMedida: model?.peso ?? '',
-              controller: pesoEC,
-              funcao: () => testeDados("pesoEC"),
-            ),
-            const CustomText(
-              text: 'Dobras Cutâneas',
-              fontSize: 15,
-              isBold: true,
-            ),
-            const SizedBox(height: 20),
-            MedidasButton(
-              nomeMedida: "Subescapular",
-              valorMedida: model?.subescapular ?? '',
-              controller: subescapularEC,
-              funcao: () => testeDados("subescapularEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "SupraIliaca",
-              valorMedida: model?.supraIliaca ?? '',
-              controller: supraIliacaEC,
-              funcao: () => testeDados("supraIliacaEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Triceps",
-              valorMedida: model?.triceps ?? '',
-              controller: tricepsEC,
-              funcao: () => testeDados("tricepsEC"),
-            ),
-            const CustomText(
-              text: 'Circunferência e Tamanho',
-              fontSize: 15,
-              isBold: true,
-            ),
-            const SizedBox(height: 20),
-            MedidasButton(
-              nomeMedida: "Peitoral",
-              valorMedida: model?.peitoral ?? '',
-              controller: peitoralEC,
-              funcao: () => testeDados("peitoralEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Abdominal",
-              valorMedida: model?.abdominal ?? '',
-              controller: abdominalEC,
-              funcao: () => testeDados("abdominalEC"),
-            ),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              const ContainerTitlePerfil(text: 'Composição Corporal'),
+              const SizedBox(height: 10),
+              MedidasButton(
+                nomeMedida: "Axilar Media",
+                valorMedida: model?.axilarMedia ?? '',
+                controller: axilarMediaEC,
+                funcao: () => testeDados("axilarMediaEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "FemuralMedia",
+                valorMedida: model?.femuralMedia ?? '',
+                controller: femuralMediaEC,
+                funcao: () => testeDados("femuralMediaEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "Percentual de Gordura",
+                valorMedida: model?.percentual ?? '',
+                controller: percentualEC,
+                funcao: () => testeDados("percentualEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "Peso",
+                valorMedida: model?.peso ?? '',
+                controller: pesoEC,
+                funcao: () => testeDados("pesoEC"),
+              ),
+              const SizedBox(height: 10),
+              const ContainerTitlePerfil(text: 'Dobras Cutâneas'),
+              const SizedBox(height: 20),
+              MedidasButton(
+                nomeMedida: "Subescapular",
+                valorMedida: model?.subescapular ?? '',
+                controller: subescapularEC,
+                funcao: () => testeDados("subescapularEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "SupraIliaca",
+                valorMedida: model?.supraIliaca ?? '',
+                controller: supraIliacaEC,
+                funcao: () => testeDados("supraIliacaEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "Triceps",
+                valorMedida: model?.triceps ?? '',
+                controller: tricepsEC,
+                funcao: () => testeDados("tricepsEC"),
+              ),
+              const SizedBox(height: 10),
+              const ContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
+              const SizedBox(height: 20),
+              MedidasButton(
+                nomeMedida: "Peitoral",
+                valorMedida: model?.peitoral ?? '',
+                controller: peitoralEC,
+                funcao: () => testeDados("peitoralEC"),
+              ),
+              MedidasButton(
+                nomeMedida: "Abdominal",
+                valorMedida: model?.abdominal ?? '',
+                controller: abdominalEC,
+                funcao: () => testeDados("abdominalEC"),
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ));
   }
 }
