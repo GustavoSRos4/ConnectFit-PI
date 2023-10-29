@@ -14,4 +14,24 @@ class Pessoa extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function sexo()
+    {
+        return $this->belongsTo(Sexo::class, 'Sexo');
+    }
+    public function telefone()
+    {
+        return $this->hasOne(Telefone::class);
+    }
+    public function enderecos()
+    {
+        return $this->belongsToMany(Endereco::class, 'enderecos_pessoas', 'idPessoa', 'idEndereco');
+    }
+    public function pessoaUsuario()
+    {
+        return $this->hasOne(PessoaUsuario::class);
+    }
+    public function pessoaProfissional()
+    {
+        return $this->hasOne(PessoaProfissional::class);
+    }
 }
