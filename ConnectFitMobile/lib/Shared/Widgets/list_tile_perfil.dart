@@ -3,15 +3,17 @@ import 'package:projeto/Shared/Widgets/custom_text.dart';
 
 class ListTilePerfil extends StatelessWidget {
   final String text;
+  final void Function() onTap;
   const ListTilePerfil({
     super.key,
     required this.text,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       title: Padding(
         padding: const EdgeInsets.only(left: 5),
         child: Row(

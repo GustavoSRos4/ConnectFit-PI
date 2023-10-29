@@ -142,7 +142,9 @@ class _HomePageState extends State<HomePage> {
                     GlobalCustomElevatedButton(
                       height: 80,
                       width: 150,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/ranking');
+                      },
                       child: const CustomText(
                         text: 'Ranking',
                         isBold: true,

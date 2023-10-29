@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/Charts/line_chart.dart';
-import 'package:projeto/Pages/Graphics/data.dart';
+import 'package:projeto/Pages/GraphicsPage/data.dart';
 
 class GraphicsPage extends StatelessWidget {
   const GraphicsPage({super.key});

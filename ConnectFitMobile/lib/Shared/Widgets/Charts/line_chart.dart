@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:projeto/Pages/Graphics/data.dart';
+import 'package:projeto/Pages/GraphicsPage/data.dart';
 
 class MyLineChart extends StatelessWidget {
   final List<ChartData> points;

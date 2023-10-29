@@ -23,7 +23,7 @@ class PerfilPage extends StatelessWidget {
           ),
           flexibleSpace: const Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               Image(
                 alignment: Alignment.bottomCenter,
                 image: AssetImage('assets/images/iconePerfil.png'),
@@ -38,7 +38,9 @@ class PerfilPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/perfilEditFoto');
+                },
                 icon: const Icon(
                   Icons.create_outlined,
                 ),
@@ -58,7 +60,9 @@ class PerfilPage extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       color: Colors.brancoBege,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/perfilEditDados');
+                      },
                       icon: const Icon(
                         Icons.create_outlined,
                       ),
@@ -123,9 +127,16 @@ class PerfilPage extends StatelessWidget {
               ],
             ),
             const ContainerTitlePerfil(text: 'Opções Gerais'),
-            const ListTilePerfil(text: 'Alterar senha'),
+            ListTilePerfil(
+              text: 'Alterar senha',
+              onTap: () =>
+                  Navigator.pushNamed(context, '/perfilChangePassword'),
+            ),
             const ContainerTitlePerfil(text: 'Informações'),
-            const ListTilePerfil(text: 'Sobre o aplicativo'),
+            ListTilePerfil(
+              text: 'Sobre o aplicativo',
+              onTap: () => Navigator.pushNamed(context, '/perfilSobreApp'),
+            ),
             const SizedBox(height: 50),
             Container(
               alignment: Alignment.centerRight,

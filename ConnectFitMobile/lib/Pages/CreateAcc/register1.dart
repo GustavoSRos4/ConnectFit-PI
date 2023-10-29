@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/newAcc/Steps/three_infos.dart';
+import 'package:projeto/Pages/CreateAcc/Steps/three_infos.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Pages/newAcc/Steps/two_dados.dart';
-import 'package:projeto/Pages/newAcc/Steps/one_login.dart';
+import 'package:projeto/Pages/CreateAcc/Steps/two_dados.dart';
+import 'package:projeto/Pages/CreateAcc/Steps/one_login.dart';
 
 class Register1 extends StatefulWidget {
   const Register1({super.key});

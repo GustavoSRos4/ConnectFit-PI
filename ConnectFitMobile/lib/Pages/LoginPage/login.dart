@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-import 'package:projeto/Pages/RecoverPassword/recuperar_senha.dart';
+import 'package:projeto/Pages/RecoverPasswordPage/recuperar_senha.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
