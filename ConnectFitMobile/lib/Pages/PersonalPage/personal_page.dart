@@ -208,15 +208,17 @@ class _PersonalPageState extends State<PersonalPage> {
                                         iconColor: Colors.brancoBege,
                                         tilePadding: const EdgeInsets.all(0),
                                         title: const CustomText(
+                                          fontSize: 13.5,
                                           color: Colors.brancoBege,
                                           text: 'Descrição',
                                           isBold: true,
                                         ),
                                         children: [
                                           SizedBox(
-                                            height: 70,
+                                            height: 80,
                                             child: SingleChildScrollView(
                                               child: CustomText(
+                                                fontSize: 13.5,
                                                 color: Colors.brancoBege,
                                                 text:
                                                     '${personal[index]['descricao']}',
@@ -234,7 +236,9 @@ class _PersonalPageState extends State<PersonalPage> {
                                   child: ElevatedButton(
                                       onPressed: () {},
                                       child: const CustomText(
+                                        fontSize: 13.5,
                                         text: 'Solicitar',
+                                        isBold: true,
                                       )),
                                 )
                               ],

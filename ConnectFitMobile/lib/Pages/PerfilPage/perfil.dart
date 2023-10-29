@@ -67,13 +67,15 @@ class PerfilPage extends StatelessWidget {
                   ExpansionTile(
                     collapsedIconColor: Colors.white,
                     iconColor: Colors.white,
-                    tilePadding: EdgeInsets.all(0),
+                    tilePadding: EdgeInsets.only(right: 15),
                     title: CustomText(
                       text: 'Descrição',
                       isBold: true,
+                      fontSize: 13.5,
                     ),
                     children: [
                       CustomText(
+                        fontSize: 13.5,
                         text:
                             'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
                       ),
@@ -95,7 +97,11 @@ class PerfilPage extends StatelessWidget {
                 child: const IntrinsicWidth(
                   child: Row(
                     children: [
-                      Text('Sair do aplicativo'),
+                      CustomText(
+                        text: 'Sair do aplicativo',
+                        color: Colors.deepOrange,
+                        fontSize: 13.5,
+                      ),
                       SizedBox(width: 10),
                       Icon(Icons.logout),
                     ],
@@ -162,6 +168,7 @@ class ListTilePerfil extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomText(
+              fontSize: 13.5,
               text: text,
             ),
             const Icon(
