@@ -14,7 +14,7 @@ class UfAndCitySeeder extends Seeder
      */
     public function run()
     {
-        $data = json_decode(file_get_contents('C:\wamp64\www\ConnectionFit-PI\ConnectFit\database\seeders\CidadesEstados.json'), true);
+        $data = json_decode(file_get_contents(base_path($path = 'database/seeders/CidadesEstados.json')), true);
 
         foreach ($data['estados'] as $estado) {
             $estadoData = [

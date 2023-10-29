@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\ForceJsonResponse::class,
-        \Illuminate\Http\Middleware\HandleCors::class,
+        \App\Http\Middleware\Cors::class,
     ];
 
     /**
@@ -38,7 +38,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
-            'cors' => \Illuminate\Http\Middleware\HandleCors::class,
+            'cors' =>         \App\Http\Middleware\Cors::class,
         ],
 
         'api' => [
@@ -46,7 +46,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
-            'cors' => \Illuminate\Http\Middleware\HandleCors::class,
+            'cors' =>         \App\Http\Middleware\Cors::class,
         ],
     ];
 
@@ -70,6 +70,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'json.response' => \App\Http\Middleware\ForceJsonResponse::class,
-        'cors' => \Illuminate\Http\Middleware\HandleCors::class,
+        'cors' =>         \App\Http\Middleware\Cors::class,
     ];
 }
