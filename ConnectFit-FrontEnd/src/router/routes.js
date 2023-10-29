@@ -13,19 +13,34 @@ const routes = [
     path: "/register",
     component: () => import("pages/SignUp.vue")
   },
+
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/Dashboard/IndexDashboard.vue")
+      }
+    ]
+  },
+
+  // {
+  //   name: "DashboardIndex",
+  //   path: "/dashboard",
+  //   component: () => import("layouts/DashBoardTemplate.vue"),
+  //   children: {
+  //     path: "index",
+  //     component: () => import("pages/Dashboard/IndexDashboard.vue")
+  //   }
+  // },
   {
     name: "UserIndex",
     path: "/user",
     component: () => import("pages/UserIndex.vue")
   },
-  {
-    name: "Configuration",
-    path: "/user/config",
-    component: () => import("pages/SignUp.vue")
-  },
 
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue")

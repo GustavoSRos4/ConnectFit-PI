@@ -134,16 +134,16 @@ export default defineComponent({
     };
   },
   methods: {
-    // async buscarDados() {
-    //   try {
-    //     const response = await api.get('/api/mostrarPessoa'); // Use um caminho relativo
-    //     this.dados = response.data;
-    //     console.log(response.data.data);
-    //   } catch (error) {
-    //     console.error('Erro ao buscar dados:', error);
-    //     // Lide com o erro adequadamente
-    //   }
-    // },
+    async buscarDados() {
+      try {
+        const response = await api.get('/api/mostrarPessoa'); // Use um caminho relativo
+        this.dados = response.data;
+        console.log(response.data.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        // Lide com o erro adequadamente
+      }
+    },
   },
 },
 )

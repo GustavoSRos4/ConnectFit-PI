@@ -23,3 +23,15 @@ $positive: #21ba45;
 $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
+
+@font-face {
+  font-family: "Anton";
+  src: url("~@/fonts/Anton-Regular.ttf") format("truetype"); /* Ajuste o caminho do arquivo conforme necessário */
+  font-weight: normal;
+  font-style: normal;
+}
+
+.Anton {
+  font-family: "Anton", sans-serif;
+  font-weight: 250;
+}
