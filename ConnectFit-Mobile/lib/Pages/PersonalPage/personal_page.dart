@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:projeto/Pages/PersonalPage/detalhes_personal.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/row_custom_text.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -148,108 +147,12 @@ class _PersonalPageState extends State<PersonalPage> {
                       return InkWell(
                         splashColor: Colors.white,
                         onTap: () {
-                          showModalBottomSheet<void>(
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Stack(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        right: 30, left: 30),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.pretoPag,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                      ),
-                                    ),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.8,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: IconButton(
-                                              icon: const Icon(
-                                                Icons.close,
-                                                color: Colors.brancoBege,
-                                              ),
-                                              onPressed: () =>
-                                                  Navigator.pop(context)),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        RowCustomText(
-                                          color: Colors.brancoBege,
-                                          indicador: 'Nome',
-                                          valor: '${personal[index]['nome']}',
-                                        ),
-                                        const SizedBox(height: 10),
-                                        RowCustomText(
-                                          color: Colors.brancoBege,
-                                          indicador: 'Idade',
-                                          valor: '${personal[index]['idade']}',
-                                        ),
-                                        const SizedBox(height: 10),
-                                        RowCustomText(
-                                          color: Colors.brancoBege,
-                                          indicador: 'Cidade',
-                                          valor: '${personal[index]['cidade']}',
-                                        ),
-                                        const SizedBox(height: 10),
-                                        RowCustomText(
-                                          color: Colors.brancoBege,
-                                          indicador: 'Valor',
-                                          valor: '${personal[index]['valor']}',
-                                        ),
-                                        const SizedBox(height: 10),
-                                        RowCustomText(
-                                          color: Colors.brancoBege,
-                                          indicador: 'Especialidade',
-                                          valor:
-                                              '${personal[index]['especialidade']}',
-                                        ),
-                                        ExpansionTile(
-                                          collapsedIconColor: Colors.brancoBege,
-                                          iconColor: Colors.brancoBege,
-                                          tilePadding: const EdgeInsets.all(0),
-                                          title: const CustomText(
-                                            fontSize: 13.5,
-                                            color: Colors.brancoBege,
-                                            text: 'Descrição',
-                                            isBold: true,
-                                          ),
-                                          children: [
-                                            SizedBox(
-                                              height: 80,
-                                              child: SingleChildScrollView(
-                                                child: CustomText(
-                                                  fontSize: 13.5,
-                                                  color: Colors.brancoBege,
-                                                  text:
-                                                      '${personal[index]['descricao']}',
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 20,
-                                    right: 20,
-                                    child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: const CustomText(
-                                          fontSize: 13.5,
-                                          text: 'Solicitar',
-                                          isBold: true,
-                                        )),
-                                  )
-                                ],
-                              );
-                            },
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const DetalhesPersonal(),
+                            ),
                           );
                         },
                         child: Card(
