@@ -13,6 +13,7 @@
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
 $primary: #ff5722;
+$primaryactive: #fd7a52;
 $secondary: #26a69a;
 $accent: #9c27b0;
 
@@ -34,4 +35,8 @@ $warning: #f2c037;
 .Anton {
   font-family: "Anton", sans-serif;
   font-weight: 250;
+}
+
+.q-router-link--exact-active {
+  background-color: hsla(0, 0%, 11%, 0.87);
 }

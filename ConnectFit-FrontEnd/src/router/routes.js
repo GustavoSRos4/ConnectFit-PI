@@ -20,8 +20,14 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
+        name: "index",
         path: "",
         component: () => import("pages/Dashboard/IndexDashboard.vue")
+      },
+      {
+        name: "alunos",
+        path: "",
+        component: () => import("pages/Dashboard/AlunosDashBoard.vue")
       }
     ]
   },
