@@ -43,19 +43,29 @@ class _MeasuresPageState extends State<MeasuresPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(
-          title: CustomText(
-            text: "Medidas",
-            isBold: true,
-          ),
+          title: Text("Medidas"),
           actions: [],
         ),
         body: Column(
           children: [
+            const SizedBox(height: 20),
+            const CustomText(
+              text: 'Composição Corporal',
+              fontSize: 15,
+              isBold: true,
+            ),
+            const SizedBox(height: 20),
             MedidasButton(
-              nomeMedida: "Peso",
-              valorMedida: model?.peso ?? '',
-              controller: pesoEC,
-              funcao: () => testeDados("pesoEC"),
+              nomeMedida: "Axilar Media",
+              valorMedida: model?.axilarMedia ?? '',
+              controller: axilarMediaEC,
+              funcao: () => testeDados("axilarMediaEC"),
+            ),
+            MedidasButton(
+              nomeMedida: "FemuralMedia",
+              valorMedida: model?.femuralMedia ?? '',
+              controller: femuralMediaEC,
+              funcao: () => testeDados("femuralMediaEC"),
             ),
             MedidasButton(
               nomeMedida: "Percentual de Gordura",
@@ -64,28 +74,22 @@ class _MeasuresPageState extends State<MeasuresPage> {
               funcao: () => testeDados("percentualEC"),
             ),
             MedidasButton(
+              nomeMedida: "Peso",
+              valorMedida: model?.peso ?? '',
+              controller: pesoEC,
+              funcao: () => testeDados("pesoEC"),
+            ),
+            const CustomText(
+              text: 'Dobras Cutâneas',
+              fontSize: 15,
+              isBold: true,
+            ),
+            const SizedBox(height: 20),
+            MedidasButton(
               nomeMedida: "Subescapular",
               valorMedida: model?.subescapular ?? '',
               controller: subescapularEC,
               funcao: () => testeDados("subescapularEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Triceps",
-              valorMedida: model?.triceps ?? '',
-              controller: tricepsEC,
-              funcao: () => testeDados("tricepsEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Peitoral",
-              valorMedida: model?.peitoral ?? '',
-              controller: peitoralEC,
-              funcao: () => testeDados("peitoralEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "Axilar Media",
-              valorMedida: model?.axilarMedia ?? '',
-              controller: axilarMediaEC,
-              funcao: () => testeDados("axilarMediaEC"),
             ),
             MedidasButton(
               nomeMedida: "SupraIliaca",
@@ -94,16 +98,28 @@ class _MeasuresPageState extends State<MeasuresPage> {
               funcao: () => testeDados("supraIliacaEC"),
             ),
             MedidasButton(
+              nomeMedida: "Triceps",
+              valorMedida: model?.triceps ?? '',
+              controller: tricepsEC,
+              funcao: () => testeDados("tricepsEC"),
+            ),
+            const CustomText(
+              text: 'Circunferência e Tamanho',
+              fontSize: 15,
+              isBold: true,
+            ),
+            const SizedBox(height: 20),
+            MedidasButton(
+              nomeMedida: "Peitoral",
+              valorMedida: model?.peitoral ?? '',
+              controller: peitoralEC,
+              funcao: () => testeDados("peitoralEC"),
+            ),
+            MedidasButton(
               nomeMedida: "Abdominal",
               valorMedida: model?.abdominal ?? '',
               controller: abdominalEC,
               funcao: () => testeDados("abdominalEC"),
-            ),
-            MedidasButton(
-              nomeMedida: "FemuralMedia",
-              valorMedida: model?.femuralMedia ?? '',
-              controller: femuralMediaEC,
-              funcao: () => testeDados("femuralMediaEC"),
             ),
           ],
         ));
@@ -163,8 +179,8 @@ class MedidasButton extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                CustomText(text: "$nomeMedida: ", isBold: true, fontSize: 15),
-                CustomText(text: valorMedida, isBold: false, fontSize: 15),
+                CustomText(text: "$nomeMedida: ", isBold: true),
+                CustomText(text: valorMedida, isBold: false),
               ],
             ),
             const Icon(
