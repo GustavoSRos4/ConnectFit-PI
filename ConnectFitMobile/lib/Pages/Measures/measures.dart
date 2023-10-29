@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/PerfilPage/perfil.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
+import 'package:projeto/Shared/Widgets/container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
