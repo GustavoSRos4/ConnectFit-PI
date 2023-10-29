@@ -10,7 +10,6 @@ class GlobalCustomElevatedButton extends StatelessWidget {
   final double height;
   final Widget child;
   final Color color;
-  final double borderRadius;
   const GlobalCustomElevatedButton({
     super.key,
     required this.onPressed,
@@ -18,7 +17,6 @@ class GlobalCustomElevatedButton extends StatelessWidget {
     this.width = 100,
     this.height = 50,
     this.color = Colors.deepOrange,
-    this.borderRadius = 5,
   });
 
   @override
@@ -30,9 +28,9 @@ class GlobalCustomElevatedButton extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: color,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
-                  Radius.circular(borderRadius),
+                  Radius.circular(5),
                 ),
               ),
             ),
