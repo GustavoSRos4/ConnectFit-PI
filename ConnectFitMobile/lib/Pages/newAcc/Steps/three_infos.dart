@@ -65,7 +65,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                           const SizedBox(width: 15),
                           Expanded(
                             child: CustomTextField(
-                              label: "Você consome bebida alcoolica?",
+                              label: "Bebida",
                               icon: Icons.person,
                               hint: "Sim , não...",
                               controller: bebidaEC,

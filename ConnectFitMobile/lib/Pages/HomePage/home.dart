@@ -60,9 +60,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      selectedItemColor: Colors.deepOrange,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.deepOrange, // Adicione esta linha
       showUnselectedLabels: false,
-      useLegacyColorScheme: false,
+      selectedItemColor: Colors.brancoBege,
+      unselectedItemColor: Colors.pretoPag,
       currentIndex: _currentIndex,
       onTap: setIndex,
       items: const [

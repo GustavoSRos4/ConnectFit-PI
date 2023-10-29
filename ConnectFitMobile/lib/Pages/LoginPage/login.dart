@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: 25,
+                                  fontSize: 20,
                                 ),
                               ),
                               onPressed: () => loginPressed(),

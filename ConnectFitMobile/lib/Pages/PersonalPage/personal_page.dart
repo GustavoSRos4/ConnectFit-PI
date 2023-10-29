@@ -17,7 +17,7 @@ class _PersonalPageState extends State<PersonalPage> {
       'nome': 'Joao Vitor',
       'idade': 23,
       'cidade': 'Patos de minas',
-      'experiencia': '2 anos',
+      'especialidade': 'Perda de peso',
       'valor': '100,00',
       'descricao':
           'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,'
@@ -26,7 +26,7 @@ class _PersonalPageState extends State<PersonalPage> {
       'nome': 'Henrique',
       'idade': 29,
       'cidade': 'Patos de minas',
-      'experiencia': '7 anos',
+      'especialidade': 'Ganho de massa',
       'valor': '120,00',
       'descricao':
           'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,'
@@ -35,7 +35,7 @@ class _PersonalPageState extends State<PersonalPage> {
       'nome': 'Gustavo',
       'idade': 20,
       'cidade': 'Patos de minas',
-      'experiencia': '1 anos',
+      'especialidade': 'Perda de peso',
       'valor': '70,00',
       'descricao':
           'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,'
@@ -44,7 +44,7 @@ class _PersonalPageState extends State<PersonalPage> {
       'nome': 'Ezequiel',
       'idade': 24,
       'cidade': 'Pindaibas',
-      'experiencia': '10 anos',
+      'especialidade': 'Ganho de massa',
       'valor': '200,00',
       'descricao':
           'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,'
@@ -199,9 +199,9 @@ class _PersonalPageState extends State<PersonalPage> {
                                       const SizedBox(height: 10),
                                       RowCustomText(
                                         color: Colors.brancoBege,
-                                        indicador: 'Experiencia',
+                                        indicador: 'Especialidade',
                                         valor:
-                                            '${personal[index]['experiencia']}',
+                                            '${personal[index]['especialidade']}',
                                       ),
                                       ExpansionTile(
                                         collapsedIconColor: Colors.brancoBege,
@@ -253,10 +253,12 @@ class _PersonalPageState extends State<PersonalPage> {
                         color: Colors.deepOrange,
                         child: Row(
                           children: <Widget>[
-                            Image.network(
-                              'https://picsum.photos/100/100',
-                              width: 120,
-                              height: 120,
+                            const SizedBox(width: 3),
+                            const Image(
+                              image:
+                                  AssetImage('assets/images/fotoPersonal.png'),
+                              width: 90,
+                              height: 90,
                               fit: BoxFit.cover,
                             ),
                             Padding(
@@ -277,8 +279,9 @@ class _PersonalPageState extends State<PersonalPage> {
                                     valor: '${personal[index]['cidade']}',
                                   ),
                                   RowCustomText(
-                                    indicador: 'Experiencia',
-                                    valor: '${personal[index]['experiencia']}',
+                                    indicador: 'Especialidade',
+                                    valor:
+                                        '${personal[index]['especialidade']}',
                                   ),
                                   RowCustomText(
                                     indicador: 'Valor cobrado',

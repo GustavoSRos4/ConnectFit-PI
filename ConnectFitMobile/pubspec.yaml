@@ -75,6 +75,7 @@ flutter:
   - assets/images/iconePeso.png
   - assets/images/iconeApp.png
   - assets/images/iconePerfil.png
+  - assets/images/fotoPersonal.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               decoration: const BoxDecoration(
                 color: Colors.deepOrange,
                 borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+                  Radius.circular(5),
                 ),
               ),
               height: 230,
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CustomText(
                             text: 'Situação:',
-                            fontSize: 20,
+                            fontSize: 18,
                             isBold: true,
                           ),
                           SizedBox(
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(10.0),
                         child: CustomText(
                           text: '${dateFormat(now)}',
-                          fontSize: 18,
+                          fontSize: 15,
                         ),
                       ),
                     ),
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                       child: const CustomText(
                         text: 'Treinos',
                         isBold: true,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                     GlobalCustomElevatedButton(
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                       child: const CustomText(
                         text: 'Gráficos',
                         isBold: true,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                   ],
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                       child: const CustomText(
                         text: 'Medidas',
                         isBold: true,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                     GlobalCustomElevatedButton(
@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                       child: const CustomText(
                         text: 'Ranking',
                         isBold: true,
-                        fontSize: 25,
+                        fontSize: 20,
                       ),
                     ),
                   ],
