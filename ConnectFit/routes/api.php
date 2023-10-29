@@ -39,7 +39,7 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     // our routes to be protected will go in her
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/mostrarPessoa', [PessoaController::class, 'show']);
-    Route::get('/mostrarTudo', [PessoaController::class, 'showAll']);
     Route::get('/ufSexo', [RegistroController::class, 'ufSexo']);
+    Route::get('/{uf}/cidades', [RegistroController::class, 'cidades']);
     Route::post('/criarPessoa', [RegistroController::class, 'create']);
 });

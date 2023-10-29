@@ -55,16 +55,6 @@ class PessoaController extends Controller
             return response()->json(['message' => 'No Pessoa associated with this user'], 404);
         }
     }
-    public function showAll(Request $request)
-    {
-        $user = auth('api')->user();
-        if ($user->pessoa) {
-            $userData = $user;
-            return response()->json(['data' => $userData], 200);
-        } else {
-            return response()->json(['data' => $user], 200);
-        }
-    }
 
     /**
      * Update the specified resource in storage.

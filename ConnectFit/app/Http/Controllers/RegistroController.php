@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cidade;
 use App\Models\Endereco;
 use App\Models\EnderecoPessoa;
 use Illuminate\Http\Request;
@@ -96,5 +97,10 @@ class RegistroController extends Controller
         $uf = Uf::all();
         $sex = Sexo::all();
         return response()->json(['Uf'=> $uf, 'Sexo'=> $sex], 200);
+    }
+    public function cidades($uf)
+    {
+        $cidades = Cidade::where('SiglaUF',$uf)->get();
+        return response()->json(['Cidades'=> $cidades], 200);
     }
 }
