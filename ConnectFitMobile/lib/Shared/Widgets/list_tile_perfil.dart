@@ -13,7 +13,7 @@ class ListTilePerfil extends StatelessWidget {
     return ListTile(
       onTap: () {},
       title: Padding(
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

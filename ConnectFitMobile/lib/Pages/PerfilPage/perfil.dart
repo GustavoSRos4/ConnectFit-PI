@@ -39,7 +39,9 @@ class PerfilPage extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.create_outlined),
+                icon: const Icon(
+                  Icons.create_outlined,
+                ),
               ),
             ),
           ],
@@ -48,43 +50,77 @@ class PerfilPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
-              child: Column(
-                children: [
-                  RowCustomText(indicador: 'Peso', valor: '70 kg'),
-                  SizedBox(height: 10),
-                  RowCustomText(indicador: 'Altura', valor: '180 cm'),
-                  SizedBox(height: 10),
-                  RowCustomText(
-                    indicador: 'Medicamentos',
-                    valor: 'Dorflex',
-                  ),
-                  SizedBox(height: 10),
-                  RowCustomText(
-                    indicador: 'Comorbidades',
-                    valor: 'bico de pagagaio, Ernia',
-                  ),
-                  SizedBox(height: 10),
-                  ExpansionTile(
-                    collapsedIconColor: Colors.white,
-                    iconColor: Colors.white,
-                    tilePadding: EdgeInsets.only(right: 15),
-                    title: CustomText(
-                      text: 'Descrição',
-                      isBold: true,
-                      fontSize: 13.5,
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      color: Colors.brancoBege,
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.create_outlined,
+                      ),
                     ),
+                  ),
+                ),
+                const Padding(
+                  padding:
+                      EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
+                  child: Column(
                     children: [
-                      CustomText(
-                        fontSize: 13.5,
-                        text:
-                            'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
+                      RowCustomText(indicador: 'Peso', valor: '70 kg'),
+                      SizedBox(height: 10),
+                      RowCustomText(indicador: 'Altura', valor: '180 cm'),
+                      SizedBox(height: 10),
+                      RowCustomText(
+                        indicador: 'Medicamentos',
+                        valor: 'Dorflex',
+                      ),
+                      SizedBox(height: 10),
+                      RowCustomText(
+                        indicador: 'Comorbidades',
+                        valor: 'bico de pagagaio, Ernia',
+                      ),
+                      ExpansionTile(
+                        collapsedIconColor: Colors.white,
+                        iconColor: Colors.white,
+                        tilePadding: EdgeInsets.only(right: 0),
+                        title: CustomText(
+                          text: 'Descrição:',
+                          isBold: true,
+                          fontSize: 13.5,
+                        ),
+                        children: [
+                          CustomText(
+                            fontSize: 13.5,
+                            text:
+                                'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
+                          ),
+                        ],
+                      ),
+                      ExpansionTile(
+                        collapsedIconColor: Colors.white,
+                        iconColor: Colors.white,
+                        tilePadding: EdgeInsets.only(right: 0),
+                        title: CustomText(
+                          text: 'Objetivos:',
+                          isBold: true,
+                          fontSize: 13.5,
+                        ),
+                        children: [
+                          CustomText(
+                            fontSize: 13.5,
+                            text:
+                                'Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos',
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             const ContainerTitlePerfil(text: 'Opções Gerais'),
             const ListTilePerfil(text: 'Alterar senha'),
