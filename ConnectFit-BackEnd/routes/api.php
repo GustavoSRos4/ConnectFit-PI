@@ -23,7 +23,7 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->get('/user', function 
 });
 
 Route::group(['middleware' => ['cors', 'json.response']], function () {
-
+    //Teste
     // ...
 
     // public routes
