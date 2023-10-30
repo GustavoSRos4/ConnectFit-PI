@@ -155,53 +155,65 @@ class _PersonalPageState extends State<PersonalPage> {
                             ),
                           );
                         },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          color: Colors.deepOrange,
-                          child: Row(
-                            children: <Widget>[
-                              const SizedBox(width: 3),
-                              const Image(
-                                image: AssetImage(
-                                    'assets/images/fotoPersonal.png'),
-                                width: 90,
-                                height: 90,
-                                fit: BoxFit.cover,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              side: const BorderSide(
+                                width: 1,
+                                color: Colors.grey,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    RowCustomText(
-                                      indicador: 'Nome',
-                                      valor: '${personal[index]['nome']}',
+                            ),
+                            color: Colors.pretoPag,
+                            child: Row(
+                              children: <Widget>[
+                                const SizedBox(width: 5),
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/fotoAleatoria.jpg'),
+                                      fit: BoxFit.cover,
                                     ),
-                                    RowCustomText(
-                                      indicador: 'Idade',
-                                      valor: '${personal[index]['idade']} anos',
-                                    ),
-                                    RowCustomText(
-                                      indicador: 'Cidade',
-                                      valor: '${personal[index]['cidade']}',
-                                    ),
-                                    RowCustomText(
-                                      indicador: 'Especialidade',
-                                      valor:
-                                          '${personal[index]['especialidade']}',
-                                    ),
-                                    RowCustomText(
-                                      indicador: 'Valor cobrado',
-                                      valor: 'R\$ ${personal[index]['valor']}',
-                                    ),
-
-                                    // Adicione mais Text widgets aqui para mais campos
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      RowCustomText(
+                                        indicador: 'Nome',
+                                        valor: '${personal[index]['nome']}',
+                                      ),
+                                      const SizedBox(height: 5),
+                                      RowCustomText(
+                                        indicador: 'Cidade',
+                                        valor: '${personal[index]['cidade']}',
+                                      ),
+                                      const SizedBox(height: 5),
+                                      RowCustomText(
+                                        indicador: 'Especialidade',
+                                        valor:
+                                            '${personal[index]['especialidade']}',
+                                      ),
+                                      const SizedBox(height: 5),
+                                      RowCustomText(
+                                        indicador: 'Valor cobrado',
+                                        valor:
+                                            'R\$ ${personal[index]['valor']}',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

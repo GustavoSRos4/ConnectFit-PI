@@ -77,15 +77,7 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
       body: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.only(right: 30, left: 30),
-            decoration: const BoxDecoration(
-              color: Colors.pretoPag,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
-              ),
-            ),
-            height: MediaQuery.of(context).size.height * 0.8,
+            padding: const EdgeInsets.all(30),
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 10),
