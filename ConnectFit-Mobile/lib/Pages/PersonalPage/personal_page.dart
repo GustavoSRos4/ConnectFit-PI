@@ -145,7 +145,10 @@ class _PersonalPageState extends State<PersonalPage> {
                     itemCount: 4,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        splashColor: Colors.white,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(5),
+                        ),
+                        splashColor: Colors.brancoBege,
                         onTap: () {
                           Navigator.push<void>(
                             context,
@@ -189,22 +192,26 @@ class _PersonalPageState extends State<PersonalPage> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       RowCustomText(
+                                        fontSize: 13.5,
                                         indicador: 'Nome',
                                         valor: '${personal[index]['nome']}',
                                       ),
                                       const SizedBox(height: 5),
                                       RowCustomText(
+                                        fontSize: 13.5,
                                         indicador: 'Cidade',
                                         valor: '${personal[index]['cidade']}',
                                       ),
                                       const SizedBox(height: 5),
                                       RowCustomText(
+                                        fontSize: 13.5,
                                         indicador: 'Especialidade',
                                         valor:
                                             '${personal[index]['especialidade']}',
                                       ),
                                       const SizedBox(height: 5),
                                       RowCustomText(
+                                        fontSize: 13.5,
                                         indicador: 'Valor cobrado',
                                         valor:
                                             'R\$ ${personal[index]['valor']}',

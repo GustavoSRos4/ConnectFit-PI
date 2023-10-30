@@ -173,8 +173,16 @@ class MedidasButton extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                CustomText(text: "$nomeMedida: ", isBold: true),
-                CustomText(text: valorMedida, isBold: false),
+                CustomText(
+                  text: "$nomeMedida: ",
+                  isBold: true,
+                  fontSize: 13.5,
+                ),
+                CustomText(
+                  text: valorMedida,
+                  isBold: false,
+                  fontSize: 13.5,
+                ),
               ],
             ),
             const Icon(
