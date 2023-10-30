@@ -13,7 +13,7 @@
 
             <q-separator spaced inset />
 
-            <q-item clickable v-ripple class="col" :to="{ name: 'index' }
+            <q-item clickable v-ripple class="col" :to="{ name: 'IndexDashboard' }
               ">
               <q-item-section avatar>
                 <q-icon name="dashboard" />
@@ -24,7 +24,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple class="col" :to="{ name: 'alunos' }">
+            <q-item clickable v-ripple class="col" :to="{ name: 'AlunosDashboard' }">
               <q-item-section avatar>
                 <q-icon name="perm_identity" />
               </q-item-section>
@@ -34,7 +34,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple class="col">
+            <q-item clickable v-ripple class="col" :to="{ name: 'ExerciciosDashboard' }">
               <q-item-section avatar>
                 <q-icon name="edit_square" />
               </q-item-section>
@@ -56,7 +56,6 @@
                 <p class="text-caption">Personal Trainer</p>
               </q-item-section>
             </q-item>
-            <q-btn onclick="console.log(route.name)"></q-btn>
           </q-list>
         </q-card>
       </q-drawer>

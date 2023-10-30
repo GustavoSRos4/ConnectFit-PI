@@ -20,14 +20,19 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        name: "index",
+        name: "IndexDashboard",
         path: "",
         component: () => import("pages/Dashboard/IndexDashboard.vue")
       },
       {
-        name: "alunos",
+        name: "AlunosDashboard",
         path: "",
-        component: () => import("pages/Dashboard/AlunosDashBoard.vue")
+        component: () => import("pages/Dashboard/AlunosDashboard.vue")
+      },
+      {
+        name: "ExerciciosDashboard",
+        path: "",
+        component: () => import("pages/Dashboard/ExerciciosDashboard.vue")
       }
     ]
   },

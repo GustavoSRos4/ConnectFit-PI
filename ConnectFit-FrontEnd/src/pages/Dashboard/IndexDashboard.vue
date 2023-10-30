@@ -1,17 +1,12 @@
 <template>
-  <h1 class="text-h5">TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTEEEEEE</h1>
-  <h1>TESTE</h1>
+  <q-toolbar>
+    <q-toolbar-title>DashBoard</q-toolbar-title>
+  </q-toolbar>
 </template>
 
 <script>
-export default {
-  // name: 'PageName',
-}
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'IndexDashboard',
+})
 </script>
