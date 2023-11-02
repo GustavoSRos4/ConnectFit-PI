@@ -8,12 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class AreaMedidaCorporal extends Model
 {
     use HasFactory;
-    public function area()
-    {
-        return $this->belongsTo(Area::class, 'idArea');
-    }
-    public function medida()
-    {
-        return $this->belongsTo(Medida::class, 'idMedida');
-    }
+    protected $table = 'area_medida_corporais';
 }

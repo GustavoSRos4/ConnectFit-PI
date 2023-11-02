@@ -16,8 +16,8 @@ class Medida extends Model
     {
         return $this->hasMany(ComposicaoCorporal::class);
     }
-    public function areaMedidaCorporal()
+    public function enderecos()
     {
-        return $this->hasMany(AreaMedidaCorporal::class);
+        return $this->belongsToMany(Area::class, 'area_medida_corporais', 'idArea', 'idMedida');
     }
 }

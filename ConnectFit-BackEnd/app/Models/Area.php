@@ -12,8 +12,8 @@ class Area extends Model
     {
         return $this->belongsTo(AreaDesc::class, 'idDesc');
     }
-    public function areaMedidaCorporal()
+    public function medidas()
     {
-        return $this->hasMany(AreaMedidaCorporal::class);
+        return $this->belongsToMany(Medida::class, 'area_medida_corporais', 'idArea', 'idMedida');
     }
 }
