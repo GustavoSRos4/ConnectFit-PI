@@ -35,6 +35,8 @@ class _ThreePageState extends State<OneLogin> {
       );
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
+        String token = responseMap['token'];
+        await saveToken(token);
         if (mounted) {
           Navigator.pushNamed(context, '/twoDados');
         } else {

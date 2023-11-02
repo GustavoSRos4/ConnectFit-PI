@@ -41,7 +41,7 @@ dependencies:
   get: ^4.6.6
   http: ^1.1.0
   fl_chart: ^0.64.0
-
+  shared_preferences: ^2.2.2
  
   
 dev_dependencies:

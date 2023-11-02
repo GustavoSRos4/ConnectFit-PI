@@ -31,6 +31,7 @@ class _OnePageState extends State<TwoDados> {
   final estadoEC = TextEditingController();
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
+  String? token;
 
   stepTwoCreateAccountPressed() async {
     debugPrint("DEu");
@@ -78,6 +79,16 @@ class _OnePageState extends State<TwoDados> {
     super.dispose();
     cpfEC.dispose();
     dataNasEC.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getToken().then((value) {
+      setState(() {
+        token = value;
+      });
+    });
   }
 
   @override
@@ -303,7 +314,7 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-              onPressed: () => stepTwoCreateAccountPressed()),
+              onPressed: () => {debugPrint(" TOKEEEN  ===== $token")}),
         ],
       ),
     );
