@@ -12,4 +12,12 @@ class ComposicaoCorporal extends Model
     {
         return $this->belongsTo(Medida::class, 'idMedidaCompCorp');
     }
+            /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'idMedidaCompCorp';
+    public $incrementing = false;
+    protected $keyType = 'integer';
 }

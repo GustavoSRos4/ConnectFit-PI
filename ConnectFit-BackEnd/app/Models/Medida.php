@@ -20,4 +20,12 @@ class Medida extends Model
     {
         return $this->belongsToMany(Area::class, 'area_medida_corporais', 'idArea', 'idMedida');
     }
+                /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'idMedida';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }

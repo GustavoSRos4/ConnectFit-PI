@@ -3,10 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ApiAuthController as AuthController;
-use App\Http\Controllers\ArticleController as ArticleController;
 use App\Http\Controllers\PessoaController as PessoaController;
+use App\Http\Controllers\PessoaUsuarioController;
 use App\Http\Controllers\RegistroController as RegistroController;
-
+use App\http\Controllers\MedidasController as MedidasController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,4 +42,6 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::get('/ufSexo', [RegistroController::class, 'ufSexo']);
     Route::get('/{uf}/cidades', [RegistroController::class, 'cidades']);
     Route::post('/criarPessoa', [RegistroController::class, 'create']);
+    Route::post('/createPessoaUsuario', [PessoaUsuarioController::class, 'create']);
+    Route::post('/createMedida', [MedidasController::class, 'create']);
 });

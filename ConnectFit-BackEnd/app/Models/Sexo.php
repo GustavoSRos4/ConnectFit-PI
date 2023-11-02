@@ -12,4 +12,13 @@ class Sexo extends Model
     {
         return $this->hasMany(Pessoa::class);
     }
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'Sigla';
+    public $incrementing = false;
+    protected $keyType = 'char';
 }

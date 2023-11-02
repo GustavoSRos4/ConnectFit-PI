@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pessoa_usuarios', function (Blueprint $table) {
             $table->unsignedInteger("idPessoaUsuario")->primary();
-            $table->tinyInteger('Altura');
+            $table->smallInteger('Altura');
             $table->boolean('Fumante');
             $table->unsignedTinyInteger('idNivelAtiFis');
             $table->unsignedTinyInteger('idObjetivo');

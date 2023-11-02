@@ -34,4 +34,13 @@ class Pessoa extends Model
     {
         return $this->hasOne(PessoaProfissional::class);
     }
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'idPessoa';
+    public $incrementing = false;
+    protected $keyType = 'integer';
 }

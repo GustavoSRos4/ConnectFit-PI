@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('composicao_corporais', function (Blueprint $table) {
-            $table->unsignedInteger('idMedidaCompCorp');
-            $table->tinyInteger('Subescapular');
-            $table->tinyInteger('Triceps');
-            $table->tinyInteger('Peitoral');
-            $table->tinyInteger('AxilarMedia');
-            $table->tinyInteger('SupraIliaca');
-            $table->tinyInteger('Abdominal');
-            $table->tinyInteger('FemuralMedia');
+        Schema::create('composicao_corporals', function (Blueprint $table) {
+            $table->unsignedInteger('idMedidaCompCorp')->nullable();
+            $table->tinyInteger('Subescapular')->nullable();
+            $table->tinyInteger('Triceps')->nullable();
+            $table->tinyInteger('Peitoral')->nullable();
+            $table->tinyInteger('AxilarMedia')->nullable();
+            $table->tinyInteger('SupraIliaca')->nullable();
+            $table->tinyInteger('Abdominal')->nullable();
+            $table->tinyInteger('FemuralMedia')->nullable();
             $table->timestamps();
 
             $table->foreign('idMedidaCompCorp')->references('idMedida')->on('medidas')->onDelete('cascade');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('composicao_corporais');
+        Schema::dropIfExists('composicao_corporals');
     }
 };
