@@ -45,9 +45,7 @@ import { useQuasar } from 'quasar';
 import { useRouter } from "vue-router";
 import axios from "axios";
 import { api } from 'src/boot/axios';
-import {
-  Loading, QSpinnerGears
-} from 'quasar'
+import { Loading } from 'quasar'
 let $q
 export default defineComponent({
   name: 'LoginPage',

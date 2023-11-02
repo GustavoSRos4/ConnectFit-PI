@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-lg">
-    <q-table flat bordered title="Exercícios" :rows="rows" :columns="columns" row-key="name" binary-state-sort
-      :filter="filter">
+    <q-table flat bordered title="Meus Exercícios" :rows="rows" :columns="columns" row-key="name" binary-state-sort
+      :filter="filter" :loading="loading">
       <!-- HEADER DA TABELA, NOME e EDITAR -->
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -14,6 +14,8 @@
       </template>
       <!-- Barra de pesquisa -->
       <template v-slot:top-right>
+        <q-btn icon-right="edit" ripple rounded class="bg-primary q-mr-lg" label="Criar Exercício" />
+        <!-- <q-separator vertical spaced /> -->
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Pesquisar">
           <template v-slot:append>
             <q-icon name="search" />
@@ -37,12 +39,14 @@
                   <q-item-section>Editar Exercicio</q-item-section>
                 </q-item>
               </q-menu>
-
             </q-btn>
           </q-td>
         </q-tr>
       </template>
-
+      <!-- Tela Loading -->
+      <template v-slot:loading>
+        <q-inner-loading showing color="primary" />
+      </template>
     </q-table>
   </div>
 </template>
@@ -169,9 +173,12 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ExerciciosDashboard',
   setup() {
+    const loading = ref(false)
     const rows = ref([...Originalrows])
 
     const removeRow = (e) => {
+      console.log(loading.value);
+      loading.value = true; // Define loading como verdadeiro imediatamente
       setTimeout(() => {
         let index = 0;
         for (let i = 0; i < rows.value.length; i++) {
@@ -181,10 +188,12 @@ export default defineComponent({
           }
         }
         rows.value = [...rows.value.slice(0, index), ...rows.value.slice(index + 1)];
+        loading.value = false; // Define loading como falso após 500ms
       }, 500);
     };
 
     return {
+      loading,
       filter: ref(''),
       columns,
       rows,

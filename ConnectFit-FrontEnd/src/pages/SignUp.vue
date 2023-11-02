@@ -21,17 +21,18 @@
               <q-step :name="1" title="Passo 1" :done="step > 1">
                 <div class="q-mx-sm">
                   <q-input name="name" ref="fieldUsername" label="Nome Completo" v-model="login.name" lazy-rules
-                    :rules="UsernameValidation">
+                    :rules="[required]">
                   </q-input>
                   <q-input name="password" ref="fieldRefPass" label="Senha" :type="isPwd ? 'password' : 'text'"
-                    v-model="login.password" lazy-rules :rules="PasswordValidation">
+                    v-model="login.password" lazy-rules :rules="[required, minLength(6)]">
                     <template v-slot:append>
                       <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer"
                         @click="isPwd = !isPwd"></q-icon>
                     </template>
                   </q-input>
                   <q-input ref="fieldRefRePass" label="Repetir Senha" :type="isPwd2 ? 'password' : 'text'"
-                    v-model="login.repassword" :rules="RePasswordValidation" lazy-rules>
+                    v-model="login.repassword" :rules="[required, minLength(6), confirmPassword(login.password)]"
+                    lazy-rules>
                     <template v-slot:append>
                       <q-icon :name="isPwd2 ? 'visibility' : 'visibility_off'" class="cursor-pointer"
                         @click="isPwd2 = !isPwd2"></q-icon>
@@ -43,14 +44,13 @@
               <q-step :name="2" title="Passo 2" :done="step > 2">
                 <div class="q-mx-sm">
                   <q-input name="email" ref="fieldEmail" label="Email" v-model="login.email" lazy-rules
-                    :rules="[(val) => validEmail(val) || 'O email deve ser válido']">
+                    :rules="[required, validateEmail]">
                   </q-input>
                   <q-input name="CPF" ref="fieldCPF" label="CPF" v-model="login.CPF" lazy-rules unmasked-value
-                    mask="###.###.###-##" @input="login.CPF = parseInt(login.CPF)"
-                    :rules="[(val) => validarCPF(val) || 'O cpf deve ser válido']"></q-input>
+                    mask="###.###.###-##" @input="login.CPF = parseInt(login.CPF)" :rules="[validarCPF]"></q-input>
 
                   <q-input label="Data de Nascimento" name="dataNasc" v-model="login.dataNasc" mask="##/##/####"
-                    ref="fieldDataNasc" :rules="[(val) => validDateBr(val) || 'A data de nascimento deve ser válida']">
+                    ref="fieldDataNasc" :rules="[required, validateDateBrasil]">
                     <template v-slot:append>
                       <q-icon name="event" class="cursor-pointer">
                         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -194,9 +194,8 @@ import { gsap } from 'gsap';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { api } from 'src/boot/axios';
-import {
-  Loading, QSpinnerGears
-} from 'quasar'
+import { Loading } from 'quasar'
+import { validarCPF, required, minLength, confirmPassword, validateEmail, validateDateBrasil } from '../utils/validar';
 
 
 const $q = useQuasar()
@@ -211,16 +210,12 @@ export default defineComponent({
     const fieldDataNasc = ref(null)
     const stepperRef = ref(null)
 
-
-
-
     return {
       fieldUsername: ref(null),
       isPwd: ref(true),
       isPwd2: ref(true),
       step: ref(1),
       aceiteEULA: ref(false),
-
       option: [
         { id: 0, desc: 'Mulher' },
         { id: 1, desc: 'Homem' },
@@ -228,101 +223,6 @@ export default defineComponent({
     }
   },
   computed: {
-    UsernameValidation() {
-      return [
-        (v) => !!v || "O nome de usuário não pode estar vazio.",
-      ]
-    },
-    PasswordValidation() {
-      return [
-        (v) => !!v || "A senha não pode estar vazia.",
-        (v) => v.length > 6 || "A senha deve conter 6 caracteres ou mais",
-      ]
-    },
-    RePasswordValidation() {
-      return [
-        (v) => !!v || "A senha não pode estar vazia.",
-        (v) => v.length > 6 || "A senha deve conter 6 caracteres ou mais",
-        (v) => v == this.login.password || "As duas senhas devem ser iguais"
-      ]
-    },
-    validEmail() {
-
-      return (email) => {
-        if (typeof email !== 'string') {
-          return false; // Retorna falso se não for uma string
-        }
-        // return true
-
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-      };
-    },
-    validarCPF() {
-
-      return (CPF) => {
-        if (typeof CPF !== 'string') {
-          return false; // Retorna falso se não for uma string
-        }
-        // return true
-
-        // Verifica se todos os dígitos do CPF são iguais
-        if (/^(\d)\1{10}$/.test(CPF)) {
-          return false;
-        }
-
-        var soma = 0;
-        var i;
-        var resto;
-
-        if (CPF == "00000000000") return false;
-        if (CPF.length != 11) return false;
-
-        for (i = 1; i <= 9; i++)
-          soma = soma + parseInt(CPF.substring(i - 1, i)) * (11 - i);
-        resto = (soma * 10) % 11;
-
-        if (resto == 10 || resto == 11) resto = 0;
-        if (resto != parseInt(CPF.substring(9, 10))) return false;
-
-        soma = 0;
-        for (i = 1; i <= 10; i++)
-          soma = soma + parseInt(CPF.substring(i - 1, i)) * (12 - i);
-        resto = (soma * 10) % 11;
-
-        if (resto == 10 || resto == 11) resto = 0;
-        if (resto != parseInt(CPF.substring(10, 11))) return false;
-        return true;
-      }
-    },
-
-    validDateBr() {
-
-      return (dateStr) => {
-        if (typeof dateStr !== 'string') {
-          return false;
-        }
-        // return true
-
-        const re = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-
-        const match = dateStr.match(re);
-
-        if (!match) {
-          return false;
-        }
-
-        const day = parseInt(match[1], 10);
-        const month = parseInt(match[2], 10);
-        const year = parseInt(match[3], 10);
-
-        if (month < 1 || month > 12 || day < 1 || day > new Date(year, month, 0).getDate()) {
-          return false;
-        }
-
-        return true;
-      };
-    },
     transformDateToISO() {
       return (dateStr) => {
         if (typeof dateStr !== 'string') {
@@ -342,8 +242,8 @@ export default defineComponent({
         return null;
       }
     },
-
   },
+
   data() {
     return {
       login: {
@@ -359,11 +259,16 @@ export default defineComponent({
   },
 
   methods: {
-
+    required,
+    minLength,
+    confirmPassword,
+    validateEmail,
+    validarCPF,
+    validateDateBrasil,
 
     async onContinueStep() {
       const router = useRouter();
-      console.log(this.step);
+      // console.log(this.step);
       switch (this.step) {
         case 1:
           this.$refs.fieldUsername.validate()
@@ -394,18 +299,12 @@ export default defineComponent({
               spinnerColor: 'primary',
               spinnerSize: 200,
             });
-            var inputs = new FormData();
-            inputs.append('name', this.login.name);
-            inputs.append('email', this.login.email);
-            inputs.append('password', this.login.password);
-            // inputs.append('sexo', this.login.sexo);
-            // inputs.append('CPF', this.login.CPF);
-            // inputs.append('dataNascm', this.transformDateToISO(this.login.dataNasc));
+            // Debug only:
+            // for (const pair of inputs.entries()) {
+            //   const [key, value] = pair;
+            //   console.log(`Campo: ${key}, Valor: ${value}`);
+            // }
 
-            for (const pair of inputs.entries()) {
-              const [key, value] = pair;
-              console.log(`Campo: ${key}, Valor: ${value}`);
-            }
             var data = {
               name: this.login.name,
               email: this.login.email,
@@ -423,8 +322,8 @@ export default defineComponent({
             const url =
               "http://127.0.0.1:8000/api/registrarUsuario?";
 
-            await axios
-              .post(url, data, {
+            await api
+              .post("api/registrarUsuario?", data, {
                 headers: {
                   aaid: this.ID,
                   token: this.Token
@@ -437,9 +336,9 @@ export default defineComponent({
                 Loading.hide()
                 this.$q.notify({
                   type: 'positive',
-                  message: "Sucesso!!! Por favor faça o login",
+                  message: "Sucesso",
                 })
-                this.$router.push('/login');
+                this.$router.push('/dashboard');
               })
               .catch(err => {
                 console.log(err);
