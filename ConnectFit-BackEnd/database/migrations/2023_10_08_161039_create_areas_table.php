@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->tinyIncrements('idArea');
             $table->smallInteger('Medida');
-            $table->tinyInteger('idDesc');
+            $table->unsignedTinyInteger('idDesc');
             $table->timestamps();
 
-            $table->foreign('idDesc')->references('idDesc')->on('areas_desc')->onDelete('cascade');
+            $table->foreign('idDesc')->references('idDesc')->on('area_descs')->onDelete('cascade');
         });
     }
 

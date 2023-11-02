@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ConsumoAlc;
+use App\Models\NivelAtiFisica;
 use App\Models\Objetivo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -44,7 +45,7 @@ class AnamneseSeeder extends Seeder
         ];
 
         foreach ($niveisAtiFis as $nivelAtiFis) {
-            Objetivo::create($nivelAtiFis);
+            NivelAtiFisica::create($nivelAtiFis);
         }
     }
 }
