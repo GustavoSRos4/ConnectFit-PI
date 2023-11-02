@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('objetivos', function (Blueprint $table) {
             $table->tinyIncrements('idObjetivo');
-            $table->string("Descricao", 16);
+            $table->string("Descricao", 25);
             $table->timestamps();
         });
     }

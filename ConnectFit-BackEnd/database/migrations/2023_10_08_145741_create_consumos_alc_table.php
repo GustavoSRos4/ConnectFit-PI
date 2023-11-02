@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consumos_alc', function (Blueprint $table) {
+        Schema::create('consumo_alcs', function (Blueprint $table) {
             $table->tinyIncrements('idConsumoAlc');
-            $table->string("Descricao", 16);
+            $table->string("Descricao", 25);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consumos_alc');
+        Schema::dropIfExists('consumo_alcs');
     }
 };

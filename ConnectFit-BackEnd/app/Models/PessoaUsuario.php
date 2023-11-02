@@ -22,7 +22,7 @@ class PessoaUsuario extends Model
     }
     public function nivelAtiFis()
     {
-        return $this->belongsTo(NivelAtiFis::class, 'idNivelAtiFis');
+        return $this->belongsTo(NivelAtiFisica::class, 'idNivelAtiFis');
     }
     public function medicamento()
     {

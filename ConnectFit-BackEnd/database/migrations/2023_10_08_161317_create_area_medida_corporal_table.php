@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('area_medida_corporal', function (Blueprint $table) {
+        Schema::create('area_medida_corporais', function (Blueprint $table) {
             $table->unsignedTinyInteger('idArea');
             $table->unsignedInteger('idMedida');
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('area_medida_corporal');
+        Schema::dropIfExists('area_medida_corporais');
     }
 };

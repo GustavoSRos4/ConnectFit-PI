@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('composicoes_corporais', function (Blueprint $table) {
+        Schema::create('composicao_corporais', function (Blueprint $table) {
             $table->unsignedInteger('idMedidaCompCorp');
             $table->tinyInteger('Subescapular');
             $table->tinyInteger('Triceps');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('composicoes_corporais');
+        Schema::dropIfExists('composicao_corporais');
     }
 };

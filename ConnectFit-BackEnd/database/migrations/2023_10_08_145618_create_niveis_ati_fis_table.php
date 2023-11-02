@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('niveis_ati_fis', function (Blueprint $table) {
+        Schema::create('nivel_ati_fisicas', function (Blueprint $table) {
             $table->tinyIncrements('idNivelAtiFis');
-            $table->string("Descricao", 16);
+            $table->string("Descricao", 25);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('niveis_ati_fis');
+        Schema::dropIfExists('nivel_ati_fisicas');
     }
 };

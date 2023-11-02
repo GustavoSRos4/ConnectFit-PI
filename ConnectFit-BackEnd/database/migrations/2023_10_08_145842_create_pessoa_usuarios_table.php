@@ -21,9 +21,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('idPessoaUsuario')->references('idPessoa')->on('pessoas')->onDelete('cascade');
-            $table->foreign('idNivelAtiFis')->references('idNivelAtiFis')->on('niveis_ati_fis')->onDelete('cascade');
+            $table->foreign('idNivelAtiFis')->references('idNivelAtiFis')->on('nivel_ati_fisicas')->onDelete('cascade');
             $table->foreign('idObjetivo')->references('idObjetivo')->on('objetivos')->onDelete('cascade');
-            $table->foreign('idConsumoAlc')->references('idConsumoAlc')->on('consumos_alc')->onDelete('cascade');
+            $table->foreign('idConsumoAlc')->references('idConsumoAlc')->on('consumo_alcs')->onDelete('cascade');
         });
     }
 

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Ufs', function (Blueprint $table) {
+        Schema::create('ufs', function (Blueprint $table) {
             $table->char('SiglaUF',2)->primary();
             $table->string('Descricao',20);
             $table->timestamps();
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Ufs');
+        Schema::dropIfExists('ufs');
     }
 };

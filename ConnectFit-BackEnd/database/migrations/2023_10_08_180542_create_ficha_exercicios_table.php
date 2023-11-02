@@ -18,12 +18,12 @@ return new class extends Migration
             $table->tinyInteger('Repeticoes');
             $table->tinyInteger('Descanso');
             $table->tinyInteger('Carga');
-            $table->string('linkVideo',150);
+            $table->string('linkVideo', 150);
             $table->timestamps();
 
             $table->foreign('idFicha')->references('idFicha')->on('fichas')->onDelete('cascade');
             $table->foreign('idExercicio')->references('idExercicio')->on('exercicios')->onDelete('cascade');
-            $table->primary(['idFicha','idExercicio']);
+            $table->primary(['idFicha', 'idExercicio']);
         });
     }
 

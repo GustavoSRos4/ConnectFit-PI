@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SexoSeeder::class,
             UfAndCitySeeder::class,
+            AnamneseSeeder::class,
         ]);
     }
 }
