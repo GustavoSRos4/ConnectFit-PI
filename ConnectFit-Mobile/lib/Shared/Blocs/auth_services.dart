@@ -55,9 +55,13 @@ class AuthServices {
     };
     var body = json.encode(data);
     var url = Uri.parse('$baseURL/criarPessoa'); //trocar pela rota do laravel
+    String? token = await getToken();
     http.Response response = await http.post(
       url,
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
       body: body,
     );
     debugPrint(response.body);

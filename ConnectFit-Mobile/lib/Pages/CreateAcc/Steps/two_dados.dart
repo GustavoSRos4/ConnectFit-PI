@@ -34,8 +34,8 @@ class _OnePageState extends State<TwoDados> {
   String? token;
 
   stepTwoCreateAccountPressed() async {
-    debugPrint("DEu");
-    if (bairroEC != '') {
+    debugPrint("STEP 2 CREATE");
+    if (bairroEC.text != '') {
       http.Response response = await AuthServices.registerTwo(
         cpfEC.text,
         dataNasEC.text,
@@ -314,7 +314,7 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-              onPressed: () => {debugPrint(" TOKEEEN  ===== $token")}),
+              onPressed: () => stepTwoCreateAccountPressed()),
         ],
       ),
     );

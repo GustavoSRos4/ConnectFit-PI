@@ -16,7 +16,6 @@ class OneLogin extends StatefulWidget {
 
 class _ThreePageState extends State<OneLogin> {
   final nomeEC = TextEditingController();
-  final usuarioEC = TextEditingController();
   final emailEC = TextEditingController();
   final senhaEC = TextEditingController();
   final confirmarSenhaEC = TextEditingController();
@@ -56,7 +55,6 @@ class _ThreePageState extends State<OneLogin> {
   void dispose() {
     super.dispose();
     nomeEC.dispose();
-    usuarioEC.dispose();
     emailEC.dispose();
     senhaEC.dispose();
     confirmarSenhaEC.dispose();
@@ -93,19 +91,6 @@ class _ThreePageState extends State<OneLogin> {
                           }
                           if (text.length < 5) {
                             return "Esse campo precisa de mais de 5 letras. (Tem ${text.length})";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        label: "Usuário",
-                        icon: Icons.person,
-                        hint: "Digite seu usuário...",
-                        controller: usuarioEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
                           }
                           return null;
                         },
