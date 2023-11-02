@@ -17,12 +17,12 @@ class ResetPasswordController extends Controller
     }
     protected function sendResetResponse(Request $request, $response)
     {
-        $response = ['message' => "Password reset successful"];
+        $response = ['message' => "Senha recuperada com sucesso!"];
         return response($response, 200);
     }
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        $response = "Token Invalid";
+        $response = "Token inválido";
         return response($response, 401);
     }
 }

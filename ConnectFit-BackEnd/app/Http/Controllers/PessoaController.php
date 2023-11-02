@@ -38,11 +38,11 @@ class PessoaController extends Controller
 
             $person->save();
 
-            return response()->json(['message' => 'Person created successfully'], 201);
+            return response()->json(['message' => 'Pessoa criada com sucesso'], 201);
         } catch (\Exception $e) {
             Log::error($e);
 
-            return response()->json(['message' => 'Failed to create person'], 500);
+            return response()->json(['message' => 'Falha ao criar a pessoa'], 500);
         }
     }
 
@@ -52,7 +52,7 @@ class PessoaController extends Controller
         if ($user->pessoa) {
             return response()->json(['data' => $user->pessoa], 200);
         } else {
-            return response()->json(['message' => 'No Pessoa associated with this user'], 404);
+            return response()->json(['message' => 'Nenhuma pessoa associada a este usuário'], 404);
         }
     }
 

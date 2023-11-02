@@ -22,12 +22,12 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
     protected function sendResetLinkResponse(Request $request, $response)
     {
-        $response = ['message' => "Password reset email sent"];
+        $response = ['message' => "E-mail para recuperar senha foi enviado."];
         return response($response, 200);
     }
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
-        $response = "Email could not be sent to this email address";
+        $response = "Impossivel enviar e-mail.";
         return response($response, 500);
     }
 }

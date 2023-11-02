@@ -59,11 +59,11 @@ class ApiAuthController extends Controller
                 $response = ['token' => $token];
                 return response($response, 200);
             } else {
-                $response = ["message" => "Password mismatch"];
+                $response = ["message" => "Dados incorretos."];
                 return response($response, 422);
             }
         } else {
-            $response = ["message" => 'User does not exist'];
+            $response = ["message" => 'Dados incorretos.'];
             return response($response, 422);
         }
     }
@@ -76,7 +76,7 @@ class ApiAuthController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        $response = ['message' => 'You have been successfully logged out!'];
+        $response = ['message' => 'Deslogado com sucesso.'];
         return response($response, 200);
     }
 }
