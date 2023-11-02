@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../Shared/Blocs/globals.dart';
 
 class OneLogin extends StatefulWidget {
@@ -23,7 +21,7 @@ class _ThreePageState extends State<OneLogin> {
   final senhaEC = TextEditingController();
   final confirmarSenhaEC = TextEditingController();
 
-  createAccountPressed() async {
+  stepOneCreateAccountPressed() async {
     debugPrint("DEu");
     bool emailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -55,6 +53,7 @@ class _ThreePageState extends State<OneLogin> {
   @override
   void dispose() {
     super.dispose();
+    nomeEC.dispose();
     usuarioEC.dispose();
     emailEC.dispose();
     senhaEC.dispose();
@@ -190,7 +189,7 @@ class _ThreePageState extends State<OneLogin> {
             ],
           ),
           PositionedActionButton(
-            onPressed: () => Navigator.pushNamed(context, '/twoDados'),
+            onPressed: () => stepOneCreateAccountPressed(),
           ),
         ],
       ),

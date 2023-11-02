@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
+import 'package:projeto/Shared/Blocs/auth_services.dart';
 import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:http/http.dart' as http;
+import '../../../Shared/Blocs/globals.dart';
 
 class TwoDados extends StatefulWidget {
   const TwoDados({super.key});
@@ -16,6 +21,7 @@ class TwoDados extends StatefulWidget {
 class _OnePageState extends State<TwoDados> {
   final cpfEC = TextEditingController();
   final dataNasEC = TextEditingController();
+  final dddEC = TextEditingController();
   final telefoneEC = TextEditingController();
   final cepEC = TextEditingController();
   final logradouroEC = TextEditingController();
@@ -25,6 +31,37 @@ class _OnePageState extends State<TwoDados> {
   final estadoEC = TextEditingController();
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
+
+  stepTwoCreateAccountPressed() async {
+    debugPrint("DEu");
+    if (bairroEC != '') {
+      http.Response response = await AuthServices.registerTwo(
+        cpfEC.text,
+        dataNasEC.text,
+        dddEC.text,
+        telefoneEC.text,
+        logradouroEC.text,
+        numeroEC.text,
+        cidadeEC.text,
+        cepEC.text,
+        bairroEC.text,
+      );
+      Map responseMap = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        if (mounted) {
+          Navigator.pushNamed(context, '/threeInfos');
+        } else {
+          if (mounted) {
+            errorSnackBar(context, responseMap.values.first[0]);
+          }
+        }
+      }
+    } else {
+      if (mounted) {
+        errorSnackBar(context, 'email not valid');
+      }
+    }
+  }
 
   void getDados() {
     debugPrint("eita deu certo zé");
@@ -265,9 +302,8 @@ class _OnePageState extends State<TwoDados> {
               ),
             ],
           ),
-          PositionedActionButton(onPressed: () {
-            Navigator.pushNamed(context, '/threeInfos');
-          }),
+          PositionedActionButton(
+              onPressed: () => stepTwoCreateAccountPressed()),
         ],
       ),
     );
