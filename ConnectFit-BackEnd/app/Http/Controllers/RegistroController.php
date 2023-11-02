@@ -70,7 +70,6 @@ class RegistroController extends Controller
                 $address->bairro = $request->input('bairro');
                 $address->save();
             }
-            DB::commit();
             $address = Endereco::where('logradouro', $request->input('logradouro'))
                 ->where('numero', $request->input('numeroEnd'))
                 ->where('complemento', $request->input('complemento'))
@@ -83,7 +82,7 @@ class RegistroController extends Controller
             $addressPerson->idPessoa = $userId;
             $addressPerson->idEndereco = $addressId;
             $addressPerson->save();
-
+            DB::commit();
             return response()->json(['message' => 'Cadastrado com sucesso'], 201);
         } catch (\Exception $e) {
             DB::rollback();
@@ -96,11 +95,11 @@ class RegistroController extends Controller
     {
         $uf = Uf::all();
         $sex = Sexo::all();
-        return response()->json(['Uf'=> $uf, 'Sexo'=> $sex], 200);
+        return response()->json(['Uf' => $uf, 'Sexo' => $sex], 200);
     }
     public function cidades($uf)
     {
-        $cidades = Cidade::where('SiglaUF',$uf)->get();
-        return response()->json(['Cidades'=> $cidades], 200);
+        $cidades = Cidade::where('SiglaUF', $uf)->get();
+        return response()->json(['Cidades' => $cidades], 200);
     }
 }

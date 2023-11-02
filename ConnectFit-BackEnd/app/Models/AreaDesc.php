@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lado extends Model
+class AreaDesc extends Model
 {
     use HasFactory;
+    public function lado()
+    {
+        return $this->belongsTo(Lado::class, 'SiglaLado');
+    }
     public function area()
     {
-        return $this->hasMany(AreaDesc::class);
+        return $this->hasMany(Area::class);
     }
 }

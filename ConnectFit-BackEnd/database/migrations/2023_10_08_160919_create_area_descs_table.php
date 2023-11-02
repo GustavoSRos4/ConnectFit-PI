@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('areas', function (Blueprint $table) {
-            $table->tinyIncrements('idArea');
-            $table->smallInteger('Medida');
-            $table->tinyInteger('idDesc');
+        Schema::create('area_descs', function (Blueprint $table) {
+            $table->tinyIncrements('idDesc');
+            $table->string('descricao', 50);
+            $table->char('SiglaLado', 1)->nullable();
             $table->timestamps();
 
-            $table->foreign('idDesc')->references('idDesc')->on('areas_desc')->onDelete('cascade');
+            $table->foreign('SiglaLado')->references('Sigla')->on('lados')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('areas');
+        Schema::dropIfExists('area_descs');
     }
 };

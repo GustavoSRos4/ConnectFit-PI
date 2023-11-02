@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Area extends Model
 {
     use HasFactory;
-    public function lado()
+    public function areaDesc()
     {
-        return $this->belongsTo(Lado::class, 'SiglaLado');
+        return $this->belongsTo(AreaDesc::class, 'idDesc');
     }
     public function areaMedidaCorporal()
     {

@@ -3,9 +3,96 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\PessoaUsuario;
+use App\Models\Medida;
+use App\Models\AreaMedidaCorporal;
+use App\Models\Area;
+use App\Models\ComposicaoCorporal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PessoaUsuarioController extends Controller
 {
-    //
+    public function create(Request $request)
+    {
+        $userId = auth('api')->user()->id;
+
+        $request->validate([
+            'altura' => 'required|integer',
+            'fumante' => 'required|boolean',
+            'idNivelAtiFis' => 'required|integer',
+            'idObjetivo' => 'required|integer',
+            'idConsumoAlc' => 'required|integer',
+            'peso' => 'required|integer',
+            'percentualGordura' => 'nullable|integer',
+            'descricaoMed' => 'nullable|string|max:60',
+            'descricaoComor' => 'nullable|string|max:50',
+            'subescapular' => 'nullable',
+            'triceps' => 'nullable',
+            'peitoral' => 'nullable',
+            'axilarMedia' => 'nullable',
+            'supraIliaca' => 'nullable',
+            'abdominal' => 'nullable',
+            'femuralMedia' => 'nullable',
+            'Areas' => 'nullable',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $person = new PessoaUsuario();
+            $person->idPessoa = $userId;
+            $person->altura = $request->input('altura');
+            $person->fumante = $request->input('fumante');
+            $person->idNivelAtiFis = $request->input('idNivelAtiFis');
+            $person->idObjetivo = $request->input('idObjetivo');
+            $person->idConsumoAlc = $request->input('idConsumoAlc');
+            $person->save();
+
+            $medida = new Medida();
+            $medida->idPessoaUsuario = $userId;
+            $medida->peso = $request->input('peso');
+            $medida->percentualGordura = $request->input('percentualGordura');
+            $medida->save();
+            $idMedida = $medida->idMedida;
+
+            $composicaoCorp = new ComposicaoCorporal();
+            $composicaoCorp->idMedidaCompCorp = $idMedida;
+            $composicaoCorp->subescapular = $request->input('subescapular');
+            $composicaoCorp->triceps = $request->input('triceps');
+            $composicaoCorp->peitoral = $request->input('peitoral');
+            $composicaoCorp->axilarMedia = $request->input('axilarMedia');
+            $composicaoCorp->supraIliaca = $request->input('supraIliaca');
+            $composicaoCorp->abdominal = $request->input('abdominal');
+            $composicaoCorp->femuralMedia = $request->input('femuralMedia');
+            $composicaoCorp->save();
+
+
+            $areas = $request->input('Areas');
+
+            if (!empty($areas) && is_array($areas)) {
+                foreach ($areas as $areaData) {
+                    $area = new Area();
+                    $area->medidaArea = $areaData['medidaArea'];
+                    $area->idDesc = $request->input('idDesc');
+                    $area->save();
+
+                    $idArea = $area->idArea;
+
+                    $areaMedCorp = new AreaMedidaCorporal();
+                    $areaMedCorp->idArea = $idArea;
+                    $areaMedCorp->idMedida = $idMedida;
+                    $areaMedCorp->save();
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => 'Cadastrado com sucesso'], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error($e);
+
+            return response()->json(['message' => 'Falha no cadastro', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
