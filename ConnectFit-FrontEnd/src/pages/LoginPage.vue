@@ -20,10 +20,13 @@
         </q-card-section>
         <q-card-section>
           <q-form class="q-gutter-md" @submit.prevent="submit">
-            <q-input name="email" label="Email" v-model="login.email"
-              :rules="[(val) => validEmail(val) || 'O email deve ser válido']">
+            <q-input name="email" label="Email" v-model="login.email" :rules="[required, validateEmail]">
             </q-input>
-            <q-input name="password" label="Senha" type="password" v-model="login.password" :rules="PasswordValidation">
+            <q-input name="password" label="Senha" :type="isPwd ? 'password' : 'text'" :rules="[required, minLength(6)]">
+              <template v-slot:append>
+                <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer"
+                  @click="isPwd = !isPwd"></q-icon>
+              </template>
             </q-input>
             <div>
               <q-btn class="full-width" color="primary" label="Login" type="submit" rounded></q-btn>
@@ -46,7 +49,9 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { api } from 'src/boot/axios';
 import { Loading } from 'quasar'
+import { validateEmail, required, minLength } from 'src/utils/validar';
 let $q
+
 export default defineComponent({
   name: 'LoginPage',
   setup() {
@@ -116,6 +121,9 @@ export default defineComponent({
   },
 
   methods: {
+    validateEmail,
+    required,
+    minLength,
     loadshow() {
       const $q = useQuasar()
       $q.loading.show({
@@ -127,27 +135,6 @@ export default defineComponent({
   mounted() {
     $q = useQuasar();
   },
-  computed: {
-    validEmail() {
-
-      return (email) => {
-        if (typeof email !== 'string') {
-          return false; // Retorna falso se não for uma string
-        }
-        // return true
-
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-      };
-    },
-    PasswordValidation() {
-      return [
-        (v) => !!v || "A senha não pode estar vazia.",
-        (v) => v.length > 6 || "A senha deve conter 6 caracteres ou mais",
-      ]
-    },
-  }
-
 })
 </script>
 
