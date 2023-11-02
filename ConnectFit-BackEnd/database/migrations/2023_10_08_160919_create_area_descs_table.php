@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('area_descs', function (Blueprint $table) {
             $table->tinyIncrements('idDesc');
             $table->string('descricao', 50);
-            $table->char('SiglaLado', 1)->nullable();
             $table->timestamps();
-
-            $table->foreign('SiglaLado')->references('Sigla')->on('lados')->onDelete('cascade');
         });
     }
 
