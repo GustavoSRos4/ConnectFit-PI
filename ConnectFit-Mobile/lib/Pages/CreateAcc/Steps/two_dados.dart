@@ -36,6 +36,8 @@ class _OnePageState extends State<TwoDados> {
   List<String> dropdownItems = ["Masculino", "Feminino"];
   String? token;
   List<String>? estados;
+  String? estadoSelecionado;
+  String? cidadeSelecionada;
 
   stepTwoCreateAccountPressed() async {
     debugPrint("STEP 2 CREATE");
@@ -110,8 +112,63 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      FutureBuilder<List<String>>(
+                      FutureBuilder<Map<String, String>>(
                         future: FetchData.fetchEstados(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Map<String, String>> snapshot) {
+                          if (snapshot.hasData) {
+                            return DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                showSearchBox: true,
+                                showSelectedItems: true,
+                                searchFieldProps: TextFieldProps(
+                                  decoration: InputDecoration(
+                                    hintText: "Buscar",
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(50),
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(50),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              items: snapshot.data?.keys.toList() ?? [],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(50),
+                                    ),
+                                  ),
+                                  labelText: "Estado",
+                                  hintText: "Escolha o estado",
+                                ),
+                              ),
+                              onChanged: (String? novoEstado) {
+                                setState(() {
+                                  estadoSelecionado =
+                                      snapshot.data?[novoEstado];
+                                  cidadeSelecionada =
+                                      null; // Adicione esta linha
+                                });
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Text('Erro ao carregar os dados.');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      FutureBuilder<List<String>>(
+                        future: FetchData.fetchCidades(estadoSelecionado),
                         builder: (BuildContext context,
                             AsyncSnapshot<List<String>> snapshot) {
                           if (snapshot.hasData) {
@@ -136,6 +193,8 @@ class _OnePageState extends State<TwoDados> {
                                 ),
                               ),
                               items: snapshot.data ?? [],
+                              selectedItem:
+                                  cidadeSelecionada, // Adicione esta linha
                               dropdownDecoratorProps:
                                   const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
@@ -144,11 +203,15 @@ class _OnePageState extends State<TwoDados> {
                                       Radius.circular(50),
                                     ),
                                   ),
-                                  labelText: "Estado",
-                                  hintText: "Escolha o estado",
+                                  labelText: "Cidade",
+                                  hintText: "Escolha a cidade",
                                 ),
                               ),
-                              onChanged: print,
+                              onChanged: (String? novaCidade) {
+                                setState(() {
+                                  cidadeSelecionada = novaCidade;
+                                });
+                              },
                             );
                           } else if (snapshot.hasError) {
                             return const Text('Erro ao carregar os dados.');
@@ -366,7 +429,7 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-            onPressed: () => {FetchData.fetchEstados()},
+            onPressed: () => {},
             //tepTwoCreateAccountPressed()
           ),
         ],
