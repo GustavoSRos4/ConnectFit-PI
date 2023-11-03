@@ -1,10 +1,19 @@
 //  validação obrigatório
 export const required = (value) => {
+  const invalid = "Este campo é obrigatório";
   if (value === null || value === undefined) {
-    return "Este campo é obrigatório";
+    return invalid;
   }
-  if (value.trim() === "") {
-    return "Este campo é obrigatório";
+  if (typeof value === "object") {
+    if (Object.keys(value).length === 0) {
+      return invalid;
+    } else {
+      return true;
+    }
+  } else {
+    if (value.trim() === "") {
+      return invalid;
+    }
   }
   return true;
 };

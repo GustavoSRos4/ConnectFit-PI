@@ -22,7 +22,8 @@
           <q-form class="q-gutter-md" @submit.prevent="submit">
             <q-input name="email" label="Email" v-model="login.email" :rules="[required, validateEmail]">
             </q-input>
-            <q-input name="password" label="Senha" :type="isPwd ? 'password' : 'text'" :rules="[required, minLength(6)]">
+            <q-input v-model="login.password" name="password" label="Senha" :type="isPwd ? 'password' : 'text'"
+              :rules="[required, minLength(6)]">
               <template v-slot:append>
                 <q-icon :name="isPwd ? 'visibility' : 'visibility_off'" class="cursor-pointer"
                   @click="isPwd = !isPwd"></q-icon>
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -103,12 +104,13 @@ export default defineComponent({
     };
 
     return {
+      isPwd: ref(true),
       submit,
       showLoading() {
         $q.loading.show({
           message: 'First message. Gonna change it in 3 seconds...'
         })
-      }
+      },
     };
   },
   data() {

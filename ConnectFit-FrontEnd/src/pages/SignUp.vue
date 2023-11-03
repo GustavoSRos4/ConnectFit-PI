@@ -23,6 +23,9 @@
                   <q-input name="name" ref="fieldUsername" label="Nome Completo" v-model="login.name" lazy-rules
                     :rules="[required]">
                   </q-input>
+                  <q-input name="email" ref="fieldEmail" label="Email" v-model="login.email" lazy-rules
+                    :rules="[required, validateEmail]">
+                  </q-input>
                   <q-input name="password" ref="fieldRefPass" label="Senha" :type="isPwd ? 'password' : 'text'"
                     v-model="login.password" lazy-rules :rules="[required, minLength(6)]">
                     <template v-slot:append>
@@ -43,11 +46,12 @@
 
               <q-step :name="2" title="Passo 2" :done="step > 2">
                 <div class="q-mx-sm">
-                  <q-input name="email" ref="fieldEmail" label="Email" v-model="login.email" lazy-rules
-                    :rules="[required, validateEmail]">
-                  </q-input>
                   <q-input name="CPF" ref="fieldCPF" label="CPF" v-model="login.CPF" lazy-rules unmasked-value
                     mask="###.###.###-##" @input="login.CPF = parseInt(login.CPF)" :rules="[validarCPF]"></q-input>
+
+                  <q-input name="Telefone" ref="fieldTelefone" label="Telefone" v-model="login.telefone" lazy-rules
+                    unmasked-value :mask="login.telefone.length > 10 ? '(##) #####-####' : '(##) ####-#####'"
+                    :rules="[required, minLength(10)]"></q-input>
 
                   <q-input label="Data de Nascimento" name="dataNasc" v-model="login.dataNasc" mask="##/##/####"
                     ref="fieldDataNasc" :rules="[required, validateDateBrasil]">
@@ -63,13 +67,62 @@
                       </q-icon>
                     </template>
                   </q-input>
-                  <q-select label="Sexo" filled v-model="login.sexo" :options="option" option-value="id"
-                    option-label="desc" option-disable="inactive" emit-value map-options style="min-width: 250px;" />
+                  <q-select ref="fieldSexo" label="Sexo" filled v-model="login.sexo" :options="option"
+                    option-value="Sigla" option-label="Descricao" option-disable="inactive" emit-value map-options
+                    style="min-width: 250px;" :rules="[required]" />
+
+                </div>
+              </q-step>
+              <q-step :name="3" title="Passo 3" :done="step > 3">
+                <div class="q-mx-sm">
+                  <q-input name="CEP" mask="#####-###" ref="fieldCEP" label="CEP" v-model="login.CEP" unmasked-value
+                    lazy-rules :rules="[required]" @change="fetchAddress">
+                  </q-input>
+
+                  <q-select ref="fieldUF" v-model="login.uf" use-input input-debounce="500" option-value="SiglaUF"
+                    option-label="Descricao" label="UF" :options="ufFilter" @filter="filterFnUF"
+                    @update:model-value="fetchCities" :rules="[required]">
+                    <template v-slot:no-option>
+                      <q-item>
+                        <q-item-section class="text-grey">
+                          No results
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                  </q-select>
+
+                  <q-select class="q-mt-md" ref="fieldCidade" :disable="login.uf ? false : true" filled
+                    v-model="login.cidade" use-input input-debounce="0" option-value="idCidade" option-label="NomeCidade"
+                    label="Cidade" :options="cidadesFilter" @filter="filterFnCidade" :rules="[required]">
+                    <template v-slot:no-option>
+                      <q-item>
+                        <q-item-section class="text-grey">
+                          No results
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                  </q-select>
+
+                  <q-input name="Logradouro" ref="fieldLogradouro" label="Logradouro" v-model="login.logradouro"
+                    lazy-rules :rules="[required]">
+                  </q-input>
+
+                  <q-input name="Bairro" ref="fieldBairro" label="Bairro" v-model="login.bairro" lazy-rules
+                    :rules="[required]">
+                  </q-input>
+
+                  <q-input name="Numero" ref="fieldNumero" label="Número" v-model="login.numero" lazy-rules
+                    :rules="[required]">
+                  </q-input>
+
+                  <q-input name="Complemento" ref="fieldComplemento" label="Complemento" v-model="login.complemento"
+                    lazy-rules>
+                  </q-input>
 
                 </div>
               </q-step>
 
-              <q-step :name="3" title="Passo 3" :done="step > 3">
+              <q-step :name="4" title="Passo 4" :done="step > 4">
                 <q-scroll-area style="height: 300px;">
                   <p>TERMOS DE LICENÇA DO USUÁRIO FINAL (EULA) - CONNECTIONFIT</p>
 
@@ -174,7 +227,8 @@
                       class="col q-mt-md flex-center" />
                     <div v-show="step > 1" class="col-1" />
                     <q-btn class="q-mt-md col flex-center" @click="onContinueStep" color="primary"
-                      :label="step === 3 ? ' Cadastrar' : 'Proximo'" />
+                      :label="step === 4 ? ' Cadastrar' : 'Proximo'" />
+                    <q-btn class="q-mt-md col flex-center" @click="texte" color="primary" label="oi" />
                   </div>
                 </q-stepper-navigation>
               </template>
@@ -189,7 +243,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { date, useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 import { gsap } from 'gsap';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -198,28 +252,26 @@ import { Loading } from 'quasar'
 import { validarCPF, required, minLength, confirmPassword, validateEmail, validateDateBrasil } from '../utils/validar';
 
 
-const $q = useQuasar()
+
 
 export default defineComponent({
   name: 'SignUp',
   setup() {
+    const $q = useQuasar()
     const fieldRefPass = ref(null)
     const fieldRefRePass = ref(null)
     const fieldEmail = ref(null)
     const fieldCPF = ref(null)
     const fieldDataNasc = ref(null)
+    const fieldCEP = ref(null)
     const stepperRef = ref(null)
-
+    const router = useRouter();
     return {
       fieldUsername: ref(null),
       isPwd: ref(true),
       isPwd2: ref(true),
       step: ref(1),
       aceiteEULA: ref(false),
-      option: [
-        { id: 0, desc: 'Mulher' },
-        { id: 1, desc: 'Homem' },
-      ]
     }
   },
   computed: {
@@ -234,7 +286,7 @@ export default defineComponent({
           const month = parts[1];
           const year = parts[2];
 
-          const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+          const formattedDate = `${year}/${month.padStart(2, '0')}/${day.padStart(2, '0')}`;
 
           return formattedDate;
         }
@@ -246,6 +298,11 @@ export default defineComponent({
 
   data() {
     return {
+      option: [],
+      ufs: [],
+      ufFilter: [],
+      cidades: [],
+      cidadesFilter: [],
       login: {
         name: '',
         password: '',
@@ -254,10 +311,17 @@ export default defineComponent({
         CPF: '',
         dataNasc: '',
         sexo: ref(null),
+        CEP: '',
+        uf: '',
+        cidade: '',
+        logradouro: '',
+        bairro: '',
+        numero: '',
+        complemento: '',
+        telefone: '',
       }
     }
   },
-
   methods: {
     required,
     minLength,
@@ -266,83 +330,155 @@ export default defineComponent({
     validarCPF,
     validateDateBrasil,
 
+    filterFnUF(val, update, abort) {
+      update(() => {
+        const serch = val.toLowerCase();
+        this.ufFilter = this.ufs.filter(v => v && v.Descricao && v.Descricao.toLowerCase().indexOf(serch) > -1);
+      });
+    },
+
+    filterFnCidade(val, update, abort) {
+      update(() => {
+        const serch = val.toLowerCase();
+        this.cidadesFilter = this.cidades.filter(v => v && v.NomeCidade && v.NomeCidade.toLowerCase().indexOf(serch) > -1);
+      });
+    },
+
+    fetchUF() {
+      api
+        .get('api/ufSexo')
+        .then(response => {
+          this.ufs = response.data.Uf
+          this.ufFilter = response.data.Uf
+          this.option = response.data.Sexo
+        })
+        .catch(error => {
+          console.error('Houve um erro ao buscar as UFs', error);
+        });
+    },
+
+    fetchCities() {
+      this.login.cidade = "";
+      api
+        .get(`api/${this.login.uf.SiglaUF}/cidades`)
+        .then(response => {
+          this.cidades = response.data.Cidades
+          this.cidadesFilter = response.data.Uf
+        })
+        .catch(error => {
+          console.error('Houve um erro ao buscar as UFs', error);
+        });
+    },
+
+    fetchAddress() {
+      axios
+        .get(`https://viacep.com.br/ws/${this.login.CEP}/json/`)
+        .then(response => {
+          const data = response.data;
+          this.login.logradouro = data.logradouro;
+          this.login.bairro = data.bairro;
+        })
+        .catch(error => {
+          console.error('Houve um erro ao buscar o endereço', error);
+        });
+    },
     async onContinueStep() {
-      const router = useRouter();
-      // console.log(this.step);
       switch (this.step) {
         case 1:
+
+          var inputs = {
+            name: this.login.name,
+            email: this.login.email,
+            password: this.login.password,
+            password_confirmation: this.login.repassword,
+          };
+
           this.$refs.fieldUsername.validate()
+          this.$refs.fieldEmail.validate()
           this.$refs.fieldRefPass.validate()
           this.$refs.fieldRefRePass.validate()
           if (!this.$refs.fieldUsername.hasError
             && !this.$refs.fieldRefPass.hasError
+            && !this.$refs.fieldEmail.hasError
             && !this.$refs.fieldRefRePass.hasError) {
-            this.$refs.Stepper.next();
+
+            api.post('api/registrarUsuario', inputs).then(response => {
+              const token = response.data.token
+              localStorage.setItem('token', response.data.token)
+              this.fetchUF();
+              this.$refs.Stepper.next()
+            }).catch(response => {
+              this.$q.notify({
+                type: 'negative',
+                message: `${response.response.data.errors}`,
+              })
+              console.error(response.response.data.errors);
+            });
           }
           break;
         case 2:
           this.$refs.fieldCPF.validate()
-          this.$refs.fieldEmail.validate()
+          this.$refs.fieldSexo.validate()
           this.$refs.fieldDataNasc.validate()
+          this.$refs.fieldTelefone.validate()
           if (!this.$refs.fieldCPF.hasError
-            && !this.$refs.fieldEmail.hasError
-            && !this.$refs.fieldDataNasc.hasError) {
+            && !this.$refs.fieldDataNasc.hasError
+            && !this.$refs.fieldSexo.hasError
+            && !this.$refs.fieldTelefone.hasError) {
             this.$refs.Stepper.next();
           }
           break;
         case 3:
-          console.log(this.aceiteEULA)
-
+          this.$refs.fieldCEP.validate()
+          this.$refs.fieldUF.validate()
+          this.$refs.fieldCidade.validate()
+          this.$refs.fieldLogradouro.validate()
+          this.$refs.fieldBairro.validate()
+          this.$refs.fieldNumero.validate()
+          if (!this.$refs.fieldCEP.hasError &&
+            !this.$refs.fieldUF.hasError &&
+            !this.$refs.fieldCidade.hasError &&
+            !this.$refs.fieldLogradouro.hasError &&
+            !this.$refs.fieldBairro.hasError &&
+            !this.$refs.fieldNumero.hasError) {
+            this.$refs.Stepper.next();
+          }
+          break;
+        case 4:
           if (!this.aceiteEULA === false) {
             Loading.show({
               message: "Aguarde...",
               spinnerColor: 'primary',
               spinnerSize: 200,
             });
-            // Debug only:
-            // for (const pair of inputs.entries()) {
-            //   const [key, value] = pair;
-            //   console.log(`Campo: ${key}, Valor: ${value}`);
-            // }
 
-            var data = {
-              name: this.login.name,
-              email: this.login.email,
-              password: this.login.password,
-              password_confirmation: this.login.repassword,
+            var dataPessoa = {
+              cpf: this.login.CPF,
+              dataNas: this.transformDateToISO(this.login.dataNasc),
+              ddd: parseInt(this.login.telefone.substring(0, 2)),
+              numeroTel: parseInt(this.login.telefone.substring(2)),
+              logradouro: this.login.logradouro,
+              numeroEnd: this.login.numero,
+              cep: this.login.CEP,
+              bairro: this.login.bairro,
+              idCidade: this.login.cidade.idCidade,
+              SiglaSexo: this.login.sexo,
             };
 
-            // const params = new URLSearchParams({
-            //   name: this.login.name,
-            //   email: this.login.email,
-            //   password: this.login.password,
-            //   password_confirmation: this.login.repassword,
-            // }).toString();
-
-            const url =
-              "http://127.0.0.1:8000/api/registrarUsuario?";
-
             await api
-              .post("api/registrarUsuario?", data, {
-                headers: {
-                  aaid: this.ID,
-                  token: this.Token
-                }
-              })
+              .post("api/criarPessoa?", dataPessoa)
               .then(res => {
-                const token = res.data.token;
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                console.log(token)
-                Loading.hide()
+                console.log(res);
                 this.$q.notify({
                   type: 'positive',
-                  message: "Sucesso",
+                  message: `${res.data.message}`,
                 })
-                this.$router.push('/dashboard');
               })
               .catch(err => {
                 console.log(err);
-                Loading.hide()
+              })
+              .finally(() => {
+                Loading.hide();
               });
 
           } else {
@@ -350,6 +486,7 @@ export default defineComponent({
               type: 'warning',
               message: "Você deve aceitar o EULA para se registrar.",
             })
+            Loading.hide()
           }
           break;
       }
@@ -359,7 +496,8 @@ export default defineComponent({
     gsap.from(".geral", {
       xPercent: 100,
     })
-  }
+  },
+
 });
 
 </script>
