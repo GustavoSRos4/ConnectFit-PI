@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:projeto/Shared/Blocs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/seeds.dart';
 import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
@@ -32,6 +35,7 @@ class _OnePageState extends State<TwoDados> {
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
   String? token;
+  List<String>? estados;
 
   stepTwoCreateAccountPressed() async {
     debugPrint("STEP 2 CREATE");
@@ -106,6 +110,54 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
+                      FutureBuilder<List<String>>(
+                        future: FetchData.fetchEstados(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<String>> snapshot) {
+                          if (snapshot.hasData) {
+                            return DropdownSearch<String>(
+                              popupProps: const PopupProps.menu(
+                                showSearchBox: true,
+                                showSelectedItems: true,
+                                searchFieldProps: TextFieldProps(
+                                  decoration: InputDecoration(
+                                    hintText: "Buscar",
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(50),
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(50),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              items: snapshot.data ?? [],
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(50),
+                                    ),
+                                  ),
+                                  labelText: "Estado",
+                                  hintText: "Escolha o estado",
+                                ),
+                              ),
+                              onChanged: print,
+                            );
+                          } else if (snapshot.hasError) {
+                            return const Text('Erro ao carregar os dados.');
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 15),
                       CustomTextField(
                         label: "CPF",
                         icon: Icons.credit_card,
@@ -314,7 +366,9 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-              onPressed: () => stepTwoCreateAccountPressed()),
+            onPressed: () => {FetchData.fetchEstados()},
+            //tepTwoCreateAccountPressed()
+          ),
         ],
       ),
     );
