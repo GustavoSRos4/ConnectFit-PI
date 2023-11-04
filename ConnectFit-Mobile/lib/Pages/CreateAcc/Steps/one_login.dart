@@ -176,7 +176,9 @@ class _ThreePageState extends State<OneLogin> {
             ],
           ),
           PositionedActionButton(
-            onPressed: () => stepOneCreateAccountPressed(),
+            onPressed: () => Navigator.pushNamed(context, '/twoDados')
+            //stepOneCreateAccountPressed()
+            ,
           ),
         ],
       ),

@@ -32,26 +32,29 @@ class AuthServices {
 
   //API para a segunda parte de criação de conta
   static Future<http.Response> registerTwo(
-    String cpf,
-    String dataNas,
-    String ddd,
-    String numeroTel,
-    String logradouro,
-    String numeroEnd,
-    String complemento,
-    String cep,
-    String bairro,
-  ) async {
+      int cpf,
+      String dataNas,
+      int ddd,
+      int numeroTel,
+      String logradouro,
+      String numeroEnd,
+      String complemento,
+      int cep,
+      String bairro,
+      int idCidade,
+      String siglaSexo) async {
     Map data = {
       "cpf": cpf,
       "dataNas": dataNas,
       "ddd": ddd,
-      "numeroTele": numeroTel,
+      "numeroTel": numeroTel,
       "logradouro": logradouro,
       "numeroEnd": numeroEnd,
       "complemento": complemento,
       "cep": cep,
       "bairro": bairro,
+      "idCidade": idCidade,
+      'SiglaSexo': siglaSexo,
     };
     var body = json.encode(data);
     var url = Uri.parse('$baseURL/criarPessoa'); //trocar pela rota do laravel

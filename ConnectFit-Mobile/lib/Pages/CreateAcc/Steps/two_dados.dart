@@ -35,23 +35,41 @@ class _OnePageState extends State<TwoDados> {
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
   String? token;
-  List<String>? estados;
+  List<String> estados = [];
+  List<Map<String, String>> sexos = [];
   String? estadoSelecionado;
-  String? cidadeSelecionada;
+  Map<String, dynamic>? cidadeSelecionada;
+  int idCidade = 0;
+  String siglaSexo = '';
 
   stepTwoCreateAccountPressed() async {
     debugPrint("STEP 2 CREATE");
     if (bairroEC.text != '') {
+      String telefoneString =
+          telefoneEC.text.replaceAll(RegExp(r'[^\d]'), ''); // tirar as
+      String dddString =
+          telefoneString.substring(0, 2); // pego os 2 primeiros para DDD
+      String numeroTelefoneString =
+          telefoneString.substring(2); // e o restante para o numero
+      int ddd = int.parse(dddString);
+      int numeroTelefone = int.parse(numeroTelefoneString);
+      String cpfString = cpfEC.text.replaceAll(RegExp(r'[^\d]'), '');
+      int cpf = int.parse(cpfString);
+      String cepString = cepEC.text.replaceAll(RegExp(r'[^\d]'), '');
+      int cep = int.parse(cepString);
+
       http.Response response = await AuthServices.registerTwo(
-        cpfEC.text,
+        cpf,
         dataNasEC.text,
-        dddEC.text,
-        telefoneEC.text,
+        ddd,
+        numeroTelefone,
         logradouroEC.text,
         numeroEC.text,
         cidadeEC.text,
-        cepEC.text,
+        cep,
         bairroEC.text,
+        idCidade,
+        siglaSexo,
       );
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
@@ -85,6 +103,13 @@ class _OnePageState extends State<TwoDados> {
     super.dispose();
     cpfEC.dispose();
     dataNasEC.dispose();
+    dddEC.dispose();
+    telefoneEC.dispose();
+    logradouroEC.dispose();
+    numeroEC.dispose();
+    cidadeEC.dispose();
+    cepEC.dispose();
+    bairroEC.dispose();
   }
 
   @override
@@ -93,6 +118,13 @@ class _OnePageState extends State<TwoDados> {
     getToken().then((value) {
       setState(() {
         token = value;
+      });
+    });
+
+    FetchData.fetchSexo().then((data) {
+      debugPrint('Dados: $data');
+      setState(() {
+        sexos = data;
       });
     });
   }
@@ -112,6 +144,15 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: estados.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(estados[index]),
+                          );
+                        },
+                      ),
                       FutureBuilder<Map<String, String>>(
                         future: FetchData.fetchEstados(),
                         builder: (BuildContext context,
@@ -167,12 +208,17 @@ class _OnePageState extends State<TwoDados> {
                         },
                       ),
                       const SizedBox(height: 15),
-                      FutureBuilder<List<String>>(
+                      FutureBuilder<List<Map<String, dynamic>>>(
                         future: FetchData.fetchCidades(estadoSelecionado),
                         builder: (BuildContext context,
-                            AsyncSnapshot<List<String>> snapshot) {
+                            AsyncSnapshot<List<Map<String, dynamic>>>
+                                snapshot) {
                           if (snapshot.hasData) {
-                            return DropdownSearch<String>(
+                            return DropdownSearch<Map<String, dynamic>>(
+                              compareFn: (Map<String, dynamic> item1,
+                                  Map<String, dynamic> item2) {
+                                return item1['idCidade'] == item2['idCidade'];
+                              },
                               popupProps: const PopupProps.menu(
                                 showSearchBox: true,
                                 showSelectedItems: true,
@@ -193,6 +239,8 @@ class _OnePageState extends State<TwoDados> {
                                 ),
                               ),
                               items: snapshot.data ?? [],
+                              itemAsString: (item) => item[
+                                  'NomeCidade'], // use o nome da cidade para exibir
                               selectedItem:
                                   cidadeSelecionada, // Adicione esta linha
                               dropdownDecoratorProps:
@@ -207,9 +255,11 @@ class _OnePageState extends State<TwoDados> {
                                   hintText: "Escolha a cidade",
                                 ),
                               ),
-                              onChanged: (String? novaCidade) {
+                              onChanged: (Map<String, dynamic>? novaCidade) {
                                 setState(() {
-                                  cidadeSelecionada = novaCidade;
+                                  cidadeSelecionada = novaCidade?['NomeCidade'];
+                                  idCidade = novaCidade?[
+                                      'idCidade']; // obtenha o idCidade aqui
                                 });
                               },
                             );
@@ -270,26 +320,26 @@ class _OnePageState extends State<TwoDados> {
                             child: DropdownButtonFormField<String>(
                               borderRadius: BorderRadius.circular(15),
                               value: selectedValue,
-                              onChanged: (newValue) {
+                              onChanged: (String? newValue) {
                                 setState(() {
                                   selectedValue = newValue!;
+                                  siglaSexo = newValue;
                                 });
                               },
-                              items: dropdownItems
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
+                              items:
+                                  sexos.map<DropdownMenuItem<String>>((item) {
                                 return DropdownMenuItem<String>(
-                                  value: value,
+                                  value: item['Sigla'],
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Icon(
-                                        value == 'Masculino'
-                                            ? Icons.male
-                                            : Icons.female,
+                                        item['Descricao'] == 'Feminino'
+                                            ? Icons.female
+                                            : Icons.male,
                                       ),
-                                      Text(value),
+                                      Text(item['Descricao'] ?? ''),
                                     ],
                                   ),
                                 );
@@ -429,9 +479,7 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-            onPressed: () => {},
-            //tepTwoCreateAccountPressed()
-          ),
+              onPressed: () => stepTwoCreateAccountPressed()),
         ],
       ),
     );
