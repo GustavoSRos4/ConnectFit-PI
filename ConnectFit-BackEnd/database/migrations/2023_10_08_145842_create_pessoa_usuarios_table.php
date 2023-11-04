@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pessoa_usuarios', function (Blueprint $table) {
             $table->unsignedInteger("idPessoaUsuario")->primary();
             $table->smallInteger('Altura');
-            $table->boolean('Fumante');
+            $table->unsignedTinyInteger('idFumante');
             $table->unsignedTinyInteger('idNivelAtiFis');
             $table->unsignedTinyInteger('idObjetivo');
             $table->unsignedTinyInteger('idConsumoAlc');
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreign('idNivelAtiFis')->references('idNivelAtiFis')->on('nivel_ati_fisicas')->onDelete('cascade');
             $table->foreign('idObjetivo')->references('idObjetivo')->on('objetivos')->onDelete('cascade');
             $table->foreign('idConsumoAlc')->references('idConsumoAlc')->on('consumo_alcs')->onDelete('cascade');
+            $table->foreign('idFumante')->references('idFumante')->on('fumantes')->onDelete('cascade');
         });
     }
 

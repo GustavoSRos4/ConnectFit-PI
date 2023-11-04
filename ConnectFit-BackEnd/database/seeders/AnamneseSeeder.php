@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ConsumoAlc;
+use App\Models\Fumante;
 use App\Models\NivelAtiFisica;
 use App\Models\Objetivo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -46,6 +47,14 @@ class AnamneseSeeder extends Seeder
 
         foreach ($niveisAtiFis as $nivelAtiFis) {
             NivelAtiFisica::create($nivelAtiFis);
+        }
+        $fumantes = [
+            ['Descricao' => 'Sim'],
+            ['Descricao' => 'Não'],
+        ];
+
+        foreach ($fumantes as $fumante) {
+            Fumante::create($fumante);
         }
     }
 }

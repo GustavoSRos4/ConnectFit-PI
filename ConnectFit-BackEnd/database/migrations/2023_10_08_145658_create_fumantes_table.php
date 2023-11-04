@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('areas', function (Blueprint $table) {
-            $table->integerIncrements('idArea');
-            $table->smallInteger('Medida');
-            $table->unsignedTinyInteger('idDesc');
+        Schema::create('fumantes', function (Blueprint $table) {
+            $table->tinyIncrements('idFumante');
+            $table->string("Descricao", 3);
             $table->timestamps();
-
-            $table->foreign('idDesc')->references('idDesc')->on('area_descs')->onDelete('cascade');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('areas');
+        Schema::dropIfExists('fumantes');
     }
 };

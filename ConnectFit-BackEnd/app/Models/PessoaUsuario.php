@@ -24,6 +24,10 @@ class PessoaUsuario extends Model
     {
         return $this->belongsTo(NivelAtiFisica::class, 'idNivelAtiFis');
     }
+    public function fumante()
+    {
+        return $this->belongsTo(Fumante::class, 'fumante');
+    }
     public function medicamento()
     {
         return $this->hasMany(Medicamento::class);

@@ -20,19 +20,18 @@ class PessoaUsuarioController extends Controller
 
         $request->validate([
             'altura' => 'required|integer',
-            'fumante' => 'boolean',
+            'idFumante' => 'required|integer',
             'idNivelAtiFis' => 'required|integer',
             'idObjetivo' => 'required|integer',
             'idConsumoAlc' => 'required|integer',
         ]);
 
         DB::beginTransaction();
-
         try {
             $person = new PessoaUsuario();
             $person->idPessoaUsuario = $userId;
             $person->Altura = $request->input('altura');
-            $person->Fumante = $request->input('fumante');
+            $person->idFumante = $request->input('idFumante');
             $person->idNivelAtiFis = $request->input('idNivelAtiFis');
             $person->idObjetivo = $request->input('idObjetivo');
             $person->idConsumoAlc = $request->input('idConsumoAlc');

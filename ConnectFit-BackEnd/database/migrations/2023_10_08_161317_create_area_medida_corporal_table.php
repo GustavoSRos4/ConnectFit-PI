@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('area_medida_corporais', function (Blueprint $table) {
-            $table->unsignedTinyInteger('idArea');
+            $table->unsignedInteger('idArea');
             $table->unsignedInteger('idMedida');
             $table->timestamps();
 

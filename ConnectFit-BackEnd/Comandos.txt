@@ -1,5 +1,5 @@
 php artisan passport:client --personal //criar acesso pessoal para passport utilizar depois de resetar migrations
 php artisan migrate:reset //resetar banco
 php artisan migrate //criar banco
-php artisan server //abrir servidor
+php artisan serve //abrir servidor
 php artisan db:seed //popular banco com padrões

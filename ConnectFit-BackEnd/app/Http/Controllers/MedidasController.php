@@ -55,13 +55,12 @@ class MedidasController extends Controller
             $composicaoCorp->save();
 
 
-            $areas = $request->input('Areas');
-
+            $areas = json_decode($request->input('Areas'));
             if (!empty($areas) && is_array($areas)) {
                 foreach ($areas as $areaData) {
                     $area = new Area();
-                    $area->medidaArea = $areaData['medidaArea'];
-                    $area->idDesc = $request->input('idDesc');
+                    $area->Medida = $areaData->Medida;
+                    $area->idDesc = $areaData->idDesc;
                     $area->save();
 
                     $idArea = $area->idArea;
