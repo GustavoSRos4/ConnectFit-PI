@@ -15,4 +15,8 @@ class Contrato extends Model
     {
         return $this->belongsTo(PessoaUsuario::class, 'idPessoaUsuario');
     }
+    public function duracao()
+    {
+        return $this->belongsTo(Duracao::class, 'idDuracao');
+    }
 }

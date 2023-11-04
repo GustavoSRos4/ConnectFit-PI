@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('contratos', function (Blueprint $table) {
             $table->unsignedInteger('idPessoaUsuario');
             $table->unsignedInteger('idPessoaProfissional');
-            $table->date('dataInic');
-            $table->date('dataFinal')->nullable();
+            $table->dateTime('dataInic');
+            $table->dateTime('dataFinal')->nullable();
+            $table->tinyInteger("idDuracao");
             $table->decimal('valor',9,2);
             $table->timestamps();
 

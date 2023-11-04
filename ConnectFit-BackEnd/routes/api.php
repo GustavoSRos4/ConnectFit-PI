@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ApiAuthController as AuthController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\PessoaController as PessoaController;
 use App\Http\Controllers\PessoaUsuarioController;
 use App\Http\Controllers\RegistroController as RegistroController;
@@ -47,4 +48,5 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::post('/createPessoaUsuario', [PessoaUsuarioController::class, 'create']);
     Route::post('/createMedida', [MedidasController::class, 'create']);
     Route::post('/createPessoaProfissional', [PessoaProfissionalController::class, 'create']);
+    Route::post('/createContrato', [ContratoController::class, 'create']);
 });
