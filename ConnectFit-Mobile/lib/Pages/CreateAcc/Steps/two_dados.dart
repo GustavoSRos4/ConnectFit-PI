@@ -32,14 +32,16 @@ class _OnePageState extends State<TwoDados> {
   final cidadeEC = TextEditingController();
   final bairroEC = TextEditingController();
   final estadoEC = TextEditingController();
+  final complementoEC = TextEditingController();
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
   String? token;
-  List<String> estados = [];
+  List<Map<String, String>> estados = [];
   List<Map<String, String>> sexos = [];
+  List<Map<String, dynamic>> cidades = [];
   String? estadoSelecionado;
   Map<String, dynamic>? cidadeSelecionada;
-  int idCidade = 800;
+  int? idCidade;
   String siglaSexo = '';
   DateTime selectedDate = DateTime.now();
 
@@ -66,10 +68,10 @@ class _OnePageState extends State<TwoDados> {
         numeroTelefone,
         logradouroEC.text,
         numeroEC.text,
-        cidadeEC.text,
+        complementoEC.text,
         cep,
         bairroEC.text,
-        idCidade,
+        idCidade!,
         siglaSexo,
       );
       Map responseMap = jsonDecode(response.body);
@@ -123,9 +125,16 @@ class _OnePageState extends State<TwoDados> {
     });
 
     FetchData.fetchSexo().then((data) {
-      debugPrint('Dados: $data');
+      debugPrint('Sexos: $data');
       setState(() {
         sexos = data;
+      });
+    });
+
+    FetchData.fetchEstados().then((data) {
+      debugPrint('Estados: $data');
+      setState(() {
+        estados = data;
       });
     });
   }
@@ -145,6 +154,16 @@ class _OnePageState extends State<TwoDados> {
     }
   }
 
+  void buscarCidades(uf) {
+    debugPrint("estou aqui");
+    FetchData.fetchCidades(uf).then((data) {
+      debugPrint('Estados: $data');
+      setState(() {
+        cidades = data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -160,122 +179,89 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      FutureBuilder<Map<String, String>>(
-                        future: FetchData.fetchEstados(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Map<String, String>> snapshot) {
-                          if (snapshot.hasData) {
-                            return DropdownSearch<String>(
-                              popupProps: const PopupProps.menu(
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                searchFieldProps: TextFieldProps(
-                                  decoration: InputDecoration(
-                                    hintText: "Buscar",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(50),
-                                      ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(50),
-                                      ),
-                                    ),
-                                  ),
+                      DropdownSearch<Map<String, String>>(
+                        popupProps: const PopupProps.menu(
+                          showSearchBox: true,
+                          searchFieldProps: TextFieldProps(
+                            decoration: InputDecoration(
+                              hintText: "Buscar",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
                                 ),
                               ),
-                              items: snapshot.data?.keys.toList() ?? [],
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(50),
-                                    ),
-                                  ),
-                                  labelText: "Estado",
-                                  hintText: "Escolha o estado",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
                                 ),
                               ),
-                              onChanged: (String? novoEstado) {
-                                setState(() {
-                                  estadoSelecionado =
-                                      snapshot.data?[novoEstado];
-                                  cidadeSelecionada =
-                                      null; // Adicione esta linha
-                                });
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            return const Text('Erro ao carregar os dados.');
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
+                            ),
+                          ),
+                        ),
+                        items: estados,
+                        dropdownDecoratorProps: const DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                            ),
+                            labelText: "Estado",
+                            hintText: "Escolha o estado",
+                          ),
+                        ),
+                        onChanged: (Map<String, String>? novoEstado) {
+                          buscarCidades(novoEstado?['SiglaUF']);
+                          setState(() {
+                            estadoSelecionado = novoEstado?['SiglaUF'];
+                            cidadeSelecionada = null; // Adicione esta linha
+                          });
                         },
+                        itemAsString: (Map<String, String> estado) =>
+                            estado['Descricao']!,
                       ),
                       const SizedBox(height: 15),
-                      FutureBuilder<List<Map<String, dynamic>>>(
-                        future: FetchData.fetchCidades(estadoSelecionado),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Map<String, dynamic>>>
-                                snapshot) {
-                          if (snapshot.hasData) {
-                            return DropdownSearch<Map<String, dynamic>>(
-                              compareFn: (Map<String, dynamic> item1,
-                                  Map<String, dynamic> item2) {
-                                return item1['idCidade'] == item2['idCidade'];
-                              },
-                              popupProps: const PopupProps.menu(
-                                showSearchBox: true,
-                                showSelectedItems: true,
-                                searchFieldProps: TextFieldProps(
-                                  decoration: InputDecoration(
-                                    hintText: "Buscar",
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(50),
-                                      ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(50),
-                                      ),
-                                    ),
-                                  ),
+                      DropdownSearch<Map<String, dynamic>>(
+                        selectedItem: cidadeSelecionada,
+                        popupProps: const PopupProps.menu(
+                          showSearchBox: true,
+                          //showSelectedItems: true,
+                          searchFieldProps: TextFieldProps(
+                            decoration: InputDecoration(
+                              hintText: "Buscar",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
                                 ),
                               ),
-                              items: snapshot.data ?? [],
-                              itemAsString: (item) => item[
-                                  'NomeCidade'], // use o nome da cidade para exibir
-                              selectedItem:
-                                  cidadeSelecionada, // Adicione esta linha
-                              dropdownDecoratorProps:
-                                  const DropDownDecoratorProps(
-                                dropdownSearchDecoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(50),
-                                    ),
-                                  ),
-                                  labelText: "Cidade",
-                                  hintText: "Escolha a cidade",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
                                 ),
                               ),
-                              onChanged: (Map<String, dynamic>? novaCidade) {
-                                setState(() {
-                                  cidadeSelecionada = novaCidade?['NomeCidade'];
-                                  idCidade = novaCidade?[
-                                      'idCidade']; // obtenha o idCidade aqui
-                                });
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            return const Text('Erro ao carregar os dados.');
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
+                            ),
+                          ),
+                        ),
+                        items: cidades,
+                        dropdownDecoratorProps: const DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                            ),
+                            labelText: "Cidade",
+                            hintText: "Escolha a cidade",
+                          ),
+                        ),
+                        onChanged: (Map<String, dynamic>? novaCidade) {
+                          setState(() {
+                            cidadeSelecionada = novaCidade;
+                            idCidade = novaCidade?['idCidade'];
+                          });
                         },
+                        itemAsString: (Map<String, dynamic> cidade) =>
+                            cidade['NomeCidade']!,
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
@@ -444,6 +430,19 @@ class _OnePageState extends State<TwoDados> {
                         icon: Icons.person,
                         hint: "Digite o bairro...",
                         controller: bairroEC,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return "Esse campo não pode ficar vazio";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      CustomTextField(
+                        label: "Complemento",
+                        icon: Icons.person,
+                        hint: "Digite o complemento...",
+                        controller: complementoEC,
                         validator: (text) {
                           if (text == null || text.isEmpty) {
                             return "Esse campo não pode ficar vazio";

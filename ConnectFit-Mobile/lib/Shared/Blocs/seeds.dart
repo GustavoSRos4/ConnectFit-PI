@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:projeto/Shared/Blocs/globals.dart';
 
 class FetchData {
-  //API PARA BUSCAR CIDADES
-  static Future<Map<String, String>> fetchEstados() async {
+  //API PARA BUSCAR ESTADOS
+  static Future<List<Map<String, String>>> fetchEstados() async {
     var url = Uri.parse('$baseURL/ufSexo');
     String? token = await getToken();
     var response = await http.get(
@@ -17,24 +17,18 @@ class FetchData {
     );
 
     if (response.statusCode == 200) {
-      // Se a requisição for bem-sucedida, o código de status será 200
-      debugPrint('Response data: ${response.body}');
-
-      // Aqui você precisa converter a resposta para um mapa de nomes de estados para siglas
-      // Isso depende do formato dos seus dados
+      //debugPrint('Response data: ${response.body}');
       Map<String, dynamic> data = jsonDecode(response.body);
       List<dynamic> ufList = data['Uf'];
-      Map<String, String> estados = {
-        for (var uf in ufList) uf['Descricao']: uf['SiglaUF']
-      };
-
+      List<Map<String, String>> estados = [
+        for (var uf in ufList)
+          {'SiglaUF': uf['SiglaUF'], 'Descricao': uf['Descricao']}
+      ];
       return estados;
     } else {
-      // Se houver um erro na requisição, trate-o aqui
       debugPrint('Erro na requisição: ${response.statusCode}');
 
-      // Retorne um mapa vazio em caso de erro
-      return {};
+      return [];
     }
   }
 
@@ -50,17 +44,22 @@ class FetchData {
     );
 
     if (response.statusCode == 200) {
-      debugPrint('Response data: ${response.body}');
+      //debugPrint('Response data: ${response.body}');
 
       Map<String, dynamic> data = jsonDecode(response.body);
       List<dynamic> cityList = data['Cidades'];
+      List<Map<String, dynamic>> cidadess = [
+        for (var city in cityList)
+          {'idCidade': city['idCidade'], 'NomeCidade': city['NomeCidade']}
+      ];
+      /*
       List<Map<String, dynamic>> cidades = cityList
           .map((cidade) => {
                 'NomeCidade': cidade['NomeCidade'],
                 'idCidade': cidade['idCidade'],
               })
-          .toList();
-      return cidades;
+          .toList();*/
+      return cidadess;
     } else {
       debugPrint('Erro na requisição: ${response.statusCode}');
       return [];
@@ -78,11 +77,7 @@ class FetchData {
     );
 
     if (response.statusCode == 200) {
-      // Se a requisição for bem-sucedida, o código de status será 200
-      debugPrint('Response data: ${response.body}');
-
-      // Aqui você precisa converter a resposta para um mapa de nomes de estados para siglas
-      // Isso depende do formato dos seus dados
+      //debugPrint('Response data: ${response.body}');
       Map<String, dynamic> data = jsonDecode(response.body);
       List<dynamic> sexoList = data['Sexo'];
       List<Map<String, String>> sexos = [
@@ -92,10 +87,7 @@ class FetchData {
 
       return sexos;
     } else {
-      // Se houver um erro na requisição, trate-o aqui
       debugPrint('Erro na requisição: ${response.statusCode}');
-
-      // Retorne um mapa vazio em caso de erro
       return [];
     }
   }
