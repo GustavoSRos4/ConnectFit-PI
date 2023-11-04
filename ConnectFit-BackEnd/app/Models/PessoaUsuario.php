@@ -28,13 +28,13 @@ class PessoaUsuario extends Model
     {
         return $this->belongsTo(Fumante::class, 'fumante');
     }
-    public function medicamento()
-    {
-        return $this->hasMany(Medicamento::class);
-    }
     public function comorbidade()
     {
-        return $this->hasMany(Comorbidade::class);
+        return $this->belongsToMany(Comorbidade::class, 'pessoa_comorbidades', 'idPessoaUsuario', 'idComorbidade');
+    }
+    public function medicamento()
+    {
+        return $this->belongsToMany(Medicamento::class, 'pessoa_medicamentos', 'idPessoaUsuario', 'idMedicamento');
     }
     public function Ficha()
     {

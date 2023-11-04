@@ -14,10 +14,8 @@ return new class extends Migration
     {
         Schema::create('comorbidades', function (Blueprint $table) {
             $table->integerIncrements('idComorbidade');
-            $table->unsignedInteger('idPessoaUsuario');
             $table->string('descricao', 50);
             $table->timestamps();
-            $table->foreign('idPessoaUsuario')->references('idPessoaUsuario')->on('pessoa_usuarios')->onDelete('cascade');
         });
     }
 

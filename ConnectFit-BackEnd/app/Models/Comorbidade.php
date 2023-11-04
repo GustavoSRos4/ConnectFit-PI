@@ -10,6 +10,9 @@ class Comorbidade extends Model
     use HasFactory;
     public function pessoaUsuario()
     {
-        return $this->belongsTo(PessoaUsuario::class, 'idPessoaUsuario');
+        return $this->belongsToMany(PessoaUsuario::class, 'pessoa_medicamentos', 'idComorbidade', 'idPessoaUsuario');
     }
+    protected $primaryKey = 'idComorbidade';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }

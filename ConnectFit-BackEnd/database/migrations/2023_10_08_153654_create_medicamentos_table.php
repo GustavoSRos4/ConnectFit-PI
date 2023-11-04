@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('medicamentos', function (Blueprint $table) {
             $table->integerIncrements('idMedicamento');
-            $table->unsignedInteger('idPessoaUsuario');
             $table->string('descricao', 60);
             $table->timestamps();
-            $table->foreign('idPessoaUsuario')->references('idPessoaUsuario')->on('pessoa_usuarios')->onDelete('cascade');
         });
     }
 

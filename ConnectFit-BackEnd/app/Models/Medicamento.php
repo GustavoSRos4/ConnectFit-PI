@@ -10,6 +10,9 @@ class Medicamento extends Model
     use HasFactory;
     public function pessoaUsuario()
     {
-        return $this->belongsTo(PessoaUsuario::class, 'idPessoaUsuario');
+        return $this->belongsToMany(PessoaUsuario::class, 'pessoa_medicamentos', 'idMedicamento', 'idPessoaUsuario');
     }
+    protected $primaryKey = 'idMedicamento';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }

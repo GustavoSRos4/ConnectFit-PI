@@ -20,7 +20,6 @@ class PessoaProfissionalController extends Controller
             'numReg' => 'nullable|string',
             'dataFormacao' => 'required|date',
             'valor' => 'required|decimal:2',
-            'descricao' => 'required|string',
         ]);
 
         DB::beginTransaction();
@@ -32,14 +31,25 @@ class PessoaProfissionalController extends Controller
             $person->valor = $request->input('valor');
             $person->save();
 
-            $espec = new Especialidade();
-            $espec->descricao = $request->input('descricao');
-            $espec->save();
+            $especs = json_decode($request->input('Especialidades'));
+            if (!empty($especs) && is_array($especs)) {
+                foreach ($especs as $especData) {
+                    $existingEspec = Especialidade::where('descricao', $especData->descricao)->first();
 
-            $especProf = new EspecialidadeProfissional();
-            $especProf->idPessoaProfissional = $userId;
-            $especProf->idEspecialidade = $espec->idEspecialidade;
-            $especProf->save();
+                    if ($existingEspec) {
+                        $especId = $existingEspec->idEspecialidade;
+                    } else {
+                        $espec = new Especialidade();
+                        $espec->descricao = $especData->descricao;
+                        $espec->save();
+                        $especId = $espec->idEspecialidade;
+                    }
+                    $especProf = new EspecialidadeProfissional();
+                    $especProf->idPessoaProfissional = $userId;
+                    $especProf->idEspecialidade = $especId;
+                    $especProf->save();
+                }
+            }
             DB::commit();
             return response()->json(['message' => 'Cadastrado com sucesso'], 201);
         } catch (\Exception $e) {
