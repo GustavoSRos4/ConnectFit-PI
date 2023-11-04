@@ -39,8 +39,9 @@ class _OnePageState extends State<TwoDados> {
   List<Map<String, String>> sexos = [];
   String? estadoSelecionado;
   Map<String, dynamic>? cidadeSelecionada;
-  int idCidade = 0;
+  int idCidade = 800;
   String siglaSexo = '';
+  DateTime selectedDate = DateTime.now();
 
   stepTwoCreateAccountPressed() async {
     debugPrint("STEP 2 CREATE");
@@ -129,6 +130,21 @@ class _OnePageState extends State<TwoDados> {
     });
   }
 
+  Future<void> _selectedDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(200),
+      lastDate: DateTime(2100),
+    );
+
+    if (picked != null) {
+      setState(() {
+        dataNasEC.text = picked.toString().split(' ')[0];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -144,15 +160,6 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: estados.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(estados[index]),
-                          );
-                        },
-                      ),
                       FutureBuilder<Map<String, String>>(
                         future: FetchData.fetchEstados(),
                         builder: (BuildContext context,
@@ -295,23 +302,21 @@ class _OnePageState extends State<TwoDados> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: CustomTextField(
-                              label: "Data de nascimento",
-                              icon: Icons.calendar_month,
-                              hint: "Digite sua data de Nascimento...",
+                            child: TextField(
                               controller: dataNasEC,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                DataInputFormatter(),
-                              ],
-                              validator: (text) {
-                                if (text == null || text.isEmpty) {
-                                  return "Esse campo não pode ficar vazio";
-                                }
-                                if (!GetUtils.isDateTime(text)) {
-                                  return "Data Invalida";
-                                }
-                                return null;
+                              decoration: const InputDecoration(
+                                labelText: 'Date',
+                                filled: true,
+                                prefixIcon: Icon(Icons.calendar_month),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                              ),
+                              readOnly: true,
+                              onTap: () {
+                                _selectedDate();
                               },
                             ),
                           ),
@@ -435,36 +440,10 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
-                        label: "Cidade",
-                        icon: Icons.person,
-                        hint: "Digite a cidade...",
-                        controller: cidadeEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
                         label: "Bairro",
                         icon: Icons.person,
                         hint: "Digite o bairro...",
                         controller: bairroEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        label: "Estado",
-                        icon: Icons.person,
-                        hint: "Digite o estado...",
-                        controller: estadoEC,
                         validator: (text) {
                           if (text == null || text.isEmpty) {
                             return "Esse campo não pode ficar vazio";
@@ -482,6 +461,49 @@ class _OnePageState extends State<TwoDados> {
               onPressed: () => stepTwoCreateAccountPressed()),
         ],
       ),
+    );
+  }
+}
+
+class DatePickerButton extends StatefulWidget {
+  const DatePickerButton({super.key});
+
+  @override
+  _DatePickerButtonState createState() => _DatePickerButtonState();
+}
+
+class _DatePickerButtonState extends State<DatePickerButton> {
+  DateTime? selectedDate;
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () => _selectDate(context),
+          child: const Text('Selecionar Data'),
+        ),
+        const SizedBox(height: 20.0),
+        Text(
+          'Data Selecionada: ${selectedDate!.toLocal()}'.split(' ')[0],
+          style: const TextStyle(fontSize: 20),
+        ),
+      ],
     );
   }
 }
