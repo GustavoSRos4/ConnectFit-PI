@@ -7,6 +7,8 @@ use App\Http\Controllers\PessoaController as PessoaController;
 use App\Http\Controllers\PessoaUsuarioController;
 use App\Http\Controllers\RegistroController as RegistroController;
 use App\http\Controllers\MedidasController as MedidasController;
+use App\Http\Controllers\PessoaProfissionalController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,4 +46,5 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::post('/criarPessoa', [RegistroController::class, 'create']);
     Route::post('/createPessoaUsuario', [PessoaUsuarioController::class, 'create']);
     Route::post('/createMedida', [MedidasController::class, 'create']);
+    Route::post('/createPessoaProfissional', [PessoaProfissionalController::class, 'create']);
 });

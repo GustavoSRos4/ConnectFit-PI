@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\PessoaUsuario;
 use App\Models\Medida;
 use App\Models\AreaMedidaCorporal;
 use App\Models\Area;

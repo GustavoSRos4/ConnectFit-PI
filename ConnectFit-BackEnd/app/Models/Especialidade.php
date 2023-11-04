@@ -8,8 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Especialidade extends Model
 {
     use HasFactory;
-    public function especialidadeProfissional()
+    public function pessoas()
     {
-        return $this->hasMany(EspecialidadeProfissional::class);
+        return $this->belongsToMany(Pessoa::class, 'especialidade_profissionais', 'idEspecialidade', 'idPessoaProfissional');
     }
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'idEspecialidade';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }

@@ -12,9 +12,9 @@ class PessoaProfissional extends Model
     {
         return $this->belongsTo(Pessoa::class, 'idPessoaProfissional');
     }
-    public function especialidadeProfissional()
+    public function especialidade()
     {
-        return $this->hasMany(EspecialidadeProfissional::class);
+        return $this->belongsToMany(Pessoa::class, 'especialidade_profissionais', 'idPessoaProfissional', 'idEspecialidade');
     }
     public function contrato()
     {
@@ -24,4 +24,5 @@ class PessoaProfissional extends Model
     {
         return $this->hasMany(Ficha::class);
     }
+    protected $table = 'pessoa_profissionais';
 }
