@@ -59,4 +59,17 @@ class PessoaProfissionalController extends Controller
             return response()->json(['message' => 'Falha no cadastro', 'error' => $e->getMessage()], 500);
         }
     }
+    public function showDataPessoaProfissional()
+    {
+
+        $userId = auth('api')->user()->id;
+        $pessoa = PessoaProfissional::where('idPessoaProfissional', $userId)->first();
+        $especialidadeProfissionais = EspecialidadeProfissional::where('idPessoaProfissional', $userId)->get();
+        $especialidades = [];
+        foreach ($especialidadeProfissionais as $especialidadeProfissional) {
+            $especialidade = Especialidade::where('idEspecialidade', $especialidadeProfissional->idEspecialidade)->get();
+            $especialidades[] = $especialidade;
+        }
+        return response()->json(['PessoaProfissional' => $pessoa, 'Especialidades' => $especialidades], 200);
+    }
 }

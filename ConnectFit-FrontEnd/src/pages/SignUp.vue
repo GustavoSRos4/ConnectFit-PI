@@ -123,6 +123,43 @@
               </q-step>
 
               <q-step :name="4" title="Passo 4" :done="step > 4">
+                <q-input name="numRegistro" ref="fieldNumRegistro" label="Número de Registro" v-model="login.numRegistro"
+                  lazy-rules :rules="[required]">
+                </q-input>
+
+                <q-input label="Data de Formação" name="dataFormacao" v-model="login.dataFormacao" mask="##/##/####"
+                  ref="fieldDataFormacao" :rules="[required, validateDateBrasil]">
+                  <template v-slot:append>
+                    <q-icon name="event" class="cursor-pointer">
+                      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                        <q-date v-model="login.dataFormacao" calendar="gregorian" mask="DD/MM/YYYY">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup label="Close" color="primary" flat />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+
+                <q-input name="valor" ref="fieldValor" label="Honorário serviços" v-model="login.valor" lazy-rules
+                  prefix="R$" :rules="[required, validateValor]" type="number">
+                </q-input>
+
+                <q-select label="Especialidades" v-model="login.especialidade" use-input use-chips multiple
+                  hide-dropdown-icon input-debounce="0" @new-value="createValue" option-label="descricao"
+                  :rules="[required]" ref="fieldEspecialidade">
+                  <template v-slot:append>
+                    <q-icon name="info">
+                      <q-tooltip transition-show="scale" transition-hide="scale">
+                        Para adicionar especialidades, insira o nome e pressione a tecla "Enter".
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-select>
+              </q-step>
+
+              <q-step :name="5" title="Passo 5" :done="step > 5">
                 <q-scroll-area style="height: 300px;">
                   <p>TERMOS DE LICENÇA DO USUÁRIO FINAL (EULA) - CONNECTIONFIT</p>
 
@@ -227,8 +264,7 @@
                       class="col q-mt-md flex-center" />
                     <div v-show="step > 1" class="col-1" />
                     <q-btn class="q-mt-md col flex-center" @click="onContinueStep" color="primary"
-                      :label="step === 4 ? ' Cadastrar' : 'Proximo'" />
-                    <q-btn class="q-mt-md col flex-center" @click="texte" color="primary" label="oi" />
+                      :label="step === 5 ? ' Cadastrar' : 'Proximo'" />
                   </div>
                 </q-stepper-navigation>
               </template>
@@ -249,10 +285,9 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { api } from 'src/boot/axios';
 import { Loading } from 'quasar'
-import { validarCPF, required, minLength, confirmPassword, validateEmail, validateDateBrasil } from '../utils/validar';
+import { validarCPF, required, minLength, confirmPassword, validateEmail, validateDateBrasil, validateValor } from '../utils/validar';
 
-
-
+const router = useRouter();
 
 export default defineComponent({
   name: 'SignUp',
@@ -265,13 +300,15 @@ export default defineComponent({
     const fieldDataNasc = ref(null)
     const fieldCEP = ref(null)
     const stepperRef = ref(null)
-    const router = useRouter();
     return {
       fieldUsername: ref(null),
       isPwd: ref(true),
       isPwd2: ref(true),
       step: ref(1),
       aceiteEULA: ref(false),
+      createValue(val, done) {
+        done({ descricao: val })
+      }
     }
   },
   computed: {
@@ -298,6 +335,7 @@ export default defineComponent({
 
   data() {
     return {
+      sucess: false,
       option: [],
       ufs: [],
       ufFilter: [],
@@ -319,6 +357,10 @@ export default defineComponent({
         numero: '',
         complemento: '',
         telefone: '',
+        numRegistro: '',
+        dataFormacao: '',
+        valor: ref(null),
+        especialidade: [],
       }
     }
   },
@@ -329,6 +371,8 @@ export default defineComponent({
     validateEmail,
     validarCPF,
     validateDateBrasil,
+    validateValor,
+
 
     filterFnUF(val, update, abort) {
       update(() => {
@@ -344,13 +388,14 @@ export default defineComponent({
       });
     },
 
-    fetchUF() {
-      api
+    async fetchUF() {
+      await api
         .get('api/ufSexo')
         .then(response => {
           this.ufs = response.data.Uf
           this.ufFilter = response.data.Uf
           this.option = response.data.Sexo
+          console.log(response.data.Sexo)
         })
         .catch(error => {
           console.error('Houve um erro ao buscar as UFs', error);
@@ -402,9 +447,12 @@ export default defineComponent({
             && !this.$refs.fieldEmail.hasError
             && !this.$refs.fieldRefRePass.hasError) {
 
-            api.post('api/registrarUsuario', inputs).then(response => {
+            await api.post('api/registrarUsuario', inputs).then(response => {
               const token = response.data.token
-              localStorage.setItem('token', response.data.token)
+              localStorage.setItem('token', token);
+              //Forcando token na header, pois esta ocasionando erros
+              axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+              //Chama o fetchda uf e sexos
               this.fetchUF();
               this.$refs.Stepper.next()
             }).catch(response => {
@@ -441,19 +489,8 @@ export default defineComponent({
             !this.$refs.fieldLogradouro.hasError &&
             !this.$refs.fieldBairro.hasError &&
             !this.$refs.fieldNumero.hasError) {
-            this.$refs.Stepper.next();
-          }
-          break;
-        case 4:
-          if (!this.aceiteEULA === false) {
-            Loading.show({
-              message: "Aguarde...",
-              spinnerColor: 'primary',
-              spinnerSize: 200,
-            });
-
             var dataPessoa = {
-              cpf: this.login.CPF,
+              cpf: parseInt(this.login.CPF),
               dataNas: this.transformDateToISO(this.login.dataNasc),
               ddd: parseInt(this.login.telefone.substring(0, 2)),
               numeroTel: parseInt(this.login.telefone.substring(2)),
@@ -466,21 +503,71 @@ export default defineComponent({
             };
 
             await api
-              .post("api/criarPessoa?", dataPessoa)
+              .post("api/criarPessoa", dataPessoa)
               .then(res => {
-                console.log(res);
-                this.$q.notify({
-                  type: 'positive',
-                  message: `${res.data.message}`,
-                })
+                this.$refs.Stepper.next();
               })
               .catch(err => {
                 console.log(err);
+                this.$q.notify({
+                  type: 'warning',
+                  message: `${err.response.data.message}`,
+                  caption: `${err.response.data.error}`,
+                })
               })
               .finally(() => {
                 Loading.hide();
               });
+          }
+          break;
+        case 4:
+          this.$refs.fieldNumRegistro.validate();
+          this.$refs.fieldDataFormacao.validate();
+          this.$refs.fieldValor.validate();
+          this.$refs.fieldEspecialidade.validate();
+          if (!this.$refs.fieldNumRegistro.hasError &&
+            !this.$refs.fieldDataFormacao.hasError &&
+            !this.$refs.fieldValor.hasError &&
+            !this.$refs.fieldEspecialidade.hasError) {
+            this.$refs.Stepper.next();
+          }
 
+          break;
+        case 5:
+          if (!this.aceiteEULA === false) {
+            Loading.show({
+              message: "Aguarde...",
+              spinnerColor: 'primary',
+              spinnerSize: 200,
+            });
+
+            var dataProfissional = {
+              numReg: this.login.numRegistro,
+              dataFormacao: this.transformDateToISO(this.login.dataFormacao),
+              valor: this.login.valor,
+              especialidade: this.login.especialidade
+            }
+            await api.post('api/createPessoaProfissional', dataProfissional)
+              .then(res => {
+                this.$q.notify({
+                  type: 'positive',
+                  message: `${res.data.message}`,
+                })
+                this.sucess = true;
+              })
+              .catch(err => {
+                console.log(err);
+                this.$q.notify({
+                  type: 'warning',
+                  message: `${err.response.data.message}`,
+                })
+              })
+              .finally(() => {
+                Loading.hide();
+              });
+            if (this.sucess == true) {
+              this.$router.push({ name: 'IndexDashboard' });
+            }
           } else {
             this.$q.notify({
               type: 'warning',
