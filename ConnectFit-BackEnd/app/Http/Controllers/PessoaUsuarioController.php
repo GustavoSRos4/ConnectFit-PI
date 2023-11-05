@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comorbidade;
+use App\Models\ConsumoAlc;
+use App\Models\Fumante;
 use App\Models\PessoaMedicamento;
 use App\Models\PessoaUsuario;
 use App\Models\Medicamento;
+use App\Models\NivelAtiFisica;
+use App\Models\Objetivo;
 use App\Models\PessoaComorbidades;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,5 +86,13 @@ class PessoaUsuarioController extends Controller
 
             return response()->json(['message' => 'Falha no cadastro', 'error' => $e->getMessage()], 500);
         }
+    }
+    public function anamneseData()
+    {
+        $consumoAlcs = ConsumoAlc::all();
+        $objetivos = Objetivo::all();
+        $nivelAtiFiss = NivelAtiFisica::all();
+        $fumantes = Fumante::all();
+        return response()->json(['ConsumoAlc' => $consumoAlcs, 'Objetivos' => $objetivos, 'nivelAtiFis' => $nivelAtiFiss, 'Fumante' => $fumantes], 200);
     }
 }
