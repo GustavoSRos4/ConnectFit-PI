@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contrato;
+use App\Models\Duracao;
 use App\Models\PessoaProfissional;
 use App\Models\PessoaUsuario;
 use Illuminate\Http\Request;
@@ -47,5 +48,10 @@ class ContratoController extends Controller
         $userId = auth('api')->user()->id;
         $contratos = Contrato::where('idPessoaUsuario', $userId)->orderBy('dataInic', 'desc')->get();
         return response()->json(['Contrato' => $contratos], 200);
+    }
+    public function showDuracao()
+    {
+        $duracao = Duracao::all();
+        return response()->json(['Duracao' => $duracao], 200);
     }
 }
