@@ -91,4 +91,30 @@ class FetchData {
       return [];
     }
   }
+
+  static Future<List<Map<String, String>>> fetchConsumoAlc() async {
+    var url = Uri.parse('$baseURL/ufSexo');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      //debugPrint('Response data: ${response.body}');
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> sexoList = data['Sexo'];
+      List<Map<String, String>> sexos = [
+        for (var sexo in sexoList)
+          {'Sigla': sexo['Sigla'], 'Descricao': sexo['Descricao']}
+      ];
+
+      return sexos;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
 }

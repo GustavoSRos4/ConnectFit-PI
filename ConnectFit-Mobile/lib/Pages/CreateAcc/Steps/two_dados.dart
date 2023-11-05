@@ -29,9 +29,9 @@ class _OnePageState extends State<TwoDados> {
   final cepEC = TextEditingController();
   final logradouroEC = TextEditingController();
   final numeroEC = TextEditingController();
-  final cidadeEC = TextEditingController();
+
   final bairroEC = TextEditingController();
-  final estadoEC = TextEditingController();
+
   final complementoEC = TextEditingController();
   String? selectedValue;
   List<String> dropdownItems = ["Masculino", "Feminino"];
@@ -110,7 +110,6 @@ class _OnePageState extends State<TwoDados> {
     telefoneEC.dispose();
     logradouroEC.dispose();
     numeroEC.dispose();
-    cidadeEC.dispose();
     cepEC.dispose();
     bairroEC.dispose();
   }
@@ -457,52 +456,11 @@ class _OnePageState extends State<TwoDados> {
             ],
           ),
           PositionedActionButton(
-              onPressed: () => stepTwoCreateAccountPressed()),
+              onPressed: () => Navigator.pushNamed(context, '/threeInfos')
+              //              stepTwoCreateAccountPressed()
+              ),
         ],
       ),
-    );
-  }
-}
-
-class DatePickerButton extends StatefulWidget {
-  const DatePickerButton({super.key});
-
-  @override
-  _DatePickerButtonState createState() => _DatePickerButtonState();
-}
-
-class _DatePickerButtonState extends State<DatePickerButton> {
-  DateTime? selectedDate;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1950),
-      lastDate: DateTime.now(),
-    );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        ElevatedButton(
-          onPressed: () => _selectDate(context),
-          child: const Text('Selecionar Data'),
-        ),
-        const SizedBox(height: 20.0),
-        Text(
-          'Data Selecionada: ${selectedDate!.toLocal()}'.split(' ')[0],
-          style: const TextStyle(fontSize: 20),
-        ),
-      ],
     );
   }
 }
