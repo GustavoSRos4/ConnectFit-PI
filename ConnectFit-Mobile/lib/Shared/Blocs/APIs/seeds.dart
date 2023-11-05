@@ -92,8 +92,8 @@ class FetchData {
     }
   }
 
-  static Future<List<Map<String, String>>> fetchConsumoAlc() async {
-    var url = Uri.parse('$baseURL/ufSexo');
+  static Future<List<Map<String, dynamic>>> fetchConsumoAlc() async {
+    var url = Uri.parse('$baseURL/anamneseData');
     String? token = await getToken();
     var response = await http.get(
       url,
@@ -105,13 +105,94 @@ class FetchData {
     if (response.statusCode == 200) {
       //debugPrint('Response data: ${response.body}');
       Map<String, dynamic> data = jsonDecode(response.body);
-      List<dynamic> sexoList = data['Sexo'];
-      List<Map<String, String>> sexos = [
-        for (var sexo in sexoList)
-          {'Sigla': sexo['Sigla'], 'Descricao': sexo['Descricao']}
+      List<dynamic> consumoAlcList = data['ConsumoAlc'];
+      List<Map<String, dynamic>> consumoAlc = [
+        for (var consumo in consumoAlcList)
+          {'id': consumo['idConsumoAlc'], 'Descricao': consumo['Descricao']}
       ];
 
-      return sexos;
+      return consumoAlc;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchObjetivos() async {
+    var url = Uri.parse('$baseURL/anamneseData');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      //debugPrint('Response data: ${response.body}');
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> objetivosList = data['Objetivos'];
+      List<Map<String, dynamic>> objetivos = [
+        for (var objetivo in objetivosList)
+          {'id': objetivo['idObjetivo'], 'Descricao': objetivo['Descricao']}
+      ];
+
+      return objetivos;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchNivelAtiFis() async {
+    var url = Uri.parse('$baseURL/anamneseData');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      //debugPrint('Response data: ${response.body}');
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> nivelAtiFisList = data['nivelAtiFis'];
+      List<Map<String, dynamic>> nivelAtiFis = [
+        for (var nivelAtiFis in nivelAtiFisList)
+          {
+            'id': nivelAtiFis['idNivelAtiFis'],
+            'Descricao': nivelAtiFis['Descricao']
+          }
+      ];
+
+      return nivelAtiFis;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> fetchFumante() async {
+    var url = Uri.parse('$baseURL/anamneseData');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      //debugPrint('Response data: ${response.body}');
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> fumanteList = data['Fumante'];
+      List<Map<String, dynamic>> fumante = [
+        for (var fumante in fumanteList)
+          {'id': fumante['idFumante'], 'Descricao': fumante['Descricao']}
+      ];
+
+      return fumante;
     } else {
       debugPrint('Erro na requisição: ${response.statusCode}');
       return [];

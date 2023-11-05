@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 
@@ -10,25 +13,80 @@ class ThreeInfos extends StatefulWidget {
 }
 
 class _ThreeInfosState extends State<ThreeInfos> {
+  String? token;
   final alturaEC = TextEditingController();
   final pesoEC = TextEditingController();
-  int? idFumante;
-  int? idNivelAtiFis;
+  List<Map<String, dynamic>> dataConsumoAlc = [];
+  int idConsumoAlc = 1;
+  List<Map<String, dynamic>> dataObjetivos = [];
   int idObjetivo = 1;
-  int? idConsumoAlc;
+  List<Map<String, dynamic>> dataFumante = [];
+  int idFumante = 1;
+  List<Map<String, dynamic>> dataNivelAtiFis = [];
+  int idNivelAtiFis = 1;
 
-  var objetivos = [
-    {'id': '1', 'Descricao': 'Perda de peso'},
-    {'id': '2', 'Descricao': 'Ganho de massa muscular'},
-    {'id': '3', 'Descricao': 'Aumento da força'},
-    {'id': '4', 'Descricao': 'Melhoria da postura'},
-    {'id': '5', 'Descricao': 'Definição muscular'},
-  ];
-
-  void onChanged(int newValue) {
+  void onChangedObjetivo(int newValue) {
     debugPrint("$newValue");
     setState(() {
       idObjetivo = newValue;
+    });
+  }
+
+  void onChangedConsumoAlc(int newValue) {
+    debugPrint("$newValue");
+    setState(() {
+      idConsumoAlc = newValue;
+    });
+  }
+
+  void onChangedNivelAtiFis(int newValue) {
+    debugPrint("$newValue");
+    setState(() {
+      idNivelAtiFis = newValue;
+    });
+  }
+
+  void onChangedFumante(int newValue) {
+    debugPrint("$newValue");
+    setState(() {
+      idFumante = newValue;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getToken().then((value) {
+      setState(() {
+        token = value;
+      });
+    });
+
+    FetchData.fetchConsumoAlc().then((data) {
+      debugPrint('ConsumoAlc: $data');
+      setState(() {
+        dataConsumoAlc = data;
+      });
+    });
+
+    FetchData.fetchObjetivos().then((data) {
+      debugPrint('Objetivos: $data');
+      setState(() {
+        dataObjetivos = data;
+      });
+    });
+
+    FetchData.fetchNivelAtiFis().then((data) {
+      debugPrint('NivelAtiFis: $data');
+      setState(() {
+        dataNivelAtiFis = data;
+      });
+    });
+    FetchData.fetchFumante().then((data) {
+      debugPrint('Fumante: $data');
+      setState(() {
+        dataFumante = data;
+      });
     });
   }
 
@@ -54,7 +112,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                             child: CustomTextField(
                               label: "Peso",
                               icon: Icons.person,
-                              hint: "Digite o seu peso...",
+                              hint: "Insira...",
                               controller: pesoEC,
                               validator: (text) {
                                 if (text == null || text.isEmpty) {
@@ -69,7 +127,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                             child: CustomTextField(
                               label: "Altura",
                               icon: Icons.person,
-                              hint: "Digite a sua altura...",
+                              hint: "Insira...",
                               controller: alturaEC,
                               validator: (text) {
                                 if (text == null || text.isEmpty) {
@@ -82,11 +140,37 @@ class _ThreeInfosState extends State<ThreeInfos> {
                         ],
                       ),
                       const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: buildDropdownButtonFormField(
+                                data: dataConsumoAlc,
+                                value: idConsumoAlc,
+                                onChanged: onChangedConsumoAlc,
+                                labelText: 'Consumo Alcoólico'),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: buildDropdownButtonFormField(
+                                data: dataFumante,
+                                value: idFumante,
+                                onChanged: onChangedFumante,
+                                labelText: 'Você fuma?'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
                       buildDropdownButtonFormField(
-                          data: objetivos,
+                          data: dataObjetivos,
                           value: idObjetivo,
-                          onChanged: onChanged,
+                          onChanged: onChangedObjetivo,
                           labelText: 'Objetivo'),
+                      const SizedBox(height: 15),
+                      buildDropdownButtonFormField(
+                          data: dataNivelAtiFis,
+                          value: idNivelAtiFis,
+                          onChanged: onChangedNivelAtiFis,
+                          labelText: 'Nível de Atividade Fisica'),
                       const SizedBox(height: 15),
                     ],
                   ),
@@ -115,7 +199,7 @@ DropdownButtonFormField<int> buildDropdownButtonFormField({
     },
     items: data.map<DropdownMenuItem<int>>((item) {
       return DropdownMenuItem<int>(
-        value: int.parse(item['id']),
+        value: item['id'],
         child: Text(item['Descricao']),
       );
     }).toList(),
@@ -144,7 +228,7 @@ PopupMenuButton<int> buildPopupMenuButton({
   return PopupMenuButton<int>(
     itemBuilder: (context) => data.map((item) {
       return PopupMenuItem<int>(
-        value: int.parse(item['id']),
+        value: item['id'],
         child: Text(item['Descricao']),
       );
     }).toList(),
