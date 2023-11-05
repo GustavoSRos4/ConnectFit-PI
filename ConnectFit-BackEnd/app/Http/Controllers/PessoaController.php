@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EnderecoPessoa;
 use App\Models\Pessoa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Telefone;
+use App\Models\Endereco;
 
 
 class PessoaController extends Controller
@@ -31,7 +34,7 @@ class PessoaController extends Controller
 
         try {
             $person = new Pessoa();
-            $person->user_id = $userId;
+            $person->idPessoa = $userId;
             $person->cpf = $request->input('cpf');
             $person->descricao = $request->input('descricao');
             $person->dataNas = $request->input('dataNas');
@@ -46,11 +49,15 @@ class PessoaController extends Controller
         }
     }
 
-    public function show(Request $request)
+    public function show()
     {
         $user = auth('api')->user();
-        if ($user->pessoa) {
-            return response()->json(['data' => $user->pessoa], 200);
+        if ($user) {
+            $pessoa = Pessoa::where('idPessoa', $user->id)->first();
+            $telefone = Telefone::where('idPessoaTelefone', $user->id)->first();
+            $enderecoPessoa = EnderecoPessoa::where('idPessoa', $user->id)->first();
+            $endereco = Endereco::where('idEndereco', $enderecoPessoa->idEndereco)->get();
+            return response()->json(['user' => $user, 'pessoa' => $pessoa, 'telefone' => $telefone, 'endereco' => $endereco], 200);
         } else {
             return response()->json(['message' => 'Nenhuma pessoa associada a este usuário'], 404);
         }
