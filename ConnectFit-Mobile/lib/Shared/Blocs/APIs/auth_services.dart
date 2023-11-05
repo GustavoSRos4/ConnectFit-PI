@@ -78,7 +78,7 @@ class AuthServices {
     int idNivelAtiFis,
     int idObjetivo,
     int idConsumoAlc,
-    String medicamentos,
+    List<Map<String, String>> medicamentos,
     List<Map<String, String>> comorbidades,
   ) async {
     Map data = {
@@ -87,8 +87,8 @@ class AuthServices {
       "idNivelAtiFis": idNivelAtiFis,
       "idObjetivo": idObjetivo,
       "idConsumoAlc": idConsumoAlc,
-      "medicamentos": medicamentos,
-      "comorbidades": comorbidades,
+      "Medicamentos": jsonEncode(medicamentos),
+      "Comorbidades": jsonEncode(comorbidades),
     };
     debugPrint('$data');
     var body = json.encode(data);

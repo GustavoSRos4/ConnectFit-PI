@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
-
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -18,9 +16,9 @@ class ThreeInfos extends StatefulWidget {
 
 class _ThreeInfosState extends State<ThreeInfos> {
   final medicamentosEC = TextEditingController();
+  final comorbidadesEC = TextEditingController();
   List<Map<String, String>> medicamentosMap = [];
   List<Map<String, String>> comorbidadesMap = [];
-  String teste = '';
   final List<String> medicamentos = [];
   final List<String> comorbidades = [];
 
@@ -37,19 +35,16 @@ class _ThreeInfosState extends State<ThreeInfos> {
   int idNivelAtiFis = 1;
 
   stepThreeCreateAccountPressed() async {
-    debugPrint("$medicamentosMap");
-    debugPrint("STEP 2 CREATE");
     int altura = int.parse(alturaEC.text);
     enviarMedicamentos();
-    debugPrint("medicamentosMap----$medicamentosMap");
-    debugPrint("teste----$teste");
+    enviarComorbidades();
     http.Response response = await AuthServices.registerThree(
       altura,
       idFumante,
       idNivelAtiFis,
       idObjetivo,
       idConsumoAlc,
-      teste,
+      medicamentosMap,
       comorbidadesMap,
     );
     Map responseMap = jsonDecode(response.body);
@@ -68,9 +63,12 @@ class _ThreeInfosState extends State<ThreeInfos> {
     for (String medicamento in medicamentos) {
       medicamentosMap.add({"descricao": medicamento});
     }
-    String jsonMedicamentos = jsonEncode(medicamentosMap);
-    teste = jsonMedicamentos;
-    debugPrint(jsonMedicamentos);
+  }
+
+  void enviarComorbidades() {
+    for (String comorbidades in comorbidades) {
+      comorbidadesMap.add({"descricao": comorbidades});
+    }
   }
 
   void onChangedObjetivo(int newValue) {
@@ -111,27 +109,23 @@ class _ThreeInfosState extends State<ThreeInfos> {
     });
 
     FetchData.fetchConsumoAlc().then((data) {
-      debugPrint('ConsumoAlc: $data');
       setState(() {
         dataConsumoAlc = data;
       });
     });
 
     FetchData.fetchObjetivos().then((data) {
-      debugPrint('Objetivos: $data');
       setState(() {
         dataObjetivos = data;
       });
     });
 
     FetchData.fetchNivelAtiFis().then((data) {
-      debugPrint('NivelAtiFis: $data');
       setState(() {
         dataNivelAtiFis = data;
       });
     });
     FetchData.fetchFumante().then((data) {
-      debugPrint('Fumante: $data');
       setState(() {
         dataFumante = data;
       });
@@ -261,6 +255,50 @@ class _ThreeInfosState extends State<ThreeInfos> {
                                     setState(() {
                                       medicamentos.add(medicamentosEC.text);
                                       medicamentosEC.clear();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Wrap(
+                            spacing: 6.0,
+                            runSpacing: 6.0,
+                            children: comorbidades
+                                .map((comorbidade) => Chip(
+                                      label: Text(comorbidade),
+                                      onDeleted: () {
+                                        setState(() {
+                                          comorbidades.remove(comorbidade);
+                                        });
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    onSubmitted: (z) {
+                                      setState(() {
+                                        comorbidades.add(comorbidadesEC.text);
+                                        comorbidadesEC.clear();
+                                      });
+                                    },
+                                    controller: comorbidadesEC,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Digite as suas comorbidades',
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  child: const Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      comorbidades.add(comorbidadesEC.text);
+                                      comorbidadesEC.clear();
                                     });
                                   },
                                 ),
