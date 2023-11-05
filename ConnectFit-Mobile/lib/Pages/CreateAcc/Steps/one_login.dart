@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:projeto/Shared/Blocs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:http/http.dart' as http;
-import '../../../Shared/Blocs/globals.dart';
+import '../../../Shared/Blocs/APIs/globals.dart';
 
 class OneLogin extends StatefulWidget {
   const OneLogin({super.key});

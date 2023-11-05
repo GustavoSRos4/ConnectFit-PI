@@ -6,13 +6,13 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
-import 'package:projeto/Shared/Blocs/auth_services.dart';
-import 'package:projeto/Shared/Blocs/seeds.dart';
+import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
 import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
 import 'package:http/http.dart' as http;
-import '../../../Shared/Blocs/globals.dart';
+import '../../../Shared/Blocs/APIs/globals.dart';
 
 class TwoDados extends StatefulWidget {
   const TwoDados({super.key});
@@ -457,7 +457,7 @@ class _OnePageState extends State<TwoDados> {
           ),
           PositionedActionButton(
               onPressed: () => Navigator.pushNamed(context, '/threeInfos')
-              //              stepTwoCreateAccountPressed()
+              //stepTwoCreateAccountPressed()
               ),
         ],
       ),
