@@ -455,10 +455,10 @@ class _OnePageState extends State<TwoDados> {
               ),
             ],
           ),
-          PositionedActionButton(
-              onPressed: () => Navigator.pushNamed(context, '/threeInfos')
-              //stepTwoCreateAccountPressed()
-              ),
+          PositionedActionButton(onPressed: () {
+            Navigator.pushNamed(context, '/threeInfos');
+            stepTwoCreateAccountPressed();
+          }),
         ],
       ),
     );

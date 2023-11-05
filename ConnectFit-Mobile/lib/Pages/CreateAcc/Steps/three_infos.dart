@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:http/http.dart' as http;
 
 class ThreeInfos extends StatefulWidget {
   const ThreeInfos({super.key});
@@ -13,6 +17,13 @@ class ThreeInfos extends StatefulWidget {
 }
 
 class _ThreeInfosState extends State<ThreeInfos> {
+  final medicamentosEC = TextEditingController();
+  List<Map<String, String>> medicamentosMap = [];
+  List<Map<String, String>> comorbidadesMap = [];
+  String teste = '';
+  final List<String> medicamentos = [];
+  final List<String> comorbidades = [];
+
   String? token;
   final alturaEC = TextEditingController();
   final pesoEC = TextEditingController();
@@ -24,6 +35,43 @@ class _ThreeInfosState extends State<ThreeInfos> {
   int idFumante = 1;
   List<Map<String, dynamic>> dataNivelAtiFis = [];
   int idNivelAtiFis = 1;
+
+  stepThreeCreateAccountPressed() async {
+    debugPrint("$medicamentosMap");
+    debugPrint("STEP 2 CREATE");
+    int altura = int.parse(alturaEC.text);
+    enviarMedicamentos();
+    debugPrint("medicamentosMap----$medicamentosMap");
+    debugPrint("teste----$teste");
+    http.Response response = await AuthServices.registerThree(
+      altura,
+      idFumante,
+      idNivelAtiFis,
+      idObjetivo,
+      idConsumoAlc,
+      teste,
+      comorbidadesMap,
+    );
+    Map responseMap = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      if (mounted) {
+        //Navigator.pushNamed(context, '/threeInfos');
+      } else {
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.first[0]);
+        }
+      }
+    }
+  }
+
+  void enviarMedicamentos() {
+    for (String medicamento in medicamentos) {
+      medicamentosMap.add({"descricao": medicamento});
+    }
+    String jsonMedicamentos = jsonEncode(medicamentosMap);
+    teste = jsonMedicamentos;
+    debugPrint(jsonMedicamentos);
+  }
 
   void onChangedObjetivo(int newValue) {
     debugPrint("$newValue");
@@ -172,13 +220,67 @@ class _ThreeInfosState extends State<ThreeInfos> {
                           onChanged: onChangedNivelAtiFis,
                           labelText: 'Nível de Atividade Fisica'),
                       const SizedBox(height: 15),
+                      Column(
+                        children: <Widget>[
+                          Wrap(
+                            spacing: 6.0,
+                            runSpacing: 6.0,
+                            children: medicamentos
+                                .map((medicamento) => Chip(
+                                      label: Text(medicamento),
+                                      onDeleted: () {
+                                        setState(() {
+                                          medicamentos.remove(medicamento);
+                                        });
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    onSubmitted: (z) {
+                                      setState(() {
+                                        medicamentos.add(medicamentosEC.text);
+                                        medicamentosEC.clear();
+                                      });
+                                    },
+                                    controller: medicamentosEC,
+                                    decoration: const InputDecoration(
+                                      labelText:
+                                          'Digite o nome dos medicamentos',
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  child: const Icon(Icons.add),
+                                  onPressed: () {
+                                    setState(() {
+                                      medicamentos.add(medicamentosEC.text);
+                                      medicamentosEC.clear();
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
                     ],
                   ),
                 ),
               ),
             ],
           ),
-          PositionedActionButton(onPressed: () {}),
+          PositionedActionButton(onPressed: () {
+            stepThreeCreateAccountPressed();
+          }),
         ],
       ),
     );

@@ -78,6 +78,8 @@ class AuthServices {
     int idNivelAtiFis,
     int idObjetivo,
     int idConsumoAlc,
+    String medicamentos,
+    List<Map<String, String>> comorbidades,
   ) async {
     Map data = {
       "altura": altura,
@@ -85,7 +87,10 @@ class AuthServices {
       "idNivelAtiFis": idNivelAtiFis,
       "idObjetivo": idObjetivo,
       "idConsumoAlc": idConsumoAlc,
+      "medicamentos": medicamentos,
+      "comorbidades": comorbidades,
     };
+    debugPrint('$data');
     var body = json.encode(data);
     var url =
         Uri.parse('$baseURL/createPessoaUsuario'); //trocar pela rota do laravel
@@ -98,7 +103,7 @@ class AuthServices {
       },
       body: body,
     );
-    debugPrint(response.body);
+    debugPrint('teste ${response.body}');
     return response;
   }
 
