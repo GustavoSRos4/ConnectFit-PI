@@ -20,8 +20,6 @@ class MedidasController extends Controller
         $request->validate([
             'peso' => 'required|integer',
             'percentualGordura' => 'nullable|integer',
-            'descricaoMed' => 'nullable|string|max:60',
-            'descricaoComor' => 'nullable|string|max:50',
             'subescapular' => 'nullable',
             'triceps' => 'nullable',
             'peitoral' => 'nullable',
