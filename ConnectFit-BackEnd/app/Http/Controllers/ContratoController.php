@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Contrato;
 use App\Models\PessoaProfissional;
+use App\Models\PessoaUsuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -39,5 +40,12 @@ class ContratoController extends Controller
 
             return response()->json(['message' => 'Falha ao criar contrato'], 500);
         }
+    }
+    public function show()
+    {
+
+        $userId = auth('api')->user()->id;
+        $contratos = Contrato::where('idPessoaUsuario', $userId)->orderBy('dataInic', 'desc')->get();
+        return response()->json(['Contrato' => $contratos], 200);
     }
 }
