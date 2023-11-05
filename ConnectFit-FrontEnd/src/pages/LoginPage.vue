@@ -81,7 +81,7 @@ export default defineComponent({
             type: 'positive',
             message: "Sucesso!!",
           })
-          await router.push('/');
+          await router.push({ name: 'IndexDashboard' });
         } else {
           $q.notify({
             type: 'negative',

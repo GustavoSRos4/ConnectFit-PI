@@ -111,3 +111,12 @@ export const validarCPF = (CPF) => {
   if (resto != parseInt(CPF.substring(10, 11))) return invalid;
   return true;
 };
+// validacao valor
+export const validateValor = (vlr) => {
+  const regex = /^\d+\.\d{2}$/;
+  if (regex.test(vlr) == true) {
+    return true;
+  } else {
+    return "O valor deve ter casas decimais ex: 10,00";
+  }
+};
