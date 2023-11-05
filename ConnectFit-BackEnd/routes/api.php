@@ -50,4 +50,5 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::post('/createPessoaProfissional', [PessoaProfissionalController::class, 'create']);
     Route::post('/createContrato', [ContratoController::class, 'create']);
     Route::get('/anamneseData', [PessoaUsuarioController::class, 'anamneseData']);
+    Route::get('/mostrarPessoaUsuario', [PessoaUsuarioController::class, 'showDataPessoaUsuario']);
 });

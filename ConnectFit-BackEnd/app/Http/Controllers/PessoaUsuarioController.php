@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Area;
+use App\Models\AreaMedidaCorporal;
 use App\Models\Comorbidade;
+use App\Models\ComposicaoCorporal;
 use App\Models\ConsumoAlc;
 use App\Models\Fumante;
 use App\Models\PessoaMedicamento;
 use App\Models\PessoaUsuario;
 use App\Models\Medicamento;
+use App\Models\Medida;
 use App\Models\NivelAtiFisica;
 use App\Models\Objetivo;
 use App\Models\PessoaComorbidades;
@@ -94,5 +98,48 @@ class PessoaUsuarioController extends Controller
         $nivelAtiFiss = NivelAtiFisica::all();
         $fumantes = Fumante::all();
         return response()->json(['ConsumoAlc' => $consumoAlcs, 'Objetivos' => $objetivos, 'nivelAtiFis' => $nivelAtiFiss, 'Fumante' => $fumantes], 200);
+    }
+    public function showDataPessoaUsuario()
+    {
+        $userId = auth('api')->user()->id;
+        $pessoa = PessoaUsuario::where('idPessoaUsuario', $userId)->first();
+        $medicamentosPessoa = PessoaMedicamento::where('idPessoaUsuario', $userId)->get();
+        $medicamentos = [];
+        foreach ($medicamentosPessoa as $medicamentoPessoa) {
+            $medicamento = Medicamento::where('idMedicamento', $medicamentoPessoa->idMedicamento)->get();
+            $medicamentos[] = $medicamento;
+        }
+        $comorbidadesPessoa = PessoaComorbidades::where('idPessoaUsuario', $userId)->get();
+        $comorbidades = [];
+        foreach ($comorbidadesPessoa as $comorbidadePessoa) {
+            $comorbidade = Comorbidade::where('idComorbidade', $comorbidadePessoa->idComorbidade)->get();
+            $comorbidades[] = $comorbidade;
+        }
+        $medidas = Medida::where('idPessoaUsuarioMedida', $userId)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        if ($medidas->isNotEmpty()) {
+            $resultMedidas = [];
+
+            foreach ($medidas as $medida) {
+                $composicaoCorp = ComposicaoCorporal::where('idMedidaCompCorp', $medida->idMedida)->get();
+                $AreaMedidasCorporal = AreaMedidaCorporal::where('idMedida', $medida->idMedida)->get();
+                $areaMedidas = [];
+
+                foreach ($AreaMedidasCorporal as $areaMedidaCorporal) {
+                    $areaMedida = Area::where('idArea', $areaMedidaCorporal->idArea)->get();
+                    $areaMedidas[] = $areaMedida;
+                }
+
+                $resultMedidas[] = [
+                    'Medida' => $medida,
+                    'ComposicaoCorporal' => $composicaoCorp,
+                    'AreaMedidas' => $areaMedidas,
+                ];
+            }
+
+            return response()->json(['PessoaUsuario' => $pessoa, 'Medicamentos' => $medicamentos, 'Comorbidades' => $comorbidades, "Medidas" => $resultMedidas], 200);
+        }
     }
 }
