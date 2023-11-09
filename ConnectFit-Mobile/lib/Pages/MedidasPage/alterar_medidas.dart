@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
-import 'package:projeto/Shared/Widgets/container_title_perfil.dart';
+import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_alterar_medidas.dart';
@@ -96,7 +96,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              const ContainerTitlePerfil(text: 'Composição Corporal'),
+              const CustomContainerTitlePerfil(text: 'Composição Corporal'),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
                 nomeMedida: "Axilar Media",
@@ -130,7 +130,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("pesoEC"),
               ),
               const SizedBox(height: 10),
-              const ContainerTitlePerfil(text: 'Dobras Cutâneas'),
+              const CustomContainerTitlePerfil(text: 'Dobras Cutâneas'),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
                 nomeMedida: "Subescapular",
@@ -156,7 +156,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("tricepsEC"),
               ),
               const SizedBox(height: 10),
-              const ContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
+              const CustomContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
                 nomeMedida: "Peitoral",
@@ -174,7 +174,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              const ContainerTitlePerfil(text: 'Outros'),
+              const CustomContainerTitlePerfil(text: 'Outros'),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
                 nomeMedida: "Ombros",

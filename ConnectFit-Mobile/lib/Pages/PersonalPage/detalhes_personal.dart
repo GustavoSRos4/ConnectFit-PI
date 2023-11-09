@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
-import 'package:projeto/Shared/Widgets/row_custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 
 class DetalhesPersonal extends StatefulWidget {
   const DetalhesPersonal({super.key});
@@ -81,31 +81,31 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
             child: Column(
               children: <Widget>[
                 const SizedBox(height: 10),
-                RowCustomText(
+                CustomRowText(
                   color: Colors.brancoBege,
                   indicador: 'Nome',
                   valor: '${personal[0]['nome']}',
                 ),
                 const SizedBox(height: 10),
-                RowCustomText(
+                CustomRowText(
                   color: Colors.brancoBege,
                   indicador: 'Idade',
                   valor: '${personal[0]['idade']}',
                 ),
                 const SizedBox(height: 10),
-                RowCustomText(
+                CustomRowText(
                   color: Colors.brancoBege,
                   indicador: 'Cidade',
                   valor: '${personal[0]['cidade']}',
                 ),
                 const SizedBox(height: 10),
-                RowCustomText(
+                CustomRowText(
                   color: Colors.brancoBege,
                   indicador: 'Valor',
                   valor: '${personal[0]['valor']}',
                 ),
                 const SizedBox(height: 10),
-                RowCustomText(
+                CustomRowText(
                   color: Colors.brancoBege,
                   indicador: 'Especialidade',
                   valor: '${personal[0]['especialidade']}',

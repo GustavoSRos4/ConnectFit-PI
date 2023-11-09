@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ContainerTitlePerfil extends StatelessWidget {
+class CustomContainerTitlePerfil extends StatelessWidget {
   final String text;
-  const ContainerTitlePerfil({
+  const CustomContainerTitlePerfil({
     super.key,
     required this.text,
   });
