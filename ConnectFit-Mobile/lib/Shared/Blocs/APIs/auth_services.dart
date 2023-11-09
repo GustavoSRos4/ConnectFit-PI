@@ -71,7 +71,7 @@ class AuthServices {
     return response;
   }
 
-  //API para a segunda parte de criação de conta
+  //APIs para a terceira parte de criação de conta
   static Future<http.Response> registerThree(
     int altura,
     int idFumante,
@@ -94,6 +94,28 @@ class AuthServices {
     var body = json.encode(data);
     var url =
         Uri.parse('$baseURL/createPessoaUsuario'); //trocar pela rota do laravel
+    String? token = await getToken();
+    http.Response response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: body,
+    );
+    debugPrint('teste ${response.body}');
+    return response;
+  }
+
+  static Future<http.Response> registerThreePeso(
+    int peso,
+  ) async {
+    Map data = {
+      "peso": peso,
+    };
+    debugPrint('$data');
+    var body = json.encode(data);
+    var url = Uri.parse('$baseURL/createMedida'); //trocar pela rota do laravel
     String? token = await getToken();
     http.Response response = await http.post(
       url,

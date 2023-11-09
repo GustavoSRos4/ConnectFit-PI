@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
-import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
+
 import 'package:string_validator/string_validator.dart';
 import 'package:http/http.dart' as http;
 import '../../../Shared/Blocs/APIs/globals.dart';
@@ -167,17 +169,31 @@ class _ThreePageState extends State<OneLogin> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 15),
+                      GlobalCustomElevatedButton(
+                        borderRadius: 50,
+                        width: double.infinity,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/twoDados');
+                          stepOneCreateAccountPressed();
+                        },
+                        child: const CustomText(
+                          text: "Cadastrar",
+                          fontSize: 17,
+                          isBold: true,
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
             ],
           ),
+          /*
           PositionedActionButton(
-              onPressed: () => //Navigator.pushNamed(context, '/twoDados')
-                  stepOneCreateAccountPressed()),
+            onPressed: () => //Navigator.pushNamed(context, '/twoDados')
+                stepOneCreateAccountPressed(),
+          ),*/
         ],
       ),
     );

@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
 import 'package:projeto/Shared/Models/login_model.dart';
+import 'package:projeto/Shared/Widgets/custom_dropdown_search.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
-import 'package:projeto/Shared/Widgets/positioned_float_action_button.dart';
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
+
 import 'package:http/http.dart' as http;
 import '../../../Shared/Blocs/APIs/globals.dart';
 
@@ -142,13 +145,14 @@ class _OnePageState extends State<TwoDados> {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(200),
-      lastDate: DateTime(2100),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
 
     if (picked != null) {
       setState(() {
-        dataNasEC.text = picked.toString().split(' ')[0];
+        //dataNasEC.text = picked.toString().split(' ')[0];
+        dataNasEC.text = DateFormat('dd-MM-yyyy').format(picked);
       });
     }
   }
@@ -183,7 +187,8 @@ class _OnePageState extends State<TwoDados> {
                           showSearchBox: true,
                           searchFieldProps: TextFieldProps(
                             decoration: InputDecoration(
-                              hintText: "Buscar",
+                              label: Text("Estado"),
+                              hintText: "Digite o nome do estado...",
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(50),
@@ -223,16 +228,18 @@ class _OnePageState extends State<TwoDados> {
                       DropdownSearch<Map<String, dynamic>>(
                         selectedItem: cidadeSelecionada,
                         popupProps: const PopupProps.menu(
+                          menuProps: MenuProps(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
                           showSearchBox: true,
                           //showSelectedItems: true,
                           searchFieldProps: TextFieldProps(
+                            padding: EdgeInsets.all(15.0),
                             decoration: InputDecoration(
-                              hintText: "Buscar",
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(50),
-                                ),
-                              ),
+                              label: Text("Cidade"),
+                              hintText: "Digite o nome da cidade...",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(50),
@@ -244,7 +251,11 @@ class _OnePageState extends State<TwoDados> {
                         items: cidades,
                         dropdownDecoratorProps: const DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
+                            prefixIcon: Icon(Icons.location_city),
+                            fillColor: Colors.brancoBege,
+                            filled: true,
                             border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
                               borderRadius: BorderRadius.all(
                                 Radius.circular(50),
                               ),
@@ -287,18 +298,10 @@ class _OnePageState extends State<TwoDados> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: TextField(
+                            child: CustomTextField(
+                              icon: Icons.calendar_month,
                               controller: dataNasEC,
-                              decoration: const InputDecoration(
-                                labelText: 'Date',
-                                filled: true,
-                                prefixIcon: Icon(Icons.calendar_month),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blue),
-                                ),
-                              ),
+                              label: 'Nascimento',
                               readOnly: true,
                               onTap: () {
                                 _selectedDate();
@@ -449,16 +452,45 @@ class _OnePageState extends State<TwoDados> {
                           return null;
                         },
                       ),
+                      const SizedBox(height: 15),
+                      GlobalCustomElevatedButton(
+                        borderRadius: 50,
+                        width: double.infinity,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/threeInfos');
+                          stepTwoCreateAccountPressed();
+                        },
+                        child: const CustomText(
+                          text: "Avancar",
+                          fontSize: 17,
+                          isBold: true,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      //Testando
+                      CustomDropdownSearch(
+                        items: estados,
+                        onChanged: (Map<String, dynamic>? novoEstado) {
+                          buscarCidades(novoEstado?['SiglaUF']);
+                          setState(() {
+                            estadoSelecionado = novoEstado?['SiglaUF'];
+                            cidadeSelecionada = null; // Adicione esta linha
+                          });
+                        },
+                        labelPrincipal: 'Estado',
+                        hintTextPrincipal: 'Escolha o estado...',
+                        prefixIcon: const Icon(Icons.flag),
+                        labelSecundaria: 'Buscar estado',
+                        hintTextSecundaria: 'Digite o nome do estado...',
+                        itemAsString: (Map<String, dynamic> estado) =>
+                            estado['Descricao']!,
+                      )
                     ],
                   ),
                 ),
               ),
             ],
           ),
-          PositionedActionButton(onPressed: () {
-            Navigator.pushNamed(context, '/threeInfos');
-            stepTwoCreateAccountPressed();
-          }),
         ],
       ),
     );

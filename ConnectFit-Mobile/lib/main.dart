@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:projeto/Pages/ContratoPage/page_contrato.dart';
 import 'package:projeto/Pages/GraphicsPage/graphics.dart';
 import 'package:projeto/Pages/HomePage/home.dart';
-import 'package:projeto/Pages/MedidasPage/measures.dart';
+import 'package:projeto/Pages/MedidasPage/alterar_medidas.dart';
+import 'package:projeto/Pages/MedidasPage/medidas.dart';
 import 'package:projeto/Pages/PerfilPage/change_password.dart';
 import 'package:projeto/Pages/PerfilPage/edit_dados.dart';
 import 'package:projeto/Pages/PerfilPage/edit_foto.dart';
@@ -25,6 +27,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('pt', 'BR')],
       title: "Aplicativo",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -40,7 +48,7 @@ class MyApp extends StatelessWidget {
         '/trainingList': (_) => const TrainingList(),
         '/formDetails': (_) => const FormDetails(),
         '/graphics': (_) => const GraphicsPage(),
-        '/measures': (_) => const MeasuresPage(),
+        '/measures': (_) => const PageMedidas(),
         '/personal': (_) => const PersonalPage(),
         '/contrato': (_) => const PageContrato(),
         '/ranking': (_) => const RankingPage(),
@@ -48,6 +56,7 @@ class MyApp extends StatelessWidget {
         '/perfilEditDados': (_) => const PerfilEditDados(),
         '/perfilChangePassword': (_) => const PerfilChangePassword(),
         '/perfilSobreApp': (_) => const PerfilSobreApp(),
+        '/alterarMedidas': (_) => const PageMedidasAlterar(),
       },
     );
   }

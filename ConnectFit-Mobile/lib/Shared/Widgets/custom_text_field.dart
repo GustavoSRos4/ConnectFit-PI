@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
+  final bool readOnly;
   final String label;
   final String? hint;
   final IconData? icon;
   final bool obscureTest;
   final Widget? sufix;
   final String? Function(String? text)? validator;
+  final void Function()? onTap;
   final void Function(String? text)? onSaved;
   final void Function(String text)? onChanged;
+  final void Function(String text)? onFieldSubmitted;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
 
@@ -25,11 +28,17 @@ class CustomTextField extends StatelessWidget {
     this.sufix,
     this.inputFormatters,
     this.controller,
+    this.onFieldSubmitted,
+    this.readOnly = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      readOnly: readOnly,
+      onFieldSubmitted: onFieldSubmitted,
       textAlignVertical: TextAlignVertical.center,
       controller: controller,
       inputFormatters: inputFormatters,

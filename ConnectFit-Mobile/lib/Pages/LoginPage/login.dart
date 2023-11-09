@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Pages/RecoverPasswordPage/recuperar_senha.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -172,27 +174,15 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
+                        GlobalCustomElevatedButton(
                           height: 60,
-                          alignment: Alignment.centerLeft,
-                          decoration: const BoxDecoration(
-                            color: Colors.deepOrange,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50),
-                            ),
-                          ),
-                          child: SizedBox.expand(
-                            child: TextButton(
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              onPressed: () => loginPressed(),
-                            ),
+                          borderRadius: 50,
+                          width: double.infinity,
+                          onPressed: () => loginPressed(),
+                          child: const CustomText(
+                            text: "Login",
+                            fontSize: 17,
+                            isBold: true,
                           ),
                         ),
                         const SizedBox(

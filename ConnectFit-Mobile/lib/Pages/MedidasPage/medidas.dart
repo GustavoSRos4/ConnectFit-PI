@@ -9,15 +9,16 @@ import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:projeto/Shared/Widgets/row_custom_text.dart';
 
-class MeasuresPage extends StatefulWidget {
-  const MeasuresPage({super.key});
+class PageMedidas extends StatefulWidget {
+  const PageMedidas({super.key});
 
   @override
-  State<MeasuresPage> createState() => _MeasuresPageState();
+  State<PageMedidas> createState() => _PageMedidasState();
 }
 
-class _MeasuresPageState extends State<MeasuresPage> {
+class _PageMedidasState extends State<PageMedidas> {
   final abdominalEC = TextEditingController();
   final axilarMediaEC = TextEditingController();
   final femuralMediaEC = TextEditingController();
@@ -95,6 +96,15 @@ class _MeasuresPageState extends State<MeasuresPage> {
           child: Column(
             children: [
               const SizedBox(height: 30),
+              TextButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/alterarMedidas'),
+                child: const CustomText(
+                  text: "Alterar",
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
               const ContainerTitlePerfil(text: 'Composição Corporal'),
               const SizedBox(height: 10),
               MedidasButton(
@@ -237,6 +247,98 @@ class MedidasButton extends StatelessWidget {
               Icons.create_outlined,
               color: Colors.brancoBege,
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MedidasButton2 extends StatelessWidget {
+  final String dataAlteracao;
+  final String nomeMedida;
+  final String valorMedida;
+  final TextEditingController controller;
+  final void Function() funcao;
+  const MedidasButton2({
+    super.key,
+    required this.nomeMedida,
+    required this.valorMedida,
+    required this.controller,
+    required this.funcao,
+    required this.dataAlteracao,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        child: Stack(
+          children: [
+            ListTile(
+              tileColor: Colors.grey[800],
+              onTap: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CustomText(
+                          text: 'Inserir medida $nomeMedida:',
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        TextField(
+                          controller: controller,
+                        ),
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                          onPressed: () {
+                            funcao();
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Inserir'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              title: CustomText(
+                text: nomeMedida,
+                fontSize: 15,
+                isBold: true,
+              ),
+              subtitle: RowCustomText(
+                indicador: 'Alteração',
+                valor: dataAlteracao,
+              ),
+              trailing: const Icon(
+                Icons.create_outlined,
+                color: Colors.brancoBege,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+                side: const BorderSide(
+                  width: 1,
+                  color: Colors.brancoBege,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 60,
+              top: 0,
+              child: Center(
+                  child: CustomText(
+                text: '$valorMedida cm',
+                fontSize: 15,
+              )),
+            ),
           ],
         ),
       ),
