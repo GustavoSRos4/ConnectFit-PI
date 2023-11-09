@@ -21,6 +21,10 @@ class _ThreePageState extends State<OneLogin> {
   final emailEC = TextEditingController();
   final senhaEC = TextEditingController();
   final confirmarSenhaEC = TextEditingController();
+  var passwordCache = '';
+  var passwordCacheConfirm = '';
+  bool obscureTextPassword = true;
+  bool obscureTextPasswordConfirm = true;
 
   stepOneCreateAccountPressed() async {
     debugPrint("DEu");
@@ -61,11 +65,6 @@ class _ThreePageState extends State<OneLogin> {
     senhaEC.dispose();
     confirmarSenhaEC.dispose();
   }
-
-  var passwordCache = '';
-  var passwordCacheConfirm = '';
-  bool obscureTextPassword = true;
-  bool obscureTextPasswordConfirm = true;
 
   @override
   Widget build(BuildContext context) {
@@ -189,11 +188,6 @@ class _ThreePageState extends State<OneLogin> {
               ),
             ],
           ),
-          /*
-          PositionedActionButton(
-            onPressed: () => //Navigator.pushNamed(context, '/twoDados')
-                stepOneCreateAccountPressed(),
-          ),*/
         ],
       ),
     );

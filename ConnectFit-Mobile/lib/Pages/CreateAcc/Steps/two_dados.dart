@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
-import 'package:projeto/Shared/Models/login_model.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_search.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -27,17 +26,14 @@ class TwoDados extends StatefulWidget {
 class _OnePageState extends State<TwoDados> {
   final cpfEC = TextEditingController();
   final dataNasEC = TextEditingController();
-  final dddEC = TextEditingController();
   final telefoneEC = TextEditingController();
   final cepEC = TextEditingController();
   final logradouroEC = TextEditingController();
   final numeroEC = TextEditingController();
-
   final bairroEC = TextEditingController();
-
   final complementoEC = TextEditingController();
+
   String? selectedValue;
-  List<String> dropdownItems = ["Masculino", "Feminino"];
   String? token;
   List<Map<String, String>> estados = [];
   List<Map<String, String>> sexos = [];
@@ -49,7 +45,6 @@ class _OnePageState extends State<TwoDados> {
   DateTime selectedDate = DateTime.now();
 
   stepTwoCreateAccountPressed() async {
-    debugPrint("STEP 2 CREATE");
     if (bairroEC.text != '') {
       String telefoneString =
           telefoneEC.text.replaceAll(RegExp(r'[^\d]'), ''); // tirar as
@@ -94,27 +89,17 @@ class _OnePageState extends State<TwoDados> {
     }
   }
 
-  void getDados() {
-    debugPrint("eita deu certo zé");
-    var model = LoginModel(
-      cpf: cpfEC.text,
-      dataNas: dataNasEC.text,
-      telefone: telefoneEC.text,
-    );
-    Navigator.pushNamed(context, '/two', arguments: model);
-  }
-
   @override
   void dispose() {
     super.dispose();
-    cpfEC.dispose();
     dataNasEC.dispose();
-    dddEC.dispose();
+    cpfEC.dispose();
     telefoneEC.dispose();
     logradouroEC.dispose();
     numeroEC.dispose();
     cepEC.dispose();
     bairroEC.dispose();
+    complementoEC.dispose();
   }
 
   @override
@@ -158,7 +143,6 @@ class _OnePageState extends State<TwoDados> {
   }
 
   void buscarCidades(uf) {
-    debugPrint("estou aqui");
     FetchData.fetchCidades(uf).then((data) {
       debugPrint('Estados: $data');
       setState(() {

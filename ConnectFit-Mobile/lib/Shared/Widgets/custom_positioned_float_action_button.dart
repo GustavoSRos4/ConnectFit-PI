@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class PositionedActionButton extends StatelessWidget {
+class CustomPositionedActionButton extends StatelessWidget {
   final void Function() onPressed;
-  const PositionedActionButton({super.key, required this.onPressed});
+  const CustomPositionedActionButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:projeto/Pages/MedidasPage/medidas.dart';
+
 import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
 import 'package:projeto/Shared/Widgets/container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
+import 'package:projeto/Shared/Widgets/custom_list_tile_alterar_medidas.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,7 +33,6 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
   MedidasModel? model;
 
   salvarPressed() async {
-    debugPrint("STEP 2 CREATE");
     int peso = int.parse(pesoEC.text);
     int percentualGordura = int.parse(percentualGorduraEC.text);
     int subescapular = int.parse(subescapularEC.text);
@@ -98,7 +98,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
               const SizedBox(height: 30),
               const ContainerTitlePerfil(text: 'Composição Corporal'),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Axilar Media",
                 valorMedida: model?.axilarMedia ?? '',
                 dataAlteracao: "10/11/2023",
@@ -106,7 +106,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("axilarMediaEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "FemuralMedia",
                 valorMedida: model?.femuralMedia ?? '',
                 dataAlteracao: "15/11/2023",
@@ -114,7 +114,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("femuralMediaEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Percentual de Gordura",
                 valorMedida: model?.percentual ?? '',
                 dataAlteracao: "10/09/2023",
@@ -122,7 +122,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("percentualGorduraEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Peso",
                 valorMedida: model?.peso ?? '',
                 dataAlteracao: "10/10/2023",
@@ -132,7 +132,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
               const SizedBox(height: 10),
               const ContainerTitlePerfil(text: 'Dobras Cutâneas'),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Subescapular",
                 valorMedida: model?.subescapular ?? '',
                 dataAlteracao: "10/11/2023",
@@ -140,7 +140,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("subescapularEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "SupraIliaca",
                 valorMedida: model?.supraIliaca ?? '',
                 dataAlteracao: "10/11/2023",
@@ -148,7 +148,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("supraIliacaEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Triceps",
                 valorMedida: model?.triceps ?? '',
                 dataAlteracao: "10/11/2023",
@@ -158,7 +158,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
               const SizedBox(height: 10),
               const ContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Peitoral",
                 valorMedida: model?.peitoral ?? '',
                 dataAlteracao: "10/11/2023",
@@ -166,7 +166,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("peitoralEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Abdominal",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "10/11/2023",
@@ -176,7 +176,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
               const SizedBox(height: 10),
               const ContainerTitlePerfil(text: 'Outros'),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Ombros",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "09/11/2023",
@@ -184,7 +184,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Tórax",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "10/11/2023",
@@ -192,7 +192,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Abdômen",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "11/11/2023",
@@ -200,7 +200,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Cintura",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "12/11/2023",
@@ -208,7 +208,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Quadril",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "13/11/2023",
@@ -216,7 +216,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Braço Esquerdo",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "14/11/2023",
@@ -224,7 +224,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Braço Direito",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "15/11/2023",
@@ -232,7 +232,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Coxa Esquerda",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "16/11/2023",
@@ -240,7 +240,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Perna Esquerda",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "17/11/2023",
@@ -248,7 +248,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                 funcao: () => testeDados("abdominalEC"),
               ),
               const SizedBox(height: 10),
-              MedidasButton2(
+              CustomListTileAlterarMedidas(
                 nomeMedida: "Perna Direita",
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "17/11/2023",
@@ -263,81 +263,5 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
             ],
           ),
         ));
-  }
-}
-
-class MedidasButton extends StatelessWidget {
-  final String nomeMedida;
-  final String valorMedida;
-  final TextEditingController controller;
-  final void Function() funcao;
-  const MedidasButton({
-    super.key,
-    required this.nomeMedida,
-    required this.valorMedida,
-    required this.controller,
-    required this.funcao,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: OutlinedButton(
-        onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const CustomText(
-                    text: 'Insira a nova medida:',
-                    color: Colors.black,
-                    fontSize: 15,
-                  ),
-                  TextField(
-                    controller: controller,
-                  ),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    onPressed: () {
-                      funcao();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Inserir'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: [
-                CustomText(
-                  text: "$nomeMedida: ",
-                  isBold: true,
-                  fontSize: 13.5,
-                ),
-                CustomText(
-                  text: valorMedida,
-                  isBold: false,
-                  fontSize: 13.5,
-                ),
-              ],
-            ),
-            const Icon(
-              Icons.create_outlined,
-              color: Colors.brancoBege,
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

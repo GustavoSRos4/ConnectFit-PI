@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
-class ListTilePerfil extends StatelessWidget {
+class CustomListTilePerfil extends StatelessWidget {
   final String text;
   final void Function() onTap;
-  const ListTilePerfil({
+  const CustomListTilePerfil({
     super.key,
     required this.text,
     required this.onTap,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Pages/PersonalPage/detalhes_personal.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Shared/Widgets/row_custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({super.key});
@@ -191,26 +191,26 @@ class _PersonalPageState extends State<PersonalPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      RowCustomText(
+                                      CustomRowText(
                                         fontSize: 13.5,
                                         indicador: 'Nome',
                                         valor: '${personal[index]['nome']}',
                                       ),
                                       const SizedBox(height: 5),
-                                      RowCustomText(
+                                      CustomRowText(
                                         fontSize: 13.5,
                                         indicador: 'Cidade',
                                         valor: '${personal[index]['cidade']}',
                                       ),
                                       const SizedBox(height: 5),
-                                      RowCustomText(
+                                      CustomRowText(
                                         fontSize: 13.5,
                                         indicador: 'Especialidade',
                                         valor:
                                             '${personal[index]['especialidade']}',
                                       ),
                                       const SizedBox(height: 5),
-                                      RowCustomText(
+                                      CustomRowText(
                                         fontSize: 13.5,
                                         indicador: 'Valor cobrado',
                                         valor:

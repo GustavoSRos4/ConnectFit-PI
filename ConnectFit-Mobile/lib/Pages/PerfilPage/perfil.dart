@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/Shared/Widgets/container_title_perfil.dart';
+import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
-import 'package:projeto/Shared/Widgets/list_tile_perfil.dart';
-import 'package:projeto/Shared/Widgets/row_custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_list_tile_perfil.dart';
+import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -74,16 +74,16 @@ class PerfilPage extends StatelessWidget {
                       EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
                   child: Column(
                     children: [
-                      RowCustomText(indicador: 'Peso', valor: '70 kg'),
+                      CustomRowText(indicador: 'Peso', valor: '70 kg'),
                       SizedBox(height: 10),
-                      RowCustomText(indicador: 'Altura', valor: '180 cm'),
+                      CustomRowText(indicador: 'Altura', valor: '180 cm'),
                       SizedBox(height: 10),
-                      RowCustomText(
+                      CustomRowText(
                         indicador: 'Medicamentos',
                         valor: 'Dorflex',
                       ),
                       SizedBox(height: 10),
-                      RowCustomText(
+                      CustomRowText(
                         indicador: 'Comorbidades',
                         valor: 'bico de pagagaio, Ernia',
                       ),
@@ -126,14 +126,14 @@ class PerfilPage extends StatelessWidget {
                 ),
               ],
             ),
-            const ContainerTitlePerfil(text: 'Opções Gerais'),
-            ListTilePerfil(
+            const CustomContainerTitlePerfil(text: 'Opções Gerais'),
+            CustomListTilePerfil(
               text: 'Alterar senha',
               onTap: () =>
                   Navigator.pushNamed(context, '/perfilChangePassword'),
             ),
-            const ContainerTitlePerfil(text: 'Informações'),
-            ListTilePerfil(
+            const CustomContainerTitlePerfil(text: 'Informações'),
+            CustomListTilePerfil(
               text: 'Sobre o aplicativo',
               onTap: () => Navigator.pushNamed(context, '/perfilSobreApp'),
             ),

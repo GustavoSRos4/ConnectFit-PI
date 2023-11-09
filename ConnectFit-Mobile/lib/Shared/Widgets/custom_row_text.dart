@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
-class RowCustomText extends StatelessWidget {
+class CustomRowText extends StatelessWidget {
   final String indicador;
   final String valor;
   final Color color;
   final double? fontSize;
 
-  const RowCustomText({
+  const CustomRowText({
     super.key,
     required this.indicador,
     required this.valor,

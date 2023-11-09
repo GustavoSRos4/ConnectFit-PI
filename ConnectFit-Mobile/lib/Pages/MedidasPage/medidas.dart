@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
-import 'package:projeto/Shared/Widgets/container_title_perfil.dart';
+import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
+import 'package:projeto/Shared/Widgets/custom_outlined_button_medidas.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Widgets/row_custom_text.dart';
 
 class PageMedidas extends StatefulWidget {
   const PageMedidas({super.key});
@@ -32,7 +32,6 @@ class _PageMedidasState extends State<PageMedidas> {
   MedidasModel? model;
 
   salvarPressed() async {
-    debugPrint("STEP 2 CREATE");
     int peso = int.parse(pesoEC.text);
     int percentualGordura = int.parse(percentualGorduraEC.text);
     int subescapular = int.parse(subescapularEC.text);
@@ -105,63 +104,63 @@ class _PageMedidasState extends State<PageMedidas> {
                   color: Colors.white,
                 ),
               ),
-              const ContainerTitlePerfil(text: 'Composição Corporal'),
+              const CustomContainerTitlePerfil(text: 'Composição Corporal'),
               const SizedBox(height: 10),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Axilar Media",
                 valorMedida: model?.axilarMedia ?? '',
                 controller: axilarMediaEC,
                 funcao: () => testeDados("axilarMediaEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "FemuralMedia",
                 valorMedida: model?.femuralMedia ?? '',
                 controller: femuralMediaEC,
                 funcao: () => testeDados("femuralMediaEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Percentual de Gordura",
                 valorMedida: model?.percentual ?? '',
                 controller: percentualGorduraEC,
                 funcao: () => testeDados("percentualGorduraEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Peso",
                 valorMedida: model?.peso ?? '',
                 controller: pesoEC,
                 funcao: () => testeDados("pesoEC"),
               ),
               const SizedBox(height: 10),
-              const ContainerTitlePerfil(text: 'Dobras Cutâneas'),
+              const CustomContainerTitlePerfil(text: 'Dobras Cutâneas'),
               const SizedBox(height: 20),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Subescapular",
                 valorMedida: model?.subescapular ?? '',
                 controller: subescapularEC,
                 funcao: () => testeDados("subescapularEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "SupraIliaca",
                 valorMedida: model?.supraIliaca ?? '',
                 controller: supraIliacaEC,
                 funcao: () => testeDados("supraIliacaEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Triceps",
                 valorMedida: model?.triceps ?? '',
                 controller: tricepsEC,
                 funcao: () => testeDados("tricepsEC"),
               ),
               const SizedBox(height: 10),
-              const ContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
+              const CustomContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
               const SizedBox(height: 20),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Peitoral",
                 valorMedida: model?.peitoral ?? '',
                 controller: peitoralEC,
                 funcao: () => testeDados("peitoralEC"),
               ),
-              MedidasButton(
+              CustomOutlinedButtonMedidas(
                 nomeMedida: "Abdominal",
                 valorMedida: model?.abdominal ?? '',
                 controller: abdominalEC,
@@ -175,173 +174,5 @@ class _PageMedidasState extends State<PageMedidas> {
             ],
           ),
         ));
-  }
-}
-
-class MedidasButton extends StatelessWidget {
-  final String nomeMedida;
-  final String valorMedida;
-  final TextEditingController controller;
-  final void Function() funcao;
-  const MedidasButton({
-    super.key,
-    required this.nomeMedida,
-    required this.valorMedida,
-    required this.controller,
-    required this.funcao,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: OutlinedButton(
-        onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => Dialog(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const CustomText(
-                    text: 'Insira a nova medida:',
-                    color: Colors.black,
-                    fontSize: 15,
-                  ),
-                  TextField(
-                    controller: controller,
-                  ),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    onPressed: () {
-                      funcao();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Inserir'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: [
-                CustomText(
-                  text: "$nomeMedida: ",
-                  isBold: true,
-                  fontSize: 13.5,
-                ),
-                CustomText(
-                  text: valorMedida,
-                  isBold: false,
-                  fontSize: 13.5,
-                ),
-              ],
-            ),
-            const Icon(
-              Icons.create_outlined,
-              color: Colors.brancoBege,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MedidasButton2 extends StatelessWidget {
-  final String dataAlteracao;
-  final String nomeMedida;
-  final String valorMedida;
-  final TextEditingController controller;
-  final void Function() funcao;
-  const MedidasButton2({
-    super.key,
-    required this.nomeMedida,
-    required this.valorMedida,
-    required this.controller,
-    required this.funcao,
-    required this.dataAlteracao,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        child: Stack(
-          children: [
-            ListTile(
-              tileColor: Colors.grey[800],
-              onTap: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => Dialog(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        CustomText(
-                          text: 'Inserir medida $nomeMedida:',
-                          color: Colors.black,
-                          fontSize: 15,
-                        ),
-                        TextField(
-                          controller: controller,
-                        ),
-                        const SizedBox(height: 15),
-                        ElevatedButton(
-                          onPressed: () {
-                            funcao();
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Inserir'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              title: CustomText(
-                text: nomeMedida,
-                fontSize: 15,
-                isBold: true,
-              ),
-              subtitle: RowCustomText(
-                indicador: 'Alteração',
-                valor: dataAlteracao,
-              ),
-              trailing: const Icon(
-                Icons.create_outlined,
-                color: Colors.brancoBege,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                side: const BorderSide(
-                  width: 1,
-                  color: Colors.brancoBege,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 60,
-              top: 0,
-              child: Center(
-                  child: CustomText(
-                text: '$valorMedida cm',
-                fontSize: 15,
-              )),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
