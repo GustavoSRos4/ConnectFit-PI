@@ -120,3 +120,24 @@ export const validateValor = (vlr) => {
     return "O valor deve ter casas decimais ex: 10,00";
   }
 };
+
+export const frase_aleatoria = () => {
+  const frases = [
+    "Você só vai ter o que você sempre teve, se continuar fazendo o que sempre fez.",
+    "Treino é igual relacionamento, se você não se dedica, não tem resultado.",
+    "Sem dor, sem ganho.",
+    "Foco, força e fé.",
+    "Sua única limitação é você mesmo.",
+    "Se não desafiar a si mesmo, como vai se superar?",
+    "A única máquina que funciona é você.",
+    "A dor é temporária, desistir é para sempre.",
+    "Mais um, mais um!",
+    "Não crie limites, crie hábitos.",
+    "O único lugar onde o sucesso vem antes do trabalho é no dicionário.",
+    "Se não puder fazer tudo, faça tudo o que puder.",
+    "Não pare quando estiver cansado, pare quando estiver feito.",
+    "A persistência é o caminho do êxito."
+  ];
+  const randomIndex = Math.floor(Math.random() * frases.length);
+  return frases[randomIndex];
+};

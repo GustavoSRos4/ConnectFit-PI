@@ -81,7 +81,6 @@ import { SteppedEase } from 'gsap';
 import {
   Loading, QSpinnerGears
 } from 'quasar'
-import axios from 'axios';
 import { api } from 'src/boot/axios';
 
 gsap.registerPlugin(ScrollTrigger);

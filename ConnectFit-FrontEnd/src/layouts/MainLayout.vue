@@ -3,7 +3,7 @@
     <q-layout view="lHr Lpr lff">
 
       <q-drawer v-model="leftDrawerOpen" show-if-above elevated bordered :mini="miniState" @mouseover="miniState = false"
-        @mouseout="miniState = true" :width="350" :breakpoint="350" mini-width="150" class="bg-primary window-height">
+        @mouseout="miniState = true" :width="350" :breakpoint="350" :mini-width="150" class="bg-primary window-height">
         <q-card class="window-height transparent">
           <q-list padding class="column fit">
             <q-toolbar class="bg-primary text-white text-center">
@@ -58,9 +58,10 @@
             </q-item>
           </q-list>
         </q-card>
+        <!-- <q-btn @click="buscarDados">aaaaaaaaaaaa</q-btn> -->
       </q-drawer>
 
-      <q-page-container>
+      <q-page-container v-show="islogged">
         <q-page>
           <router-view />
         </q-page>
@@ -72,18 +73,78 @@
 
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { api } from 'src/boot/axios.js';
+import axios from 'axios';
+import { Loading } from 'quasar'
+import { frase_aleatoria } from '../utils/validar'
 
 export default {
   setup() {
+    const islogged = ref(false);
+
+    const realizarChamada = async (tentativasRestantes) => {
+      const frase = frase_aleatoria();
+      Loading.show({
+        message: `${frase} <br /><span class="text-amber text-italic">Please wait...</span>`,
+        html: true,
+        spinnerColor: 'primary',
+        spinnerSize: 200,
+      });
+      try {
+        const response = await api.get('api/mostrarPessoa');
+        console.log(response);
+        islogged.value = true;
+      } catch (error) {
+        if (tentativasRestantes > 0) {
+          console.error(`Erro na tentativa. Tentativas restantes: ${tentativasRestantes}`);
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Espera 1 segundo entre as tentativas
+          await realizarChamada(tentativasRestantes - 1); // Tenta novamente com uma tentativa a menos
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: `Falha após 10 tentativas. Por favor, tente novamente mais tarde.`,
+          });
+          console.error('Falha após 10 tentativas.');
+        }
+      } finally {
+        Loading.hide();
+      }
+    };
+
+    onMounted(async () => {
+      realizarChamada(10);
+    })
+
     const leftDrawerOpen = ref(false);
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
       miniState: ref(true),
+      islogged,
     }
+  },
+  methods: {
+    async buscarDados() {
+      await api.get('api/mostrarPessoa').then(response => {
+        console.log(response);
+        islogged.value = true;
+      }).catch(response => {
+        this.$q.notify({
+          type: 'negative',
+          message: `${response.response.data.errors}`,
+        })
+        console.error(response.response.data.errors);
+      });
+    }
+  },
+  data() {
+    return {
+      user: null,
+    };
   },
 }
 </script>

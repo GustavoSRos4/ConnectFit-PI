@@ -5,14 +5,16 @@ const api = axios.create({ baseURL: "http://127.0.0.1:8000" });
 
 const atualizarToken = (token) => {
   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  console.log("funcaoAtualizar");
 };
 
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const newToken = localStorage.getItem("token");
     if (newToken) {
-      atualizarToken(newToken);
+      await atualizarToken(newToken);
     }
+    console.log("atualizado!");
     return config;
   },
   (error) => {
