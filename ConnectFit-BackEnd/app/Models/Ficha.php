@@ -16,8 +16,8 @@ class Ficha extends Model
     {
         return $this->belongsTo(Pessoa::class, 'idPessoaUsuario');
     }
-    public function fichaExercicio()
+    public function treino()
     {
-        return $this->hasMany(FichaExercicio::class);
+        return $this->belongsToMany(Treino::class, 'ficha_treinos', 'idFicha', 'idTreino');
     }
 }

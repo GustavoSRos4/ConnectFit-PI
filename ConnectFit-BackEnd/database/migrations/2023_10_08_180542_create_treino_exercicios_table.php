@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ficha_exercicios', function (Blueprint $table) {
-            $table->unsignedInteger('idFicha');
-            $table->unsignedSmallInteger('idExercicio');
+        Schema::create('treino_exercicios', function (Blueprint $table) {
+            $table->unsignedInteger('idTreino');
+            $table->unsignedInteger('idExercicio');
             $table->text('Descricao')->nullable();
             $table->tinyInteger('Repeticoes');
             $table->tinyInteger('Descanso');
@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('linkVideo', 150);
             $table->timestamps();
 
-            $table->foreign('idFicha')->references('idFicha')->on('fichas')->onDelete('cascade');
+            $table->foreign('idTreino')->references('idTreino')->on('treinos')->onDelete('cascade');
             $table->foreign('idExercicio')->references('idExercicio')->on('exercicios')->onDelete('cascade');
-            $table->primary(['idFicha', 'idExercicio']);
+            $table->primary(['idTreino', 'idExercicio']);
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ficha_exercicios');
+        Schema::dropIfExists('treino_exercicios');
     }
 };

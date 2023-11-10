@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Exercicio extends Model
 {
     use HasFactory;
-    public function fichaExercicio()
+    public function treino()
     {
-        return $this->hasMany(FichaExercicio::class);
+        return $this->belongsToMany(Treino::class, 'treino_exercicios', 'idExercicio', 'idTreino');
     }
 }

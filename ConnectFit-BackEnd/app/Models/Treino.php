@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FichaExercicio extends Model
+class Treino extends Model
 {
     use HasFactory;
     public function ficha()
     {
-        return $this->belongsTo(Ficha::class, 'idFicha');
+        return $this->belongsToMany(Ficha::class, 'ficha_treinos', 'idTreino', 'idFicha');
     }
     public function exercicio()
     {
-        return $this->belongsTo(Exercicio::class, 'idExercicio');
+        return $this->belongsToMany(Exercicio::class, 'treino_exercicios', 'idTreino', 'idExercicio');
     }
 }

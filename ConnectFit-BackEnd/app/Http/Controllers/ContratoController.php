@@ -30,7 +30,6 @@ class ContratoController extends Controller
             $contrato->idPessoaUsuario = $userId;
             $contrato->idPessoaProfissional = $request->input('idPessoaProfissional');
             $contrato->valor = $valor;
-            $contrato->dataInic = Carbon::now();
             $contrato->idDuracao = $request->input('idDuracao');
 
             $contrato->save();
