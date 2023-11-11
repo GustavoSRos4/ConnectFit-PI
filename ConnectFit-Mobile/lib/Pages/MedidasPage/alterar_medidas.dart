@@ -89,7 +89,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(
-          title: Text("Medidas"),
+          title: Text("Atualizar Medidas"),
           actions: [],
         ),
         body: SingleChildScrollView(

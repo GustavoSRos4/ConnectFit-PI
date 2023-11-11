@@ -11,9 +11,8 @@ class GraphicsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: CustomText(
-          text: 'Gráficos',
-          isBold: true,
+        title: Text(
+          'Gráficos',
         ),
         actions: [],
       ),
