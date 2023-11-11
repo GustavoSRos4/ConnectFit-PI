@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
@@ -24,6 +25,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
   List<Map<String, String>> comorbidadesMap = [];
   final List<String> medicamentos = [];
   final List<String> comorbidades = [];
+  final formKey = GlobalKey<FormState>();
 
   String? token;
   final alturaEC = TextEditingController();
@@ -60,7 +62,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
     Map responseMap = jsonDecode(response.body);
     if (response.statusCode == 200) {
       if (mounted) {
-        //Navigator.pushNamed(context, '/threeInfos');
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -77,7 +78,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
     Map responseMap = jsonDecode(response.body);
     if (response.statusCode == 200) {
       if (mounted) {
-        //Navigator.pushNamed(context, '/threeInfos');
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -170,6 +170,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
           ListView(
             children: [
               Form(
+                key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -179,6 +180,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                         children: [
                           Expanded(
                             child: CustomTextField(
+                              keyboardType: TextInputType.number,
                               label: "Peso",
                               icon: Icons.person,
                               hint: "Insira...",
@@ -194,7 +196,11 @@ class _ThreeInfosState extends State<ThreeInfos> {
                           const SizedBox(width: 15),
                           Expanded(
                             child: CustomTextField(
-                              label: "Altura",
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              label: "Altura (cm)",
                               icon: Icons.person,
                               hint: "Insira...",
                               controller: alturaEC,
@@ -399,7 +405,12 @@ class _ThreeInfosState extends State<ThreeInfos> {
                           width: double.infinity,
                           borderRadius: 50,
                           onPressed: () {
-                            stepThreeCreateAccountPressed();
+                            if (formKey.currentState!.validate()) {
+                              stepThreeCreateAccountPressed();
+                            } else {
+                              errorSnackBar(context,
+                                  'Por favor, preencha os campos corretamente!');
+                            }
                           },
                           child: const CustomText(
                             text: "Avançar",

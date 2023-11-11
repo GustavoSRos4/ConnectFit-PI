@@ -25,34 +25,26 @@ class _ThreePageState extends State<OneLogin> {
   var passwordCacheConfirm = '';
   bool obscureTextPassword = true;
   bool obscureTextPasswordConfirm = true;
+  final formKey = GlobalKey<FormState>();
 
   stepOneCreateAccountPressed() async {
     debugPrint("DEu");
-    bool emailValid = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(emailEC.text);
-    if (emailValid) {
-      http.Response response = await AuthServices.register(
-        nomeEC.text,
-        emailEC.text,
-        senhaEC.text,
-        confirmarSenhaEC.text,
-      );
-      Map responseMap = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        String token = responseMap['token'];
-        await saveToken(token);
-        if (mounted) {
-          Navigator.pushNamed(context, '/twoDados');
-        } else {
-          if (mounted) {
-            errorSnackBar(context, responseMap.values.first[0]);
-          }
-        }
-      }
-    } else {
+    http.Response response = await AuthServices.register(
+      nomeEC.text,
+      emailEC.text,
+      senhaEC.text,
+      confirmarSenhaEC.text,
+    );
+    Map responseMap = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      String token = responseMap['token'];
+      await saveToken(token);
       if (mounted) {
-        errorSnackBar(context, 'email not valid');
+        Navigator.pushNamed(context, '/twoDados');
+      } else {
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.first[0]);
+        }
       }
     }
   }
@@ -77,6 +69,7 @@ class _ThreePageState extends State<OneLogin> {
           ListView(
             children: [
               Form(
+                key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -135,6 +128,9 @@ class _ThreePageState extends State<OneLogin> {
                           if (text == null || text.isEmpty) {
                             return "Esse campo não pode ficar vazio";
                           }
+                          if (text.length < 6) {
+                            return "Senha curta, digite uma maior.";
+                          }
                           return null;
                         },
                         onChanged: (text) => passwordCache = text,
@@ -173,8 +169,13 @@ class _ThreePageState extends State<OneLogin> {
                         borderRadius: 50,
                         width: double.infinity,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/twoDados');
-                          stepOneCreateAccountPressed();
+                          if (formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, '/twoDados');
+                            stepOneCreateAccountPressed();
+                          } else {
+                            errorSnackBar(context,
+                                'Por favor, preencha os campos corretamente!');
+                          }
                         },
                         child: const CustomText(
                           text: "Cadastrar",
