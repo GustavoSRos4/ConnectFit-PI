@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('area_medida_corporais', function (Blueprint $table) {
-            $table->unsignedInteger('idArea');
+        Schema::create('area_medidas', function (Blueprint $table) {
             $table->unsignedInteger('idMedida');
+            $table->unsignedInteger('idArea');
+            $table->smallInteger('Medida');
             $table->timestamps();
 
             $table->foreign('idArea')->references('idArea')->on('areas')->onDelete('cascade');
             $table->foreign('idMedida')->references('idMedida')->on('medidas')->onDelete('cascade');
-            $table->primary(['idArea','idMedida']);
+            $table->primary(['idArea', 'idMedida']);
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('area_medida_corporais');
+        Schema::dropIfExists('area_medidas');
     }
 };

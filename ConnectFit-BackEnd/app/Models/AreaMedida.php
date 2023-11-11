@@ -5,11 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AreaDesc extends Model
+class AreaMedida extends Model
 {
     use HasFactory;
-    public function area()
-    {
-        return $this->hasMany(Area::class);
-    }
+    protected $table = 'area_medidas';
 }

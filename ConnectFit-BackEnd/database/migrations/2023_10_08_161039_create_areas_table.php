@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->integerIncrements('idArea');
-            $table->smallInteger('Medida');
-            $table->unsignedTinyInteger('idDesc');
+            $table->string('Descricao',100);
             $table->timestamps();
-
-            $table->foreign('idDesc')->references('idDesc')->on('area_descs')->onDelete('cascade');
         });
     }
 

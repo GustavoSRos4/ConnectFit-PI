@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\AreaMedida;
 use App\Models\AreaMedidaCorporal;
 use App\Models\Comorbidade;
 use App\Models\ComposicaoCorporal;
@@ -123,19 +124,11 @@ class PessoaUsuarioController extends Controller
             $resultMedidas = [];
 
             foreach ($medidas as $medida) {
-                $composicaoCorp = ComposicaoCorporal::where('idMedidaCompCorp', $medida->idMedida)->get();
-                $AreaMedidasCorporal = AreaMedidaCorporal::where('idMedida', $medida->idMedida)->get();
-                $areaMedidas = [];
-
-                foreach ($AreaMedidasCorporal as $areaMedidaCorporal) {
-                    $areaMedida = Area::where('idArea', $areaMedidaCorporal->idArea)->get();
-                    $areaMedidas[] = $areaMedida;
-                }
+                $AreaMedidasCorporal = AreaMedida::where('idMedida', $medida->idMedida)->get();
 
                 $resultMedidas[] = [
                     'Medida' => $medida,
-                    'ComposicaoCorporal' => $composicaoCorp,
-                    'AreaMedidas' => $areaMedidas,
+                    'AreaMedidas' => $AreaMedidasCorporal,
                 ];
             }
 

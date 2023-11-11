@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('medidas', function (Blueprint $table) {
             $table->integerIncrements('idMedida');
             $table->unsignedInteger('idPessoaUsuarioMedida');
-            $table->smallInteger('Peso');
-            $table->tinyInteger("PercentualGordura")->nullable();
             $table->timestamps();
 
             $table->foreign('idPessoaUsuarioMedida')->references('idPessoaUsuario')->on('pessoa_usuarios')->onDelete('cascade');

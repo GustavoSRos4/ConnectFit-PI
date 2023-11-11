@@ -2,19 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\AreaDesc;
-use App\Models\Lado;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Area;
 use Illuminate\Database\Seeder;
 
-class AreaMedidaSeeder extends Seeder
+class AreaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $areaDescs = [
+        $areas = [
+            #BF '%'
+            ['Descricao' => 'Gordura Corporal'],
+            #PESO 'kg'
+            ['Descricao' => 'Peso'],
+            #Medidas Fita 'CM'
             ['Descricao' => 'Ombros'],
             ['Descricao' => 'Tórax'],
             ['Descricao' => 'Abdômen'],
@@ -26,10 +29,20 @@ class AreaMedidaSeeder extends Seeder
             ['Descricao' => 'Coxa Direita'],
             ['Descricao' => 'Perna Esquerda'],
             ['Descricao' => 'Perna Direita'],
+            #Dobras "mm"
+            ['Descricao' => 'Subescapular'],
+            ['Descricao' => 'Triceps'],
+            ['Descricao' => 'Peitoral'],
+            ['Descricao' => 'AxilarMedia'],
+            ['Descricao' => 'SupraIliaca'],
+            ['Descricao' => 'Abdominal'],
+            ['Descricao' => 'FemuralMedia'],
+
+
         ];
 
-        foreach ($areaDescs as $areaDesc) {
-            AreaDesc::create($areaDesc);
+        foreach ($areas as $area) {
+            Area::create($area);
         }
     }
 }

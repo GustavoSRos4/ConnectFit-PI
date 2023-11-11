@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             SexoSeeder::class,
             UfAndCitySeeder::class,
             AnamneseSeeder::class,
-            AreaMedidaSeeder::class,
+            AreaSeeder::class,
             DuracaoSeeder::class
         ]);
     }

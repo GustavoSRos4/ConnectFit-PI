@@ -12,13 +12,10 @@ class Medida extends Model
     {
         return $this->belongsTo(PessoaUsuario::class, 'idPessoaUsuario');
     }
-    public function composicaoCorporal()
+
+    public function area()
     {
-        return $this->hasMany(ComposicaoCorporal::class);
-    }
-    public function enderecos()
-    {
-        return $this->belongsToMany(Area::class, 'area_medida_corporais', 'idArea', 'idMedida');
+        return $this->belongsToMany(Area::class, 'area_medidas', 'idArea', 'idMedida');
     }
                 /**
      * The primary key associated with the table.
