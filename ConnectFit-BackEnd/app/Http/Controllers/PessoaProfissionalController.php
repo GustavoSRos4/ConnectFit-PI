@@ -72,4 +72,9 @@ class PessoaProfissionalController extends Controller
         }
         return response()->json(['PessoaProfissional' => $pessoa, 'Especialidades' => $especialidades], 200);
     }
+    public function showAllProfissionais()
+    {
+        $profissionais = PessoaProfissional::where('ativo', 1)->get();
+        return response()->json(['PessoaProfissionais' => $profissionais]);
+    }
 }

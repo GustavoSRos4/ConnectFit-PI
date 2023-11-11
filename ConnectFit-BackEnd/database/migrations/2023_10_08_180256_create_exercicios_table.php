@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('exercicios', function (Blueprint $table) {
             $table->integerIncrements('idExercicio');
-            $table->string('Nome',120);
-            $table->string("Musculo",120);
+            $table->string('Nome', 120);
+            $table->string("Musculo", 120);
+            $table->text('Descricao')->nullable();
+            $table->tinyInteger('Repeticoes');
+            $table->tinyInteger('Descanso');
+            $table->tinyInteger('Carga')->nullable();
+            $table->string('linkVideo', 300);
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('Descricao')->nullable();
             $table->tinyInteger('Repeticoes');
             $table->tinyInteger('Descanso');
-            $table->tinyInteger('Carga');
-            $table->string('linkVideo', 150);
+            $table->tinyInteger('Carga')->nullable();
+            $table->string('linkVideo', 300);
             $table->timestamps();
 
             $table->foreign('idTreino')->references('idTreino')->on('treinos')->onDelete('cascade');

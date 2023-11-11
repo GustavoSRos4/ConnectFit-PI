@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pessoa_profissionais', function (Blueprint $table) {
             $table->unsignedInteger('idPessoaProfissional');
-            $table->string('numReg',50)->nullable();
+            $table->string('numReg', 50)->nullable();
             $table->date('dataFormacao')->nullable();
-            $table->decimal('valor',9,2);
+            $table->decimal('valor', 9, 2);
+            $table->integer('ativo', 1);
             $table->timestamps();
 
             $table->foreign('idPessoaProfissional')->references('idPessoa')->on('pessoas')->onDelete('cascade');
