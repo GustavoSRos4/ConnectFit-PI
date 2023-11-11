@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('numReg', 50)->nullable();
             $table->date('dataFormacao')->nullable();
             $table->decimal('valor', 9, 2);
-            $table->integer('ativo', 1);
+            $table->integer('ativo')->default(1);
             $table->timestamps();
 
             $table->foreign('idPessoaProfissional')->references('idPessoa')->on('pessoas')->onDelete('cascade');
