@@ -16,4 +16,7 @@ class Treino extends Model
     {
         return $this->belongsToMany(Exercicio::class, 'treino_exercicios', 'idTreino', 'idExercicio');
     }
+    protected $primaryKey = 'idTreino';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }

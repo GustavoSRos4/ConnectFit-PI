@@ -24,31 +24,7 @@ class PessoaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
-    {
-        $userId = (auth('api')->user()->id);
-        $request->validate([
-            'cpf' => 'required|integer',
-            'descricao' => 'nullable|string',
-            'dataNas' => 'required|date',
-        ]);
 
-        try {
-            $person = new Pessoa();
-            $person->idPessoa = $userId;
-            $person->cpf = $request->input('cpf');
-            $person->descricao = $request->input('descricao');
-            $person->dataNas = $request->input('dataNas');
-
-            $person->save();
-
-            return response()->json(['message' => 'Pessoa criada com sucesso'], 201);
-        } catch (\Exception $e) {
-            Log::error($e);
-
-            return response()->json(['message' => 'Falha ao criar a pessoa'], 500);
-        }
-    }
 
     public function show()
     {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exercicios', function (Blueprint $table) {
             $table->integerIncrements('idExercicio');
             $table->string('Nome',120);
-            $table->string("Musculo");
+            $table->string("Musculo",120);
             $table->timestamps();
         });
     }

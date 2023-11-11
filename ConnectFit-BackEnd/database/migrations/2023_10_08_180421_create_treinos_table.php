@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('treinos', function (Blueprint $table) {
             $table->integerIncrements('idTreino');
+            $table->string('Descricao',200);
             $table->timestamps();
         });
     }

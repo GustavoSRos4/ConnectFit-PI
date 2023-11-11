@@ -9,7 +9,7 @@ use App\Models\PessoaProfissional;
 use App\Models\PessoaUsuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ContratoController extends Controller
@@ -17,6 +17,7 @@ class ContratoController extends Controller
     public function create(Request $request)
     {
         $userId = (auth('api')->user()->id);
+        DB::beginTransaction();
         $request->validate([
             'idPessoaProfissional' => 'required|integer',
             'idDuracao' => 'required|integer',
@@ -34,8 +35,11 @@ class ContratoController extends Controller
 
             $contrato->save();
 
+            DB::commit();
             return response()->json(['message' => 'Contrato criado com sucesso'], 201);
         } catch (\Exception $e) {
+
+            DB::rollback();
             Log::error($e);
 
             return response()->json(['message' => 'Falha ao criar contrato'], 500);

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ApiAuthController as AuthController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\FichaController;
 use App\Http\Controllers\PessoaController as PessoaController;
 use App\Http\Controllers\PessoaUsuarioController;
 use App\Http\Controllers\RegistroController as RegistroController;
@@ -55,4 +56,8 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::get('/mostrarPessoaProfissional', [PessoaProfissionalController::class, 'showDataPessoaProfissional']);
     Route::get('/mostrarContratos', [ContratoController::class, 'show']);
     Route::get('/duracao', [ContratoController::class, 'showDuracao']);
+    Route::post('/createFicha', [FichaController::class, 'createFicha']);
+    Route::post('/createExercicio', [FichaController::class, 'createExercicio']);
+    Route::get('/showExercicio', [FichaController::class, 'showExercicio']);
+    Route::get('/showFicha', [FichaController::class, 'showFicha']);
 });

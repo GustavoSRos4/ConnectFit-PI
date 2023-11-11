@@ -20,4 +20,7 @@ class Ficha extends Model
     {
         return $this->belongsToMany(Treino::class, 'ficha_treinos', 'idFicha', 'idTreino');
     }
+    protected $primaryKey = 'idFicha';
+    public $incrementing = true;
+    protected $keyType = 'integer';
 }
