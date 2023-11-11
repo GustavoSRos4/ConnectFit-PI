@@ -36,7 +36,7 @@ class CustomDropdownSearch extends StatelessWidget {
   ///
   /// Esta função é chamada com o novo item selecionado sempre que o usuário seleciona um item no dropdown.
   /// Se o usuário não selecionou um item, a função é chamada com `null`.
-  final Function(Map<String, dynamic>? novaCidade)? onChanged;
+  final Function(Map<String, dynamic>? newItem)? onChanged;
   final String Function(Map<String, dynamic>) itemAsString;
 
   const CustomDropdownSearch({
@@ -66,8 +66,8 @@ class CustomDropdownSearch extends StatelessWidget {
         searchFieldProps: TextFieldProps(
           padding: const EdgeInsets.all(15.0),
           decoration: InputDecoration(
-            label: Text(labelPrincipal),
-            hintText: hintTextPrincipal,
+            label: Text(labelSecundaria),
+            hintText: hintTextSecundaria,
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(50),
@@ -88,8 +88,8 @@ class CustomDropdownSearch extends StatelessWidget {
               Radius.circular(50),
             ),
           ),
-          labelText: labelSecundaria,
-          hintText: hintTextSecundaria,
+          labelText: labelPrincipal,
+          hintText: hintTextPrincipal,
         ),
       ),
       onChanged: onChanged,

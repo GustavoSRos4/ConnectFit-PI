@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureTest;
   final Widget? sufix;
   final TextInputType? keyboardType;
+  final int? maxLength;
   final String? Function(String? text)? validator;
   final void Function()? onTap;
   final void Function(String? text)? onSaved;
@@ -33,11 +34,13 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.keyboardType,
+    this.maxLength,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
       keyboardType: keyboardType,
       onTap: onTap,
       readOnly: readOnly,

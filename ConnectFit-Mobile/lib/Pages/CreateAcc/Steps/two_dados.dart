@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,7 +131,7 @@ class _OnePageState extends State<TwoDados> {
     if (picked != null) {
       setState(() {
         //dataNasEC.text = picked.toString().split(' ')[0];
-        dataNasEC.text = DateFormat('dd-MM-yyyy').format(picked);
+        dataNasEC.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -162,94 +161,39 @@ class _OnePageState extends State<TwoDados> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      DropdownSearch<Map<String, String>>(
-                        popupProps: const PopupProps.menu(
-                          showSearchBox: true,
-                          searchFieldProps: TextFieldProps(
-                            decoration: InputDecoration(
-                              label: Text("Estado"),
-                              hintText: "Digite o nome do estado...",
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(50),
-                                ),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(50),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      CustomDropdownSearch(
                         items: estados,
-                        dropdownDecoratorProps: const DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50),
-                              ),
-                            ),
-                            labelText: "Estado",
-                            hintText: "Escolha o estado",
-                          ),
-                        ),
-                        onChanged: (Map<String, String>? novoEstado) {
+                        onChanged: (Map<String, dynamic>? novoEstado) {
                           buscarCidades(novoEstado?['SiglaUF']);
                           setState(() {
                             estadoSelecionado = novoEstado?['SiglaUF'];
                             cidadeSelecionada = null; // Adicione esta linha
                           });
                         },
-                        itemAsString: (Map<String, String> estado) =>
+                        labelPrincipal: 'Estado',
+                        hintTextPrincipal: 'Escolha o estado...',
+                        prefixIcon: const Icon(Icons.flag),
+                        labelSecundaria: 'Buscar estado',
+                        hintTextSecundaria: 'Digite o nome do estado...',
+                        itemAsString: (Map<String, dynamic> estado) =>
                             estado['Descricao']!,
                       ),
                       const SizedBox(height: 15),
-                      DropdownSearch<Map<String, dynamic>>(
+
+                      CustomDropdownSearch(
                         selectedItem: cidadeSelecionada,
-                        popupProps: const PopupProps.menu(
-                          menuProps: MenuProps(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          showSearchBox: true,
-                          //showSelectedItems: true,
-                          searchFieldProps: TextFieldProps(
-                            padding: EdgeInsets.all(15.0),
-                            decoration: InputDecoration(
-                              label: Text("Cidade"),
-                              hintText: "Digite o nome da cidade...",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(50),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         items: cidades,
-                        dropdownDecoratorProps: const DropDownDecoratorProps(
-                          dropdownSearchDecoration: InputDecoration(
-                            prefixIcon: Icon(Icons.location_city),
-                            fillColor: Colors.brancoBege,
-                            filled: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50),
-                              ),
-                            ),
-                            labelText: "Cidade",
-                            hintText: "Escolha a cidade",
-                          ),
-                        ),
                         onChanged: (Map<String, dynamic>? novaCidade) {
                           setState(() {
                             cidadeSelecionada = novaCidade;
                             idCidade = novaCidade?['idCidade'];
                           });
                         },
+                        labelPrincipal: 'Cidade',
+                        hintTextPrincipal: 'Escolha a cidade...',
+                        prefixIcon: const Icon(Icons.location_city),
+                        labelSecundaria: 'Buscar cidade',
+                        hintTextSecundaria: 'Digite o nome da cidade...',
                         itemAsString: (Map<String, dynamic> cidade) =>
                             cidade['NomeCidade']!,
                       ),
@@ -309,10 +253,12 @@ class _OnePageState extends State<TwoDados> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Icon(
+                                        color: Colors.black45,
                                         item['Descricao'] == 'Feminino'
                                             ? Icons.female
                                             : Icons.male,
                                       ),
+                                      const SizedBox(width: 10),
                                       Text(item['Descricao'] ?? ''),
                                     ],
                                   ),
@@ -359,6 +305,7 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        maxLength: 150,
                         label: "Logradouro",
                         icon: Icons.location_on,
                         hint: "Digite o logradouro...",
@@ -416,6 +363,7 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        maxLength: 50,
                         label: "Bairro",
                         icon: Icons.location_on,
                         hint: "Digite o bairro...",
@@ -429,6 +377,7 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        maxLength: 15,
                         label: "Complemento",
                         icon: Icons.location_on,
                         hint: "Digite o complemento...",
@@ -455,23 +404,6 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       //Testando
-                      CustomDropdownSearch(
-                        items: estados,
-                        onChanged: (Map<String, dynamic>? novoEstado) {
-                          buscarCidades(novoEstado?['SiglaUF']);
-                          setState(() {
-                            estadoSelecionado = novoEstado?['SiglaUF'];
-                            cidadeSelecionada = null; // Adicione esta linha
-                          });
-                        },
-                        labelPrincipal: 'Estado',
-                        hintTextPrincipal: 'Escolha o estado...',
-                        prefixIcon: const Icon(Icons.flag),
-                        labelSecundaria: 'Buscar estado',
-                        hintTextSecundaria: 'Digite o nome do estado...',
-                        itemAsString: (Map<String, dynamic> estado) =>
-                            estado['Descricao']!,
-                      )
                     ],
                   ),
                 ),

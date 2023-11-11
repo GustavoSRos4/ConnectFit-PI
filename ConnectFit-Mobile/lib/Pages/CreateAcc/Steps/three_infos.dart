@@ -41,7 +41,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
 
   Future<void> stepThreeCreateAccountPressed() async {
     var responses = await Future.wait<void>([
-      stepThreeApiPeso(),
       stepThreeCreateApiAnamnese(),
     ]);
   }
