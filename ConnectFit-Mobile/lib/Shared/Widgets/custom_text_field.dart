@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final IconData? icon;
   final bool obscureTest;
   final Widget? sufix;
+  final TextInputType? keyboardType;
   final String? Function(String? text)? validator;
   final void Function()? onTap;
   final void Function(String? text)? onSaved;
@@ -31,11 +32,13 @@ class CustomTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.readOnly = false,
     this.onTap,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       onTap: onTap,
       readOnly: readOnly,
       onFieldSubmitted: onFieldSubmitted,

@@ -32,6 +32,7 @@ class _OnePageState extends State<TwoDados> {
   final numeroEC = TextEditingController();
   final bairroEC = TextEditingController();
   final complementoEC = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   String? selectedValue;
   String? token;
@@ -45,46 +46,40 @@ class _OnePageState extends State<TwoDados> {
   DateTime selectedDate = DateTime.now();
 
   stepTwoCreateAccountPressed() async {
-    if (bairroEC.text != '') {
-      String telefoneString =
-          telefoneEC.text.replaceAll(RegExp(r'[^\d]'), ''); // tirar as
-      String dddString =
-          telefoneString.substring(0, 2); // pego os 2 primeiros para DDD
-      String numeroTelefoneString =
-          telefoneString.substring(2); // e o restante para o numero
-      int ddd = int.parse(dddString);
-      int numeroTelefone = int.parse(numeroTelefoneString);
-      String cpfString = cpfEC.text.replaceAll(RegExp(r'[^\d]'), '');
-      int cpf = int.parse(cpfString);
-      String cepString = cepEC.text.replaceAll(RegExp(r'[^\d]'), '');
-      int cep = int.parse(cepString);
+    String telefoneString =
+        telefoneEC.text.replaceAll(RegExp(r'[^\d]'), ''); // tirar as
+    String dddString =
+        telefoneString.substring(0, 2); // pego os 2 primeiros para DDD
+    String numeroTelefoneString =
+        telefoneString.substring(2); // e o restante para o numero
+    int ddd = int.parse(dddString);
+    int numeroTelefone = int.parse(numeroTelefoneString);
+    String cpfString = cpfEC.text.replaceAll(RegExp(r'[^\d]'), '');
+    int cpf = int.parse(cpfString);
+    String cepString = cepEC.text.replaceAll(RegExp(r'[^\d]'), '');
+    int cep = int.parse(cepString);
 
-      http.Response response = await AuthServices.registerTwo(
-        cpf,
-        dataNasEC.text,
-        ddd,
-        numeroTelefone,
-        logradouroEC.text,
-        numeroEC.text,
-        complementoEC.text,
-        cep,
-        bairroEC.text,
-        idCidade!,
-        siglaSexo,
-      );
-      Map responseMap = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        if (mounted) {
-          Navigator.pushNamed(context, '/threeInfos');
-        } else {
-          if (mounted) {
-            errorSnackBar(context, responseMap.values.first[0]);
-          }
-        }
-      }
-    } else {
+    http.Response response = await AuthServices.registerTwo(
+      cpf,
+      dataNasEC.text,
+      ddd,
+      numeroTelefone,
+      logradouroEC.text,
+      numeroEC.text,
+      complementoEC.text,
+      cep,
+      bairroEC.text,
+      idCidade!,
+      siglaSexo,
+    );
+    Map responseMap = jsonDecode(response.body);
+    if (response.statusCode == 200) {
       if (mounted) {
-        errorSnackBar(context, 'email not valid');
+        Navigator.pushNamed(context, '/threeInfos');
+      } else {
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.first[0]);
+        }
       }
     }
   }
@@ -162,6 +157,7 @@ class _OnePageState extends State<TwoDados> {
           ListView(
             children: [
               Form(
+                key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
@@ -259,6 +255,7 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        keyboardType: TextInputType.number,
                         label: "CPF",
                         icon: Icons.credit_card,
                         hint: "Digite seu CPF...",
@@ -340,6 +337,7 @@ class _OnePageState extends State<TwoDados> {
                       ),
                       const SizedBox(height: 15),
                       CustomTextField(
+                        keyboardType: TextInputType.number,
                         label: "Telefone",
                         icon: Icons.phone,
                         hint: "Digite seu telefone...",
@@ -352,7 +350,8 @@ class _OnePageState extends State<TwoDados> {
                           if (text == null || text.isEmpty) {
                             return "Esse campo não pode ficar vazio";
                           }
-                          if (!GetUtils.isPhoneNumber(text)) {
+                          if (!GetUtils.isPhoneNumber(text) ||
+                              text.length < 14) {
                             return "Telefone Inválido";
                           }
                           return null;
@@ -361,7 +360,7 @@ class _OnePageState extends State<TwoDados> {
                       const SizedBox(height: 15),
                       CustomTextField(
                         label: "Logradouro",
-                        icon: Icons.person,
+                        icon: Icons.location_on,
                         hint: "Digite o logradouro...",
                         controller: logradouroEC,
                         validator: (text) {
@@ -377,8 +376,9 @@ class _OnePageState extends State<TwoDados> {
                         children: [
                           Expanded(
                             child: CustomTextField(
+                              keyboardType: TextInputType.number,
                               label: "CEP",
-                              icon: Icons.person,
+                              icon: Icons.mail,
                               hint: "Digite o CEP...",
                               controller: cepEC,
                               inputFormatters: [
@@ -389,6 +389,10 @@ class _OnePageState extends State<TwoDados> {
                                 if (text == null || text.isEmpty) {
                                   return "Esse campo não pode ficar vazio";
                                 }
+                                if (!GetUtils.isPhoneNumber(text) ||
+                                    text.length < 10) {
+                                  return "CEP Inválido";
+                                }
                                 return null;
                               },
                             ),
@@ -397,7 +401,7 @@ class _OnePageState extends State<TwoDados> {
                           Expanded(
                             child: CustomTextField(
                               label: "Numero",
-                              icon: Icons.person,
+                              icon: Icons.format_list_numbered,
                               hint: "Digite o numero...",
                               controller: numeroEC,
                               validator: (text) {
@@ -413,7 +417,7 @@ class _OnePageState extends State<TwoDados> {
                       const SizedBox(height: 15),
                       CustomTextField(
                         label: "Bairro",
-                        icon: Icons.person,
+                        icon: Icons.location_on,
                         hint: "Digite o bairro...",
                         controller: bairroEC,
                         validator: (text) {
@@ -426,23 +430,22 @@ class _OnePageState extends State<TwoDados> {
                       const SizedBox(height: 15),
                       CustomTextField(
                         label: "Complemento",
-                        icon: Icons.person,
+                        icon: Icons.location_on,
                         hint: "Digite o complemento...",
                         controller: complementoEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          return null;
-                        },
                       ),
                       const SizedBox(height: 15),
                       GlobalCustomElevatedButton(
                         borderRadius: 50,
                         width: double.infinity,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/threeInfos');
-                          stepTwoCreateAccountPressed();
+                          if (formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, '/threeInfos');
+                            stepTwoCreateAccountPressed();
+                          } else {
+                            errorSnackBar(context,
+                                'Por favor, preencha os campos corretamente!');
+                          }
                         },
                         child: const CustomText(
                           text: "Avancar",
