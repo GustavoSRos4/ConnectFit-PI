@@ -74,9 +74,17 @@ class PerfilPage extends StatelessWidget {
                       EdgeInsets.only(top: 20, left: 20, bottom: 20, right: 20),
                   child: Column(
                     children: [
-                      CustomRowText(indicador: 'Peso', valor: '70 kg'),
-                      SizedBox(height: 10),
                       CustomRowText(indicador: 'Altura', valor: '180 cm'),
+                      SizedBox(height: 10),
+                      CustomRowText(indicador: 'Objetivo', valor: 'Objetivo'),
+                      SizedBox(height: 10),
+                      CustomRowText(indicador: 'Fumante', valor: 'Fumante'),
+                      SizedBox(height: 10),
+                      CustomRowText(
+                          indicador: 'Nivel de Atividade', valor: 'Nível'),
+                      SizedBox(height: 10),
+                      CustomRowText(
+                          indicador: 'Consumo alcoolico', valor: 'Consumo'),
                       SizedBox(height: 10),
                       CustomRowText(
                         indicador: 'Medicamentos',
@@ -87,6 +95,7 @@ class PerfilPage extends StatelessWidget {
                         indicador: 'Comorbidades',
                         valor: 'bico de pagagaio, Ernia',
                       ),
+                      SizedBox(height: 10),
                       ExpansionTile(
                         collapsedIconColor: Colors.white,
                         iconColor: Colors.white,
@@ -101,23 +110,6 @@ class PerfilPage extends StatelessWidget {
                             fontSize: 13.5,
                             text:
                                 'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
-                          ),
-                        ],
-                      ),
-                      ExpansionTile(
-                        collapsedIconColor: Colors.white,
-                        iconColor: Colors.white,
-                        tilePadding: EdgeInsets.only(right: 0),
-                        title: CustomText(
-                          text: 'Objetivos:',
-                          isBold: true,
-                          fontSize: 13.5,
-                        ),
-                        children: [
-                          CustomText(
-                            fontSize: 13.5,
-                            text:
-                                'Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, ObjetivosObjetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos, Objetivos',
                           ),
                         ],
                       ),

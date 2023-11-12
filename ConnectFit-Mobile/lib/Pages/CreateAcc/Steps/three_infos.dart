@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
+import 'package:projeto/Shared/Widgets/custom_container_text_field_add_various_itens.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -40,7 +41,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
   int idNivelAtiFis = 1;
 
   Future<void> stepThreeCreateAccountPressed() async {
-    var responses = await Future.wait<void>([
+    await Future.wait<void>([
       stepThreeCreateApiAnamnese(),
     ]);
   }
@@ -248,154 +249,68 @@ class _ThreeInfosState extends State<ThreeInfos> {
                       const SizedBox(height: 15),
                       Column(
                         children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: Colors.brancoBege,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                const CustomText(
-                                  text: 'Medicamentos',
-                                  color: Colors.pretoPag,
-                                  fontSize: 15,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomTextField(
-                                        onFieldSubmitted: (z) {
-                                          if (medicamentosEC.text.isNotEmpty) {
-                                            setState(() {
-                                              medicamentos
-                                                  .add(medicamentosEC.text);
-                                              medicamentosEC.clear();
-                                            });
-                                          }
-                                        },
-                                        controller: medicamentosEC,
-                                        label: 'Digite seu medicamento...',
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    GlobalCustomElevatedButton(
-                                      height: 40,
-                                      width: 60,
-                                      borderRadius: 50,
-                                      onPressed: () {
-                                        if (medicamentosEC.text.isNotEmpty) {
-                                          setState(() {
-                                            medicamentos
-                                                .add(medicamentosEC.text);
-                                            medicamentosEC.clear();
-                                          });
-                                        }
+                          customContainerTextFieldAddVariousItens(
+                            label: 'Digite seu medicamento...',
+                            controller: medicamentosEC,
+                            textTitulo: 'Medicamentos',
+                            onFieldSubmitted: (z) {
+                              if (medicamentosEC.text.isNotEmpty) {
+                                setState(() {
+                                  medicamentos.add(medicamentosEC.text);
+                                  medicamentosEC.clear();
+                                });
+                              }
+                            },
+                            onPressedButton: () {
+                              if (medicamentosEC.text.isNotEmpty) {
+                                setState(() {
+                                  medicamentos.add(medicamentosEC.text);
+                                  medicamentosEC.clear();
+                                });
+                              }
+                            },
+                            childrenChip: medicamentos
+                                .map((medicamento) => Chip(
+                                      label: Text(medicamento),
+                                      onDeleted: () {
+                                        setState(() {
+                                          medicamentos.remove(medicamento);
+                                        });
                                       },
-                                      child: const Icon(Icons.add),
-                                    ),
-                                  ],
-                                ),
-                                Wrap(
-                                  spacing: 6.0,
-                                  runSpacing: 6.0,
-                                  children: medicamentos
-                                      .map((medicamento) => Chip(
-                                            label: Text(medicamento),
-                                            onDeleted: () {
-                                              setState(() {
-                                                medicamentos
-                                                    .remove(medicamento);
-                                              });
-                                            },
-                                          ))
-                                      .toList(),
-                                ),
-                              ],
-                            ),
+                                    ))
+                                .toList(),
                           ),
                           const SizedBox(height: 15),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            width: double.infinity,
-                            decoration: const BoxDecoration(
-                              color: Colors.brancoBege,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                const CustomText(
-                                  text: 'Comorbidades',
-                                  color: Colors.pretoPag,
-                                  fontSize: 15,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomTextField(
-                                        onFieldSubmitted: (z) {
-                                          if (comorbidadesEC.text.isNotEmpty) {
-                                            setState(() {
-                                              comorbidades
-                                                  .add(comorbidadesEC.text);
-                                              comorbidadesEC.clear();
-                                            });
-                                          }
-                                        },
-                                        controller: comorbidadesEC,
-                                        label: 'Digite suas comorbidades',
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    GlobalCustomElevatedButton(
-                                      height: 40,
-                                      width: 60,
-                                      borderRadius: 50,
-                                      onPressed: () {
-                                        if (comorbidadesEC.text.isNotEmpty) {
-                                          setState(() {
-                                            comorbidades
-                                                .add(comorbidadesEC.text);
-                                            comorbidadesEC.clear();
-                                          });
-                                        }
+                          customContainerTextFieldAddVariousItens(
+                            textTitulo: 'Comorbidades',
+                            onFieldSubmitted: (z) {
+                              if (comorbidadesEC.text.isNotEmpty) {
+                                setState(() {
+                                  comorbidades.add(comorbidadesEC.text);
+                                  comorbidadesEC.clear();
+                                });
+                              }
+                            },
+                            controller: comorbidadesEC,
+                            label: 'Digite suas comorbidades',
+                            onPressedButton: () {
+                              if (comorbidadesEC.text.isNotEmpty) {
+                                setState(() {
+                                  comorbidades.add(comorbidadesEC.text);
+                                  comorbidadesEC.clear();
+                                });
+                              }
+                            },
+                            childrenChip: comorbidades
+                                .map((comorbidade) => Chip(
+                                      label: Text(comorbidade),
+                                      onDeleted: () {
+                                        setState(() {
+                                          comorbidades.remove(comorbidade);
+                                        });
                                       },
-                                      child: const Icon(Icons.add),
-                                    ),
-                                  ],
-                                ),
-                                Wrap(
-                                  spacing: 6.0,
-                                  runSpacing: 6.0,
-                                  children: comorbidades
-                                      .map((comorbidade) => Chip(
-                                            label: Text(comorbidade),
-                                            onDeleted: () {
-                                              setState(() {
-                                                comorbidades
-                                                    .remove(comorbidade);
-                                              });
-                                            },
-                                          ))
-                                      .toList(),
-                                ),
-                              ],
-                            ),
+                                    ))
+                                .toList(),
                           ),
                         ],
                       ),

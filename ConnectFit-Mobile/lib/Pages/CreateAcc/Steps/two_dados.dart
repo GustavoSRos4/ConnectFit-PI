@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
+import 'package:projeto/Shared/Widgets/custom_drop_down_button_form_field_sexo.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_search.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -241,8 +242,8 @@ class _OnePageState extends State<TwoDados> {
                           ),
                           const SizedBox(width: 15),
                           Expanded(
-                            child: DropdownButtonFormField<String>(
-                              borderRadius: BorderRadius.circular(15),
+                            child: buildCustomDropdownButtonFormFieldSexo(
+                              data: sexos,
                               value: selectedValue,
                               onChanged: (String? newValue) {
                                 setState(() {
@@ -250,39 +251,7 @@ class _OnePageState extends State<TwoDados> {
                                   siglaSexo = newValue;
                                 });
                               },
-                              items:
-                                  sexos.map<DropdownMenuItem<String>>((item) {
-                                return DropdownMenuItem<String>(
-                                  value: item['Sigla'],
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        color: Colors.black45,
-                                        item['Descricao'] == 'Feminino'
-                                            ? Icons.female
-                                            : Icons.male,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(item['Descricao'] ?? ''),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                              decoration: const InputDecoration(
-                                filled: true,
-                                fillColor: Colors.brancoBege,
-                                hintStyle: TextStyle(color: Colors.white),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(50),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.all(17),
-                                labelText: 'Gênero',
-                              ),
+                              labelText: 'Genêro',
                             ),
                           ),
                         ],

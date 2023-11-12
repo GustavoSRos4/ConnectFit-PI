@@ -7,6 +7,7 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
   final String dataAlteracao;
   final String nomeMedida;
   final String valorMedida;
+  final String textUnidadeMedida;
   final TextEditingController controller;
   final void Function() funcao;
   const CustomListTileAlterarMedidas({
@@ -16,6 +17,7 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
     required this.controller,
     required this.funcao,
     required this.dataAlteracao,
+    required this.textUnidadeMedida,
   });
 
   @override
@@ -92,7 +94,7 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
             top: 0,
             child: Center(
               child: CustomText(
-                text: '$valorMedida cm',
+                text: '$valorMedida $textUnidadeMedida',
                 fontSize: 15,
               ),
             ),

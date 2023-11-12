@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
-import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/Charts/line_chart.dart';
 import 'package:projeto/Pages/GraphicsPage/data.dart';
 

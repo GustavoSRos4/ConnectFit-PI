@@ -1,30 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 
-DropdownButtonFormField<int> buildCustomDropdownButtonFormField({
+DropdownButtonFormField<String> buildCustomDropdownButtonFormFieldSexo({
   double? menuMaxHeight,
   BorderSide borderSide = BorderSide.none,
   Color? fillCollor = Colors.brancoBege,
   required List<Map<String, dynamic>> data,
-  required int value,
-  required Function(int) onChanged,
+  required String? value,
+  required Function(String) onChanged,
   required String labelText,
 }) {
-  return DropdownButtonFormField<int>(
+  return DropdownButtonFormField<String>(
     iconEnabledColor: Colors.brancoBege,
     iconDisabledColor: Colors.brancoBege,
     menuMaxHeight: menuMaxHeight,
     borderRadius: BorderRadius.circular(15),
     dropdownColor: Colors.grey[800],
     value: value,
-    onChanged: (int? newValue) {
+    onChanged: (String? newValue) {
       onChanged(newValue!);
     },
-    items: data.map<DropdownMenuItem<int>>((item) {
-      return DropdownMenuItem<int>(
-        value: item['id'],
-        child: Text(
-          item['Descricao'],
-          style: const TextStyle(color: Colors.brancoBege),
+    items: data.map<DropdownMenuItem<String>>((item) {
+      return DropdownMenuItem<String>(
+        value: item['Sigla'],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              color: Colors.brancoBege,
+              item['Descricao'] == 'Feminino' ? Icons.female : Icons.male,
+            ),
+            const SizedBox(width: 10),
+            CustomText(
+              text: item['Descricao'] ?? '',
+              fontSize: 15,
+            ),
+          ],
         ),
       );
     }).toList(),

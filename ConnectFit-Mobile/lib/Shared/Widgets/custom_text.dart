@@ -10,7 +10,7 @@ class CustomText extends StatelessWidget {
     required this.text,
     this.fontSize = 12,
     this.isBold = false,
-    this.color = Colors.white,
+    this.color = Colors.brancoBege,
   });
 
   @override

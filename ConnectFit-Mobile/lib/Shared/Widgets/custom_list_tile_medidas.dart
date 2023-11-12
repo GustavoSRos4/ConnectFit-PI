@@ -6,12 +6,14 @@ class CustomListTileMedidas extends StatelessWidget {
   final String dataAlteracao;
   final String nomeMedida;
   final String valorMedida;
+  final String textUnidadeMedida;
 
   const CustomListTileMedidas({
     super.key,
     required this.nomeMedida,
     required this.valorMedida,
     required this.dataAlteracao,
+    required this.textUnidadeMedida,
   });
 
   @override
@@ -30,7 +32,7 @@ class CustomListTileMedidas extends StatelessWidget {
           valor: dataAlteracao,
         ),
         trailing: CustomText(
-          text: valorMedida,
+          text: '$valorMedida $textUnidadeMedida',
           fontSize: 15,
         ),
         shape: RoundedRectangleBorder(

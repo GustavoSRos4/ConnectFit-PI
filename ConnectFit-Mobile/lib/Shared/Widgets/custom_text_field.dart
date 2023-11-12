@@ -10,6 +10,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? sufix;
   final TextInputType? keyboardType;
   final int? maxLength;
+  final Color? suffixIconColor;
+  final Color? prefixIconColor;
   final String? Function(String? text)? validator;
   final void Function()? onTap;
   final void Function(String? text)? onSaved;
@@ -35,6 +37,8 @@ class CustomTextField extends StatelessWidget {
     this.onTap,
     this.keyboardType,
     this.maxLength,
+    this.suffixIconColor = Colors.brancoBege,
+    this.prefixIconColor = Colors.brancoBege,
   }) : super(key: key);
 
   @override
@@ -53,12 +57,17 @@ class CustomTextField extends StatelessWidget {
       onSaved: onSaved,
       onChanged: onChanged,
       obscureText: obscureTest,
+      style: const TextStyle(color: Colors.brancoBege),
       decoration: InputDecoration(
+        counterStyle: const TextStyle(
+          color: Colors.brancoBege,
+        ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         filled: true,
-        fillColor: Colors.brancoBege,
-        hintStyle: const TextStyle(color: Colors.black),
+        fillColor: Colors.grey[800],
+        labelStyle: const TextStyle(color: Colors.brancoBege),
+        hintStyle: const TextStyle(color: Colors.brancoBege),
         labelText: label,
         hintText: hint,
         border: const OutlineInputBorder(
@@ -72,7 +81,9 @@ class CustomTextField extends StatelessWidget {
             : Icon(
                 icon,
               ),
+        prefixIconColor: prefixIconColor,
         suffixIcon: sufix,
+        suffixIconColor: suffixIconColor,
       ),
     );
   }
