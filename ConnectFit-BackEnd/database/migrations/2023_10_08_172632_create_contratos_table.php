@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contratos', function (Blueprint $table) {
             $table->unsignedInteger('idPessoaUsuario');
             $table->unsignedInteger('idPessoaProfissional');
-            $table->dateTime('dataInic')->nullable();
+            $table->dateTime('dataInic');
             $table->dateTime('dataFinal')->nullable();
             $table->tinyInteger("idDuracao");
             $table->decimal('valor',9,2);
@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->foreign('idPessoaProfissional')->references('idPessoaProfissional')->on('pessoa_profissionais')->onDelete('cascade');
             $table->foreign('idPessoaUsuario')->references('idPessoaUsuario')->on('pessoa_usuarios')->onDelete('cascade');
-            $table->primary(['idPessoaProfissional','idPessoaUsuario','created_at']);
+            $table->primary(['idPessoaProfissional','idPessoaUsuario','dataInic']);
 
         });
     }
