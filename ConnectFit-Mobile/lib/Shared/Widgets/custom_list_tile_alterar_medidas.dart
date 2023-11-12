@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 
@@ -40,7 +41,16 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
                         fontSize: 15,
                       ),
                       TextField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        onSubmitted: (z) {
+                          funcao();
+                          Navigator.pop(context);
+                        },
+                        keyboardType: TextInputType.number,
                         controller: controller,
+                        autofocus: true,
                       ),
                       const SizedBox(height: 15),
                       ElevatedButton(

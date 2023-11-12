@@ -29,8 +29,8 @@ class CustomListTileMedidas extends StatelessWidget {
           indicador: 'Alteração',
           valor: dataAlteracao,
         ),
-        trailing: const CustomText(
-          text: '10 cm',
+        trailing: CustomText(
+          text: valorMedida,
           fontSize: 15,
         ),
         shape: RoundedRectangleBorder(

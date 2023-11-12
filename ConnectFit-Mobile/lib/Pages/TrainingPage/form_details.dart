@@ -187,14 +187,14 @@ class _FormDetailsState extends State<FormDetails> {
                         ? Row(
                             children: [
                               timerPaused
-                                  ? CustomElevatedButton(
+                                  ? CustomElevatedButtonTreino(
                                       twoButtons: true,
                                       onPressed: () {
                                         startTimer();
                                       },
                                       child: const Icon(Icons.play_arrow),
                                     )
-                                  : CustomElevatedButton(
+                                  : CustomElevatedButtonTreino(
                                       twoButtons: true,
                                       onPressed: () {
                                         pauseTimer();
@@ -204,7 +204,7 @@ class _FormDetailsState extends State<FormDetails> {
                               const SizedBox(
                                 width: 2,
                               ),
-                              CustomElevatedButton(
+                              CustomElevatedButtonTreino(
                                 twoButtons: true,
                                 onPressed: () {
                                   resetTimer();
@@ -213,7 +213,7 @@ class _FormDetailsState extends State<FormDetails> {
                               ),
                             ],
                           )
-                        : CustomElevatedButton(
+                        : CustomElevatedButtonTreino(
                             onPressed: () {
                               startTimer();
                             },
@@ -221,7 +221,7 @@ class _FormDetailsState extends State<FormDetails> {
                               text: 'Iniciar',
                             ),
                           ),
-                    CustomElevatedButton(
+                    CustomElevatedButtonTreino(
                       onPressed: () {},
                       child: const CustomText(
                         text: 'Finalizar',

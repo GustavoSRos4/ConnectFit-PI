@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
 import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
-import 'package:projeto/Shared/Widgets/custom_elevated_button.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_alterar_medidas.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:http/http.dart' as http;
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 class PageMedidasAlterar extends StatefulWidget {
   const PageMedidasAlterar({super.key});
@@ -20,6 +21,7 @@ class PageMedidasAlterar extends StatefulWidget {
 }
 
 class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
+  List<Map<String, dynamic>> seedAreas = [];
   final abdominalEC = TextEditingController();
   final axilarMediaEC = TextEditingController();
   final femuralMediaEC = TextEditingController();
@@ -29,37 +31,36 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
   final subescapularEC = TextEditingController();
   final supraIliacaEC = TextEditingController();
   final tricepsEC = TextEditingController();
-  List<Map<String, String>> areas = [];
+  final ombrosEC = TextEditingController();
+  final toraxEC = TextEditingController();
+  final abdomenEC = TextEditingController();
+  final cinturaEC = TextEditingController();
+  final quadrilEC = TextEditingController();
+  final bracoEsqEC = TextEditingController();
+  final bracoDirEC = TextEditingController();
+  final coxaEsqEC = TextEditingController();
+  final coxaDirEC = TextEditingController();
+  final pernaEsqEC = TextEditingController();
+  final pernaDirEC = TextEditingController();
+  List<Map<dynamic, dynamic>> areas = [];
   MedidasModel? model;
 
   salvarPressed() async {
-    int peso = int.parse(pesoEC.text);
-    int percentualGordura = int.parse(percentualGorduraEC.text);
-    int subescapular = int.parse(subescapularEC.text);
-    int triceps = int.parse(tricepsEC.text);
-    int peitoral = int.parse(peitoralEC.text);
-    int axilarMedia = int.parse(axilarMediaEC.text);
-    int supraIliaca = int.parse(supraIliacaEC.text);
-    int abdominal = int.parse(abdominalEC.text);
-    int femuralMedia = int.parse(femuralMediaEC.text);
-
     http.Response response = await ApiMedidas.registrarMedidas(
-      peso,
-      percentualGordura,
-      subescapular,
-      triceps,
-      peitoral,
-      axilarMedia,
-      supraIliaca,
-      abdominal,
-      femuralMedia,
       areas,
     );
 
     Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
+    debugPrint("Código de status da resposta: ${response.statusCode}");
+    if (response.statusCode == 201) {
+      setState(() {
+        areas = [];
+      });
+
       if (mounted) {
-        Navigator.pushNamed(context, '/threeInfos');
+        //Navigator.pushNamed(context, '/threeInfos');
+        Navigator.pop(context);
+        debugPrint("Deu certo 201");
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -68,21 +69,40 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
     }
   }
 
-  testeDados(String nome) {
+  testeDados(String medida, String id) {
+    int index = areas.indexWhere((element) => element["idArea"] == id);
     setState(() {
-      model = MedidasModel(
-        abdominal: abdominalEC.text,
-        axilarMedia: axilarMediaEC.text,
-        femuralMedia: femuralMediaEC.text,
-        peitoral: peitoralEC.text,
-        percentual: percentualGorduraEC.text,
-        peso: pesoEC.text,
-        subescapular: subescapularEC.text,
-        supraIliaca: supraIliacaEC.text,
-        triceps: tricepsEC.text,
-      );
+      if (index != -1) {
+        areas[index]["medida"] = medida;
+      } else {
+        areas.add({
+          "medida": medida,
+          "idArea": id,
+        });
+      }
     });
-    debugPrint(model.toString());
+    debugPrint(areas.toString());
+  }
+
+  String getNameById(int id) {
+    for (Map<String, dynamic> area in seedAreas) {
+      if (area['id'] == id) {
+        return area['Descricao'];
+      }
+    }
+    return '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    FetchData.fetchAreas().then((data) {
+      debugPrint('Areas: $data');
+      setState(() {
+        seedAreas = data;
+      });
+    });
   }
 
   @override
@@ -95,171 +115,200 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 30),
-              const CustomContainerTitlePerfil(text: 'Composição Corporal'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const CustomContainerTitlePerfil(text: 'Corpo'),
+              const SizedBox(height: 20),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Axilar Media",
-                valorMedida: model?.axilarMedia ?? '',
-                dataAlteracao: "10/11/2023",
-                controller: axilarMediaEC,
-                funcao: () => testeDados("axilarMediaEC"),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: "FemuralMedia",
-                valorMedida: model?.femuralMedia ?? '',
-                dataAlteracao: "15/11/2023",
-                controller: femuralMediaEC,
-                funcao: () => testeDados("femuralMediaEC"),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: "Percentual de Gordura",
-                valorMedida: model?.percentual ?? '',
+                nomeMedida: getNameById(1),
+                valorMedida: percentualGorduraEC.text,
                 dataAlteracao: "10/09/2023",
                 controller: percentualGorduraEC,
-                funcao: () => testeDados("percentualGorduraEC"),
+                funcao: () => testeDados(percentualGorduraEC.text, '1'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Peso",
-                valorMedida: model?.peso ?? '',
+                nomeMedida: getNameById(2),
+                valorMedida: pesoEC.text,
                 dataAlteracao: "10/10/2023",
                 controller: pesoEC,
-                funcao: () => testeDados("pesoEC"),
+                funcao: () => testeDados(pesoEC.text, '2'),
+              ),
+              const SizedBox(height: 20),
+              const CustomContainerTitlePerfil(text: 'Dobras'),
+              const SizedBox(height: 20),
+              CustomListTileAlterarMedidas(
+                nomeMedida: getNameById(17),
+                valorMedida: axilarMediaEC.text,
+                dataAlteracao: "10/11/2023",
+                controller: axilarMediaEC,
+                funcao: () => testeDados(axilarMediaEC.text, '17'),
               ),
               const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Dobras Cutâneas'),
+              CustomListTileAlterarMedidas(
+                nomeMedida: getNameById(20),
+                valorMedida: femuralMediaEC.text,
+                dataAlteracao: "15/11/2023",
+                controller: femuralMediaEC,
+                funcao: () => testeDados(femuralMediaEC.text, '20'),
+              ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Subescapular",
+                nomeMedida: getNameById(14),
                 valorMedida: model?.subescapular ?? '',
                 dataAlteracao: "10/11/2023",
                 controller: subescapularEC,
-                funcao: () => testeDados("subescapularEC"),
+                funcao: () => testeDados(subescapularEC.text, '14'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "SupraIliaca",
+                nomeMedida: getNameById(18),
                 valorMedida: model?.supraIliaca ?? '',
                 dataAlteracao: "10/11/2023",
                 controller: supraIliacaEC,
-                funcao: () => testeDados("supraIliacaEC"),
+                funcao: () => testeDados(supraIliacaEC.text, '18'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Triceps",
+                nomeMedida: getNameById(15),
                 valorMedida: model?.triceps ?? '',
                 dataAlteracao: "10/11/2023",
                 controller: tricepsEC,
-                funcao: () => testeDados("tricepsEC"),
+                funcao: () => testeDados(tricepsEC.text, '15'),
               ),
               const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
-              const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Peitoral",
+                nomeMedida: getNameById(16),
                 valorMedida: model?.peitoral ?? '',
                 dataAlteracao: "10/11/2023",
                 controller: peitoralEC,
-                funcao: () => testeDados("peitoralEC"),
+                funcao: () => testeDados(peitoralEC.text, '16'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Abdominal",
+                nomeMedida: getNameById(19),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "10/11/2023",
                 controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                funcao: () => testeDados(abdominalEC.text, '19'),
               ),
-              const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Outros'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const CustomContainerTitlePerfil(text: 'Medidas Fita'),
+              const SizedBox(height: 20),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Ombros",
+                nomeMedida: getNameById(3),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "09/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: ombrosEC,
+                funcao: () => testeDados(ombrosEC.text, '3'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Tórax",
+                nomeMedida: getNameById(4),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "10/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: toraxEC,
+                funcao: () => testeDados(toraxEC.text, '4'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Abdômen",
+                nomeMedida: getNameById(5),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "11/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: abdomenEC,
+                funcao: () => testeDados(abdomenEC.text, '5'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Cintura",
+                nomeMedida: getNameById(6),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "12/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: cinturaEC,
+                funcao: () => testeDados(cinturaEC.text, '6'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Quadril",
+                nomeMedida: getNameById(7),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "13/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: quadrilEC,
+                funcao: () => testeDados(quadrilEC.text, '7'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Braço Esquerdo",
+                nomeMedida: getNameById(8),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "14/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: bracoEsqEC,
+                funcao: () => testeDados(bracoEsqEC.text, '8'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Braço Direito",
+                nomeMedida: getNameById(9),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "15/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: bracoDirEC,
+                funcao: () => testeDados(bracoDirEC.text, '9'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Coxa Esquerda",
+                nomeMedida: getNameById(10),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "16/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: coxaEsqEC,
+                funcao: () => testeDados(coxaEsqEC.text, '10'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Perna Esquerda",
+                nomeMedida: getNameById(11),
                 valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "17/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                dataAlteracao: "16/11/2023",
+                controller: coxaDirEC,
+                funcao: () => testeDados(coxaDirEC.text, '11'),
               ),
               const SizedBox(height: 10),
               CustomListTileAlterarMedidas(
-                nomeMedida: "Perna Direita",
+                nomeMedida: getNameById(12),
                 valorMedida: model?.abdominal ?? '',
                 dataAlteracao: "17/11/2023",
-                controller: abdominalEC,
-                funcao: () => testeDados("abdominalEC"),
+                controller: pernaEsqEC,
+                funcao: () => testeDados(pernaEsqEC.text, '12'),
               ),
               const SizedBox(height: 10),
-              CustomElevatedButton(
-                onPressed: () => salvarPressed,
-                child: const CustomText(text: 'Mandar', color: Colors.red),
+              CustomListTileAlterarMedidas(
+                nomeMedida: getNameById(13),
+                valorMedida: model?.abdominal ?? '',
+                dataAlteracao: "17/11/2023",
+                controller: pernaDirEC,
+                funcao: () => testeDados(pernaDirEC.text, '13'),
               ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GlobalCustomElevatedButton(
+                      width: 150,
+                      onPressed: () => {},
+                      child: const CustomText(
+                        text: 'Cancelar',
+                        fontSize: 17,
+                        isBold: true,
+                      ),
+                    ),
+                    GlobalCustomElevatedButton(
+                      width: 150,
+                      onPressed: () => salvarPressed(),
+                      child: const CustomText(
+                        text: 'Salvar',
+                        fontSize: 17,
+                        isBold: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ));

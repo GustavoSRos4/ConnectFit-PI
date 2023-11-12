@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 //por padrão ele vem com um tamanho normal, se especificar (twoButtons = true)
 //Vai trocar o botão normal para dois botões ocupando o mesmo espaço.
 
-class CustomElevatedButton extends StatelessWidget {
+class CustomElevatedButtonTreino extends StatelessWidget {
   final void Function() onPressed;
   final bool twoButtons;
   final Widget child;
-  const CustomElevatedButton({
+  const CustomElevatedButtonTreino({
     super.key,
     required this.onPressed,
     required this.child,

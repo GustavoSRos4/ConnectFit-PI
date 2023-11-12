@@ -7,28 +7,10 @@ import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 class ApiMedidas {
   //API para primeria parte de ciração de conta
   static Future<http.Response> registrarMedidas(
-    int peso,
-    int percentualGordura,
-    int subescapular,
-    int triceps,
-    int peitoral,
-    int axilarMedia,
-    int supraIliaca,
-    int abdominal,
-    int femuralMedia,
-    List<Map<String, String>> areas,
+    List<Map<dynamic, dynamic>> areas,
   ) async {
     Map data = {
-      "peso": peso,
-      "percentualGordura": percentualGordura,
-      "subescapular": subescapular,
-      "triceps": triceps,
-      "peitoral": peitoral,
-      "axilarMedia": axilarMedia,
-      "supraIliaca": supraIliaca,
-      "abdominal": abdominal,
-      "femuralMedia": femuralMedia,
-      "areas": areas,
+      "Areas": jsonEncode(areas),
     };
     var body = json.encode(data);
     var url = Uri.parse('$baseURL/createMedida'); //trocar pela rota do laravel

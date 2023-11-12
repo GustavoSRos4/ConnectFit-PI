@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
-import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_search.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -58,28 +58,33 @@ class _OnePageState extends State<TwoDados> {
     String cepString = cepEC.text.replaceAll(RegExp(r'[^\d]'), '');
     int cep = int.parse(cepString);
 
-    http.Response response = await AuthServices.registerTwo(
-      cpf,
-      dataNasEC.text,
-      ddd,
-      numeroTelefone,
-      logradouroEC.text,
-      numeroEC.text,
-      complementoEC.text,
-      cep,
-      bairroEC.text,
-      idCidade!,
-      siglaSexo,
-    );
-    Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      if (mounted) {
-        Navigator.pushNamed(context, '/threeInfos');
-      } else {
+    try {
+      http.Response response = await AuthServices.registerTwo(
+        cpf,
+        dataNasEC.text,
+        ddd,
+        numeroTelefone,
+        logradouroEC.text,
+        numeroEC.text,
+        complementoEC.text,
+        cep,
+        bairroEC.text,
+        idCidade!,
+        siglaSexo,
+      );
+
+      if (response.statusCode == 201) {
         if (mounted) {
-          errorSnackBar(context, responseMap.values.first[0]);
+          Navigator.pushNamed(context, '/threeInfos');
+        }
+      } else {
+        Map responseMap = jsonDecode(response.body);
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.toString());
         }
       }
+    } catch (e) {
+      debugPrint('Ocorreu um erro: $e');
     }
   }
 
@@ -99,6 +104,7 @@ class _OnePageState extends State<TwoDados> {
   @override
   void initState() {
     super.initState();
+
     getToken().then((value) {
       setState(() {
         token = value;
@@ -389,7 +395,6 @@ class _OnePageState extends State<TwoDados> {
                         width: double.infinity,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/threeInfos');
                             stepTwoCreateAccountPressed();
                           } else {
                             errorSnackBar(context,

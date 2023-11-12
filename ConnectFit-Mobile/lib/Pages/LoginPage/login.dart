@@ -25,9 +25,14 @@ class _LoginPageState extends State<LoginPage> {
 
   loginPressed() async {
     if (_email.isNotEmpty && _password.isNotEmpty) {
-      http.Response response = await AuthServices.login(_email, _password);
+      http.Response response = await AuthServices.login(
+        _email,
+        _password,
+      );
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
+        String token = responseMap['token'];
+        await saveToken(token);
         if (mounted) {
           Navigator.pushNamed(context, '/home');
         }
@@ -177,8 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: 50,
                           width: double.infinity,
                           onPressed: () {
-                            Navigator.pushNamed(context, '/home');
-                            //loginPressed();
+                            loginPressed();
                           },
                           child: const CustomText(
                             text: "Login",

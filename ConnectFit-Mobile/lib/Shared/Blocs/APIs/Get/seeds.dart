@@ -198,4 +198,29 @@ class FetchData {
       return [];
     }
   }
+
+  static Future<List<Map<String, dynamic>>> fetchAreas() async {
+    var url = Uri.parse('$baseURL/showAreas');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> areasList = data['Areas'];
+      List<Map<String, dynamic>> areas = [
+        for (var area in areasList)
+          {'id': area['idArea'], 'Descricao': area['Descricao']}
+      ];
+
+      return areas;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
 }

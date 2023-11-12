@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+
+import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
 import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_medidas.dart';
 
 import 'package:projeto/Shared/Widgets/custom_text.dart';
-import 'package:http/http.dart' as http;
 
 class PageMedidas extends StatefulWidget {
   const PageMedidas({super.key});
@@ -19,69 +16,30 @@ class PageMedidas extends StatefulWidget {
 }
 
 class _PageMedidasState extends State<PageMedidas> {
-  final abdominalEC = TextEditingController();
-  final axilarMediaEC = TextEditingController();
-  final femuralMediaEC = TextEditingController();
-  final peitoralEC = TextEditingController();
-  final percentualGorduraEC = TextEditingController();
-  final pesoEC = TextEditingController();
-  final subescapularEC = TextEditingController();
-  final supraIliacaEC = TextEditingController();
-  final tricepsEC = TextEditingController();
-  List<Map<String, String>> areas = [];
+  List<Map<String, dynamic>> seedAreas = [];
+
+  List<Map<String, String>> areass = [];
   MedidasModel? model;
 
-  salvarPressed() async {
-    int peso = int.parse(pesoEC.text);
-    int percentualGordura = int.parse(percentualGorduraEC.text);
-    int subescapular = int.parse(subescapularEC.text);
-    int triceps = int.parse(tricepsEC.text);
-    int peitoral = int.parse(peitoralEC.text);
-    int axilarMedia = int.parse(axilarMediaEC.text);
-    int supraIliaca = int.parse(supraIliacaEC.text);
-    int abdominal = int.parse(abdominalEC.text);
-    int femuralMedia = int.parse(femuralMediaEC.text);
-
-    http.Response response = await ApiMedidas.registrarMedidas(
-      peso,
-      percentualGordura,
-      subescapular,
-      triceps,
-      peitoral,
-      axilarMedia,
-      supraIliaca,
-      abdominal,
-      femuralMedia,
-      areas,
-    );
-
-    Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      if (mounted) {
-        Navigator.pushNamed(context, '/threeInfos');
-      } else {
-        if (mounted) {
-          errorSnackBar(context, responseMap.values.first[0]);
-        }
+  String getNameById(int id) {
+    for (Map<String, dynamic> area in seedAreas) {
+      if (area['id'] == id) {
+        return area['Descricao'];
       }
     }
+    return '';
   }
 
-  testeDados(String nome) {
-    setState(() {
-      model = MedidasModel(
-        abdominal: abdominalEC.text,
-        axilarMedia: axilarMediaEC.text,
-        femuralMedia: femuralMediaEC.text,
-        peitoral: peitoralEC.text,
-        percentual: percentualGorduraEC.text,
-        peso: pesoEC.text,
-        subescapular: subescapularEC.text,
-        supraIliaca: supraIliacaEC.text,
-        triceps: tricepsEC.text,
-      );
+  @override
+  void initState() {
+    super.initState();
+
+    FetchData.fetchAreas().then((data) {
+      debugPrint('Areas: $data');
+      setState(() {
+        seedAreas = data;
+      });
     });
-    debugPrint(model.toString());
   }
 
   @override
@@ -122,126 +80,129 @@ class _PageMedidasState extends State<PageMedidas> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Composição Corporal'),
-              const SizedBox(height: 10),
+              const CustomContainerTitlePerfil(text: 'Corpo'),
+              const SizedBox(height: 20),
               CustomListTileMedidas(
-                nomeMedida: "Axilar Media",
-                valorMedida: model?.axilarMedia ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "FemuralMedia",
-                valorMedida: model?.femuralMedia ?? '',
-                dataAlteracao: "15/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Percentual de Gordura",
-                valorMedida: model?.percentual ?? '',
+                nomeMedida: getNameById(1),
+                valorMedida: '',
                 dataAlteracao: "10/09/2023",
               ),
               const SizedBox(height: 10),
               CustomListTileMedidas(
-                nomeMedida: "Peso",
-                valorMedida: model?.peso ?? '',
+                nomeMedida: getNameById(2),
+                valorMedida: '',
                 dataAlteracao: "10/10/2023",
               ),
-              const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Dobras Cutâneas'),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const CustomContainerTitlePerfil(text: 'Dobras'),
+              const SizedBox(height: 20),
               CustomListTileMedidas(
-                nomeMedida: "Subescapular",
-                valorMedida: model?.subescapular ?? '',
+                nomeMedida: getNameById(17),
+                valorMedida: '',
                 dataAlteracao: "10/11/2023",
               ),
               const SizedBox(height: 10),
               CustomListTileMedidas(
-                nomeMedida: "SupraIliaca",
-                valorMedida: model?.supraIliaca ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Triceps",
-                valorMedida: model?.triceps ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Cirunferência e Tamanho'),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Peitoral",
-                valorMedida: model?.peitoral ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Abdominal",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              const CustomContainerTitlePerfil(text: 'Outros'),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Ombros",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "09/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Tórax",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "10/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Abdômen",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "11/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Cintura",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "12/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Quadril",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "13/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Braço Esquerdo",
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "14/11/2023",
-              ),
-              const SizedBox(height: 10),
-              CustomListTileMedidas(
-                nomeMedida: "Braço Direito",
-                valorMedida: model?.abdominal ?? '',
+                nomeMedida: getNameById(20),
+                valorMedida: '',
                 dataAlteracao: "15/11/2023",
               ),
               const SizedBox(height: 10),
               CustomListTileMedidas(
-                nomeMedida: "Coxa Esquerda",
-                valorMedida: model?.abdominal ?? '',
+                nomeMedida: getNameById(14),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(18),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(15),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(16),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(19),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 20),
+              const CustomContainerTitlePerfil(text: 'Medidas Fita'),
+              const SizedBox(height: 20),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(3),
+                valorMedida: '',
+                dataAlteracao: "09/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(4),
+                valorMedida: '',
+                dataAlteracao: "10/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(5),
+                valorMedida: '',
+                dataAlteracao: "11/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(6),
+                valorMedida: '',
+                dataAlteracao: "12/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(7),
+                valorMedida: '',
+                dataAlteracao: "13/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(8),
+                valorMedida: '',
+                dataAlteracao: "14/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(9),
+                valorMedida: '',
+                dataAlteracao: "15/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(10),
+                valorMedida: '',
                 dataAlteracao: "16/11/2023",
               ),
               const SizedBox(height: 10),
               CustomListTileMedidas(
-                nomeMedida: "Perna Esquerda",
-                valorMedida: model?.abdominal ?? '',
+                nomeMedida: getNameById(11),
+                valorMedida: '',
+                dataAlteracao: "16/11/2023",
+              ),
+              const SizedBox(height: 10),
+              CustomListTileMedidas(
+                nomeMedida: getNameById(12),
+                valorMedida: '',
                 dataAlteracao: "17/11/2023",
               ),
               const SizedBox(height: 10),
               CustomListTileMedidas(
-                nomeMedida: "Perna Direita",
-                valorMedida: model?.abdominal ?? '',
+                nomeMedida: getNameById(13),
+                valorMedida: '',
                 dataAlteracao: "17/11/2023",
               ),
               const SizedBox(height: 10),

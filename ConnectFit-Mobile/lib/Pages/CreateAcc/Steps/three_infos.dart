@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
-import 'package:projeto/Shared/Blocs/APIs/seeds.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
