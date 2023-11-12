@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/get_medidas.dart';
 
 import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
 import 'package:projeto/Shared/Blocs/APIs/globals.dart';
@@ -43,6 +44,9 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
   final pernaEsqEC = TextEditingController();
   final pernaDirEC = TextEditingController();
   List<Map<dynamic, dynamic>> areas = [];
+  List<Map<String, dynamic>> medidas = [];
+  bool isLoading = true;
+
   MedidasModel? model;
 
   salvarPressed() async {
@@ -58,8 +62,8 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
       });
 
       if (mounted) {
-        //Navigator.pushNamed(context, '/threeInfos');
         Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/measures');
         debugPrint("Deu certo 201");
       } else {
         if (mounted) {
@@ -69,7 +73,18 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
     }
   }
 
-  testeDados(String medida, String id) {
+  getValorMedidaById(id) {
+    var valor = 0;
+    for (Map<String, dynamic> mapa in medidas) {
+      if (mapa['idArea'] == id) {
+        valor = mapa['medida'];
+        debugPrint('Valor da medida: $valor');
+      }
+    }
+    return valor;
+  }
+
+  joinMedidasInList(String medida, String id) {
     int index = areas.indexWhere((element) => element["idArea"] == id);
     setState(() {
       if (index != -1) {
@@ -93,16 +108,27 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
     return '';
   }
 
-  @override
-  void initState() {
-    super.initState();
-
+  Future<void> loadData() async {
     FetchData.fetchAreas().then((data) {
       debugPrint('Areas: $data');
       setState(() {
         seedAreas = data;
       });
     });
+
+    FetchMedidas.fetchMedidas().then((data) {
+      debugPrint('Medidas: $data');
+      setState(() {
+        medidas = data;
+        isLoading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
   }
 
   @override
@@ -122,225 +148,272 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              const CustomContainerTitlePerfil(text: 'Corpo'),
-              const SizedBox(height: 20),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(1),
-                valorMedida: percentualGorduraEC.text,
-                dataAlteracao: "10/09/2023",
-                textUnidadeMedida: '%',
-                controller: percentualGorduraEC,
-                funcao: () => testeDados(percentualGorduraEC.text, '1'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(2),
-                valorMedida: pesoEC.text,
-                dataAlteracao: "10/10/2023",
-                textUnidadeMedida: 'Kg',
-                controller: pesoEC,
-                funcao: () => testeDados(pesoEC.text, '2'),
-              ),
-              const SizedBox(height: 20),
-              const CustomContainerTitlePerfil(text: 'Dobras'),
-              const SizedBox(height: 20),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(17),
-                valorMedida: axilarMediaEC.text,
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: axilarMediaEC,
-                funcao: () => testeDados(axilarMediaEC.text, '17'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(20),
-                valorMedida: femuralMediaEC.text,
-                dataAlteracao: "15/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: femuralMediaEC,
-                funcao: () => testeDados(femuralMediaEC.text, '20'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(14),
-                valorMedida: model?.subescapular ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: subescapularEC,
-                funcao: () => testeDados(subescapularEC.text, '14'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(18),
-                valorMedida: model?.supraIliaca ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: supraIliacaEC,
-                funcao: () => testeDados(supraIliacaEC.text, '18'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(15),
-                valorMedida: model?.triceps ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: tricepsEC,
-                funcao: () => testeDados(tricepsEC.text, '15'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(16),
-                valorMedida: model?.peitoral ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: peitoralEC,
-                funcao: () => testeDados(peitoralEC.text, '16'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(19),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'mm',
-                controller: abdominalEC,
-                funcao: () => testeDados(abdominalEC.text, '19'),
-              ),
-              const SizedBox(height: 20),
-              const CustomContainerTitlePerfil(text: 'Medidas Fita'),
-              const SizedBox(height: 20),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(3),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "09/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: ombrosEC,
-                funcao: () => testeDados(ombrosEC.text, '3'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(4),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "10/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: toraxEC,
-                funcao: () => testeDados(toraxEC.text, '4'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(5),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "11/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: abdomenEC,
-                funcao: () => testeDados(abdomenEC.text, '5'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(6),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "12/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: cinturaEC,
-                funcao: () => testeDados(cinturaEC.text, '6'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(7),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "13/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: quadrilEC,
-                funcao: () => testeDados(quadrilEC.text, '7'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(8),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "14/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: bracoEsqEC,
-                funcao: () => testeDados(bracoEsqEC.text, '8'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(9),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "15/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: bracoDirEC,
-                funcao: () => testeDados(bracoDirEC.text, '9'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(10),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "16/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: coxaEsqEC,
-                funcao: () => testeDados(coxaEsqEC.text, '10'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(11),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "16/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: coxaDirEC,
-                funcao: () => testeDados(coxaDirEC.text, '11'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(12),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "17/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: pernaEsqEC,
-                funcao: () => testeDados(pernaEsqEC.text, '12'),
-              ),
-              const SizedBox(height: 10),
-              CustomListTileAlterarMedidas(
-                nomeMedida: getNameById(13),
-                valorMedida: model?.abdominal ?? '',
-                dataAlteracao: "17/11/2023",
-                textUnidadeMedida: 'cm',
-                controller: pernaDirEC,
-                funcao: () => testeDados(pernaDirEC.text, '13'),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(
                   children: [
-                    GlobalCustomElevatedButton(
-                      width: 150,
-                      onPressed: () => {Navigator.pop(context)},
-                      child: const CustomText(
-                        text: 'Cancelar',
-                        fontSize: 17,
-                        isBold: true,
+                    const SizedBox(height: 20),
+                    const CustomContainerTitlePerfil(text: 'Corpo'),
+                    const SizedBox(height: 20),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(1),
+                      valorMedida: percentualGorduraEC.text.isNotEmpty
+                          ? int.parse(percentualGorduraEC.text)
+                          : getValorMedidaById(1),
+                      dataAlteracao: "10/09/2023",
+                      textUnidadeMedida: '%',
+                      controller: percentualGorduraEC,
+                      funcao: () =>
+                          joinMedidasInList(percentualGorduraEC.text, '1'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(2),
+                      valorMedida: pesoEC.text.isNotEmpty
+                          ? int.parse(pesoEC.text)
+                          : getValorMedidaById(2),
+                      dataAlteracao: "10/10/2023",
+                      textUnidadeMedida: 'Kg',
+                      controller: pesoEC,
+                      funcao: () => joinMedidasInList(pesoEC.text, '2'),
+                    ),
+                    const SizedBox(height: 20),
+                    const CustomContainerTitlePerfil(text: 'Dobras'),
+                    const SizedBox(height: 20),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(17),
+                      valorMedida: axilarMediaEC.text.isNotEmpty
+                          ? int.parse(axilarMediaEC.text)
+                          : getValorMedidaById(17),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: axilarMediaEC,
+                      funcao: () => joinMedidasInList(axilarMediaEC.text, '17'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(20),
+                      valorMedida: femuralMediaEC.text.isNotEmpty
+                          ? int.parse(femuralMediaEC.text)
+                          : getValorMedidaById(20),
+                      dataAlteracao: "15/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: femuralMediaEC,
+                      funcao: () =>
+                          joinMedidasInList(femuralMediaEC.text, '20'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(14),
+                      valorMedida: subescapularEC.text.isNotEmpty
+                          ? int.parse(subescapularEC.text)
+                          : getValorMedidaById(14),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: subescapularEC,
+                      funcao: () =>
+                          joinMedidasInList(subescapularEC.text, '14'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(18),
+                      valorMedida: supraIliacaEC.text.isNotEmpty
+                          ? int.parse(supraIliacaEC.text)
+                          : getValorMedidaById(18),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: supraIliacaEC,
+                      funcao: () => joinMedidasInList(supraIliacaEC.text, '18'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(15),
+                      valorMedida: tricepsEC.text.isNotEmpty
+                          ? int.parse(tricepsEC.text)
+                          : getValorMedidaById(15),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: tricepsEC,
+                      funcao: () => joinMedidasInList(tricepsEC.text, '15'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(16),
+                      valorMedida: peitoralEC.text.isNotEmpty
+                          ? int.parse(peitoralEC.text)
+                          : getValorMedidaById(16),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: peitoralEC,
+                      funcao: () => joinMedidasInList(peitoralEC.text, '16'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(19),
+                      valorMedida: abdominalEC.text.isNotEmpty
+                          ? int.parse(abdominalEC.text)
+                          : getValorMedidaById(19),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'mm',
+                      controller: abdominalEC,
+                      funcao: () => joinMedidasInList(abdominalEC.text, '19'),
+                    ),
+                    const SizedBox(height: 20),
+                    const CustomContainerTitlePerfil(text: 'Medidas Fita'),
+                    const SizedBox(height: 20),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(3),
+                      valorMedida: ombrosEC.text.isNotEmpty
+                          ? int.parse(ombrosEC.text)
+                          : getValorMedidaById(3),
+                      dataAlteracao: "09/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: ombrosEC,
+                      funcao: () => joinMedidasInList(ombrosEC.text, '3'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(4),
+                      valorMedida: toraxEC.text.isNotEmpty
+                          ? int.parse(toraxEC.text)
+                          : getValorMedidaById(4),
+                      dataAlteracao: "10/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: toraxEC,
+                      funcao: () => joinMedidasInList(toraxEC.text, '4'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(5),
+                      valorMedida: abdomenEC.text.isNotEmpty
+                          ? int.parse(abdomenEC.text)
+                          : getValorMedidaById(5),
+                      dataAlteracao: "11/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: abdomenEC,
+                      funcao: () => joinMedidasInList(abdomenEC.text, '5'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(6),
+                      valorMedida: cinturaEC.text.isNotEmpty
+                          ? int.parse(cinturaEC.text)
+                          : getValorMedidaById(6),
+                      dataAlteracao: "12/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: cinturaEC,
+                      funcao: () => joinMedidasInList(cinturaEC.text, '6'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(7),
+                      valorMedida: quadrilEC.text.isNotEmpty
+                          ? int.parse(quadrilEC.text)
+                          : getValorMedidaById(7),
+                      dataAlteracao: "13/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: quadrilEC,
+                      funcao: () => joinMedidasInList(quadrilEC.text, '7'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(8),
+                      valorMedida: bracoEsqEC.text.isNotEmpty
+                          ? int.parse(bracoEsqEC.text)
+                          : getValorMedidaById(8),
+                      dataAlteracao: "14/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: bracoEsqEC,
+                      funcao: () => joinMedidasInList(bracoEsqEC.text, '8'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(9),
+                      valorMedida: bracoDirEC.text.isNotEmpty
+                          ? int.parse(bracoDirEC.text)
+                          : getValorMedidaById(9),
+                      dataAlteracao: "15/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: bracoDirEC,
+                      funcao: () => joinMedidasInList(bracoDirEC.text, '9'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(10),
+                      valorMedida: coxaEsqEC.text.isNotEmpty
+                          ? int.parse(coxaEsqEC.text)
+                          : getValorMedidaById(10),
+                      dataAlteracao: "16/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: coxaEsqEC,
+                      funcao: () => joinMedidasInList(coxaEsqEC.text, '10'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(11),
+                      valorMedida: coxaDirEC.text.isNotEmpty
+                          ? int.parse(coxaDirEC.text)
+                          : getValorMedidaById(11),
+                      dataAlteracao: "16/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: coxaDirEC,
+                      funcao: () => joinMedidasInList(coxaDirEC.text, '11'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(12),
+                      valorMedida: pernaEsqEC.text.isNotEmpty
+                          ? int.parse(pernaEsqEC.text)
+                          : getValorMedidaById(12),
+                      dataAlteracao: "17/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: pernaEsqEC,
+                      funcao: () => joinMedidasInList(pernaEsqEC.text, '12'),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomListTileAlterarMedidas(
+                      nomeMedida: getNameById(13),
+                      valorMedida: pernaDirEC.text.isNotEmpty
+                          ? int.parse(pernaDirEC.text)
+                          : getValorMedidaById(13),
+                      dataAlteracao: "17/11/2023",
+                      textUnidadeMedida: 'cm',
+                      controller: pernaDirEC,
+                      funcao: () => joinMedidasInList(pernaDirEC.text, '13'),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GlobalCustomElevatedButton(
+                            width: 150,
+                            onPressed: () => {Navigator.pop(context)},
+                            child: const CustomText(
+                              text: 'Cancelar',
+                              fontSize: 17,
+                              isBold: true,
+                            ),
+                          ),
+                          GlobalCustomElevatedButton(
+                            width: 150,
+                            onPressed: () => salvarPressed(),
+                            child: const CustomText(
+                              text: 'Salvar',
+                              fontSize: 17,
+                              isBold: true,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    GlobalCustomElevatedButton(
-                      width: 150,
-                      onPressed: () => salvarPressed(),
-                      child: const CustomText(
-                        text: 'Salvar',
-                        fontSize: 17,
-                        isBold: true,
-                      ),
-                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ));
+              ));
   }
 }

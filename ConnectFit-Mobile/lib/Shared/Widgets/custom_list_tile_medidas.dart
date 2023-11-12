@@ -5,7 +5,7 @@ import 'package:projeto/Shared/Widgets/custom_text.dart';
 class CustomListTileMedidas extends StatelessWidget {
   final String dataAlteracao;
   final String nomeMedida;
-  final String valorMedida;
+  final int valorMedida;
   final String textUnidadeMedida;
 
   const CustomListTileMedidas({

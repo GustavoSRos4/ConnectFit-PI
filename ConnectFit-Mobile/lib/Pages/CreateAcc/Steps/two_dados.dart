@@ -44,6 +44,7 @@ class _OnePageState extends State<TwoDados> {
   int? idCidade;
   String siglaSexo = '';
   DateTime selectedDate = DateTime.now();
+  bool isLoading = true;
 
   stepTwoCreateAccountPressed() async {
     String telefoneString =
@@ -102,29 +103,32 @@ class _OnePageState extends State<TwoDados> {
     complementoEC.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    getToken().then((value) {
-      setState(() {
-        token = value;
-      });
-    });
-
-    FetchData.fetchSexo().then((data) {
+  Future<void> loadData() async {
+    await FetchData.fetchSexo().then((data) {
       debugPrint('Sexos: $data');
       setState(() {
         sexos = data;
       });
     });
 
-    FetchData.fetchEstados().then((data) {
+    await FetchData.fetchEstados().then((data) {
       debugPrint('Estados: $data');
       setState(() {
         estados = data;
+        isLoading = false;
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getToken().then((value) {
+      setState(() {
+        token = value;
+      });
+    });
+    loadData();
   }
 
   Future<void> _selectedDate() async {
@@ -154,178 +158,142 @@ class _OnePageState extends State<TwoDados> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Stack(
-        children: <Widget>[
-          ListView(
-            children: [
-              Form(
-                key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      CustomDropdownSearch(
-                        items: estados,
-                        onChanged: (Map<String, dynamic>? novoEstado) {
-                          buscarCidades(novoEstado?['SiglaUF']);
-                          setState(() {
-                            estadoSelecionado = novoEstado?['SiglaUF'];
-                            cidadeSelecionada = null; // Adicione esta linha
-                          });
-                        },
-                        labelPrincipal: 'Estado',
-                        hintTextPrincipal: 'Escolha o estado...',
-                        prefixIcon: const Icon(Icons.flag),
-                        labelSecundaria: 'Buscar estado',
-                        hintTextSecundaria: 'Digite o nome do estado...',
-                        itemAsString: (Map<String, dynamic> estado) =>
-                            estado['Descricao']!,
-                      ),
-                      const SizedBox(height: 15),
-
-                      CustomDropdownSearch(
-                        selectedItem: cidadeSelecionada,
-                        items: cidades,
-                        onChanged: (Map<String, dynamic>? novaCidade) {
-                          setState(() {
-                            cidadeSelecionada = novaCidade;
-                            idCidade = novaCidade?['idCidade'];
-                          });
-                        },
-                        labelPrincipal: 'Cidade',
-                        hintTextPrincipal: 'Escolha a cidade...',
-                        prefixIcon: const Icon(Icons.location_city),
-                        labelSecundaria: 'Buscar cidade',
-                        hintTextSecundaria: 'Digite o nome da cidade...',
-                        itemAsString: (Map<String, dynamic> cidade) =>
-                            cidade['NomeCidade']!,
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        keyboardType: TextInputType.number,
-                        label: "CPF",
-                        icon: Icons.credit_card,
-                        hint: "Digite seu CPF...",
-                        controller: cpfEC,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          CpfInputFormatter(),
-                        ],
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          if (!GetUtils.isCpf(text)) {
-                            return "CPF invalido";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
-                              icon: Icons.calendar_month,
-                              controller: dataNasEC,
-                              label: 'Nascimento',
-                              readOnly: true,
-                              onTap: () {
-                                _selectedDate();
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: buildCustomDropdownButtonFormFieldSexo(
-                              data: sexos,
-                              value: selectedValue,
-                              onChanged: (String? newValue) {
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Stack(
+              children: <Widget>[
+                ListView(
+                  children: [
+                    Form(
+                      key: formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            CustomDropdownSearch(
+                              items: estados,
+                              onChanged: (Map<String, dynamic>? novoEstado) {
+                                buscarCidades(novoEstado?['SiglaUF']);
                                 setState(() {
-                                  selectedValue = newValue!;
-                                  siglaSexo = newValue;
+                                  estadoSelecionado = novoEstado?['SiglaUF'];
+                                  cidadeSelecionada =
+                                      null; // Adicione esta linha
                                 });
                               },
-                              labelText: 'Genêro',
+                              labelPrincipal: 'Estado',
+                              hintTextPrincipal: 'Escolha o estado...',
+                              prefixIcon: const Icon(Icons.flag),
+                              labelSecundaria: 'Buscar estado',
+                              hintTextSecundaria: 'Digite o nome do estado...',
+                              itemAsString: (Map<String, dynamic> estado) =>
+                                  estado['Descricao']!,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        keyboardType: TextInputType.number,
-                        label: "Telefone",
-                        icon: Icons.phone,
-                        hint: "Digite seu telefone...",
-                        controller: telefoneEC,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          TelefoneInputFormatter(),
-                        ],
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          if (!GetUtils.isPhoneNumber(text) ||
-                              text.length < 14) {
-                            return "Telefone Inválido";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        maxLength: 150,
-                        label: "Logradouro",
-                        icon: Icons.location_on,
-                        hint: "Digite o logradouro...",
-                        controller: logradouroEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: CustomTextField(
+                            const SizedBox(height: 15),
+
+                            CustomDropdownSearch(
+                              selectedItem: cidadeSelecionada,
+                              items: cidades,
+                              onChanged: (Map<String, dynamic>? novaCidade) {
+                                setState(() {
+                                  cidadeSelecionada = novaCidade;
+                                  idCidade = novaCidade?['idCidade'];
+                                });
+                              },
+                              labelPrincipal: 'Cidade',
+                              hintTextPrincipal: 'Escolha a cidade...',
+                              prefixIcon: const Icon(Icons.location_city),
+                              labelSecundaria: 'Buscar cidade',
+                              hintTextSecundaria: 'Digite o nome da cidade...',
+                              itemAsString: (Map<String, dynamic> cidade) =>
+                                  cidade['NomeCidade']!,
+                            ),
+                            const SizedBox(height: 15),
+                            CustomTextField(
                               keyboardType: TextInputType.number,
-                              label: "CEP",
-                              icon: Icons.mail,
-                              hint: "Digite o CEP...",
-                              controller: cepEC,
+                              label: "CPF",
+                              icon: Icons.credit_card,
+                              hint: "Digite seu CPF...",
+                              controller: cpfEC,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                CepInputFormatter(),
+                                CpfInputFormatter(),
+                              ],
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Esse campo não pode ficar vazio";
+                                }
+                                if (!GetUtils.isCpf(text)) {
+                                  return "CPF invalido";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: CustomTextField(
+                                    icon: Icons.calendar_month,
+                                    controller: dataNasEC,
+                                    label: 'Nascimento',
+                                    readOnly: true,
+                                    onTap: () {
+                                      _selectedDate();
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: buildCustomDropdownButtonFormFieldSexo(
+                                    data: sexos,
+                                    value: selectedValue,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedValue = newValue!;
+                                        siglaSexo = newValue;
+                                      });
+                                    },
+                                    labelText: 'Genêro',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              keyboardType: TextInputType.number,
+                              label: "Telefone",
+                              icon: Icons.phone,
+                              hint: "Digite seu telefone...",
+                              controller: telefoneEC,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                TelefoneInputFormatter(),
                               ],
                               validator: (text) {
                                 if (text == null || text.isEmpty) {
                                   return "Esse campo não pode ficar vazio";
                                 }
                                 if (!GetUtils.isPhoneNumber(text) ||
-                                    text.length < 10) {
-                                  return "CEP Inválido";
+                                    text.length < 14) {
+                                  return "Telefone Inválido";
                                 }
                                 return null;
                               },
                             ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: CustomTextField(
-                              label: "Numero",
-                              icon: Icons.format_list_numbered,
-                              hint: "Digite o numero...",
-                              controller: numeroEC,
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              maxLength: 150,
+                              label: "Logradouro",
+                              icon: Icons.location_on,
+                              hint: "Digite o logradouro...",
+                              controller: logradouroEC,
                               validator: (text) {
                                 if (text == null || text.isEmpty) {
                                   return "Esse campo não pode ficar vazio";
@@ -333,59 +301,100 @@ class _OnePageState extends State<TwoDados> {
                                 return null;
                               },
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        maxLength: 50,
-                        label: "Bairro",
-                        icon: Icons.location_on,
-                        hint: "Digite o bairro...",
-                        controller: bairroEC,
-                        validator: (text) {
-                          if (text == null || text.isEmpty) {
-                            return "Esse campo não pode ficar vazio";
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 15),
-                      CustomTextField(
-                        maxLength: 15,
-                        label: "Complemento",
-                        icon: Icons.location_on,
-                        hint: "Digite o complemento...",
-                        controller: complementoEC,
-                      ),
-                      const SizedBox(height: 15),
-                      GlobalCustomElevatedButton(
-                        borderRadius: 50,
-                        width: double.infinity,
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            stepTwoCreateAccountPressed();
-                          } else {
-                            errorSnackBar(context,
-                                'Por favor, preencha os campos corretamente!');
-                          }
-                        },
-                        child: const CustomText(
-                          text: "Avancar",
-                          fontSize: 17,
-                          isBold: true,
+                            const SizedBox(height: 15),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: CustomTextField(
+                                    keyboardType: TextInputType.number,
+                                    label: "CEP",
+                                    icon: Icons.mail,
+                                    hint: "Digite o CEP...",
+                                    controller: cepEC,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      CepInputFormatter(),
+                                    ],
+                                    validator: (text) {
+                                      if (text == null || text.isEmpty) {
+                                        return "Esse campo não pode ficar vazio";
+                                      }
+                                      if (!GetUtils.isPhoneNumber(text) ||
+                                          text.length < 10) {
+                                        return "CEP Inválido";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: CustomTextField(
+                                    label: "Numero",
+                                    icon: Icons.format_list_numbered,
+                                    hint: "Digite o numero...",
+                                    controller: numeroEC,
+                                    validator: (text) {
+                                      if (text == null || text.isEmpty) {
+                                        return "Esse campo não pode ficar vazio";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              maxLength: 50,
+                              label: "Bairro",
+                              icon: Icons.location_on,
+                              hint: "Digite o bairro...",
+                              controller: bairroEC,
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return "Esse campo não pode ficar vazio";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              maxLength: 15,
+                              label: "Complemento",
+                              icon: Icons.location_on,
+                              hint: "Digite o complemento...",
+                              controller: complementoEC,
+                            ),
+                            const SizedBox(height: 15),
+                            GlobalCustomElevatedButton(
+                              borderRadius: 50,
+                              width: double.infinity,
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  stepTwoCreateAccountPressed();
+                                } else {
+                                  errorSnackBar(context,
+                                      'Por favor, preencha os campos corretamente!');
+                                }
+                              },
+                              child: const CustomText(
+                                text: "Avancar",
+                                fontSize: 17,
+                                isBold: true,
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            //Testando
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      //Testando
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          );
   }
 }

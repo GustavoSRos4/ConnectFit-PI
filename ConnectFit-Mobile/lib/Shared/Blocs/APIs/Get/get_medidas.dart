@@ -18,13 +18,23 @@ class FetchMedidas {
     if (response.statusCode == 200) {
       //debugPrint('Response data: ${response.body}');
       Map<String, dynamic> data = jsonDecode(response.body);
-      List<dynamic> fumanteList = data['Fumante'];
-      List<Map<String, dynamic>> fumante = [
-        for (var fumante in fumanteList)
-          {'id': fumante['idFumante'], 'Descricao': fumante['Descricao']}
-      ];
+      List<dynamic> medidasList = data['Medidas'];
+      List<Map<String, dynamic>> medidas = [];
 
-      return fumante;
+      for (var medidaData in medidasList) {
+        //var medida = medidaData['Medida'];
+        var areaMedidas = medidaData['AreaMedidas'];
+
+        for (var areaMedida in areaMedidas) {
+          medidas.add({
+            'idArea': areaMedida['idArea'],
+            'medida': areaMedida['Medida'],
+            'created_at': areaMedida['created_at'],
+          });
+        }
+      }
+
+      return medidas;
     } else {
       debugPrint('Erro na requisição: ${response.statusCode}');
       return [];
