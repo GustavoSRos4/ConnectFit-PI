@@ -27,7 +27,7 @@ const routes = [
       {
         name: "AlunosDashboard",
         path: "",
-        component: () => import("pages/Dashboard/AlunosDashboard.vue")
+        component: () => import("pages/Dashboard/Alunos/AlunosDashboard.vue")
       },
       {
         name: "ExerciciosDashboard",

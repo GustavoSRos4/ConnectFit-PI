@@ -40,3 +40,9 @@ $warning: #f2c037;
 .q-router-link--exact-active {
   background-color: hsla(0, 0%, 11%, 0.87);
 }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
