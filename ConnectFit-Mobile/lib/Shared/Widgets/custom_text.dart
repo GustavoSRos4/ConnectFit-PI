@@ -5,12 +5,14 @@ class CustomText extends StatelessWidget {
   final double? fontSize;
   final bool isBold;
   final Color color;
+  final TextDecoration decoration;
   const CustomText({
     super.key,
     required this.text,
     this.fontSize = 12,
     this.isBold = false,
     this.color = Colors.brancoBege,
+    this.decoration = TextDecoration.none,
   });
 
   @override
@@ -19,6 +21,7 @@ class CustomText extends StatelessWidget {
       text,
       textAlign: TextAlign.justify,
       style: TextStyle(
+        decoration: decoration,
         color: color,
         fontSize: fontSize,
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal,

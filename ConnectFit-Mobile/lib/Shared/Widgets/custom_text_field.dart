@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final Color? suffixIconColor;
   final Color? prefixIconColor;
+  final Color? fillColor;
   final String? Function(String? text)? validator;
   final void Function()? onTap;
   final void Function(String? text)? onSaved;
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final void Function(String text)? onFieldSubmitted;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final AutovalidateMode? autovalidateMode;
 
   const CustomTextField({
     Key? key,
@@ -39,6 +41,8 @@ class CustomTextField extends StatelessWidget {
     this.maxLength,
     this.suffixIconColor = Colors.brancoBege,
     this.prefixIconColor = Colors.brancoBege,
+    this.fillColor,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
   }) : super(key: key);
 
   @override
@@ -52,7 +56,7 @@ class CustomTextField extends StatelessWidget {
       textAlignVertical: TextAlignVertical.center,
       controller: controller,
       inputFormatters: inputFormatters,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: autovalidateMode,
       validator: validator,
       onSaved: onSaved,
       onChanged: onChanged,
@@ -65,7 +69,7 @@ class CustomTextField extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         filled: true,
-        fillColor: Colors.grey[800],
+        fillColor: fillColor ?? Colors.grey[800],
         labelStyle: const TextStyle(color: Colors.brancoBege),
         hintStyle: const TextStyle(color: Colors.brancoBege),
         labelText: label,
