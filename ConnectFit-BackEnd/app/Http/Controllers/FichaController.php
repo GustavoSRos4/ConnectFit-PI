@@ -69,10 +69,8 @@ class FichaController extends Controller
         $request->validate([
             'Nome' => 'required|string|unique:exercicios',
             'Musculo' => 'required|string',
-            'Descricao' => 'required|string',
             'Repeticoes' => 'required|integer',
             'Descanso' => 'required|integer',
-            'Carga' => 'integer',
             'linkVideo' => 'required|string',
         ]);
 
@@ -82,11 +80,11 @@ class FichaController extends Controller
             $exercicio = new Exercicio();
             $exercicio->Nome = $request->input('Nome');
             $exercicio->Musculo = $request->input('Musculo');
-            $exercicio->Musculo = $request->input('Descricao');
-            $exercicio->Musculo = $request->input('Repeticoes');
-            $exercicio->Musculo = $request->input('Descanso');
-            $exercicio->Musculo = $request->input('Carga');
-            $exercicio->Musculo = $request->input('linkVideo');
+            $exercicio->Descricao = $request->input('Descricao');
+            $exercicio->Repeticoes = $request->input('Repeticoes');
+            $exercicio->Descanso = $request->input('Descanso');
+            $exercicio->Carga = $request->input('Carga');
+            $exercicio->linkVideo = $request->input('linkVideo');
             $exercicio->save();
             DB::commit();
 
