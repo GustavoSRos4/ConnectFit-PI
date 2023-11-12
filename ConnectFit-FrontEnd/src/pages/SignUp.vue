@@ -388,18 +388,26 @@ export default defineComponent({
       });
     },
 
-    async fetchUF() {
-      await api
-        .get('api/ufSexo')
-        .then(response => {
-          this.ufs = response.data.Uf
-          this.ufFilter = response.data.Uf
-          this.option = response.data.Sexo
-          console.log(response.data.Sexo)
-        })
-        .catch(error => {
-          console.error('Houve um erro ao buscar as UFs', error);
-        });
+    async fetchUF(tentativasRestantes) {
+      try {
+        const response = await api.get('api/ufSexo');
+        this.ufs = response.data.Uf
+        this.ufFilter = response.data.Uf
+        this.option = response.data.Sexo
+        console.log(response);
+      } catch (error) {
+        if (tentativasRestantes > 0) {
+          console.error(`Erro na tentativa. Tentativas restantes: ${tentativasRestantes}`);
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Espera 1 segundo entre as tentativas
+          await fetchUF(tentativasRestantes - 1); // Tenta novamente com uma tentativa a menos
+        } else {
+          this.$q.notify({
+            type: 'negative',
+            message: `Falha após 10 tentativas. Por favor, tente novamente mais tarde.`,
+          });
+          console.error('Falha após 10 tentativas.');
+        }
+      }
     },
 
     fetchCities() {
@@ -453,7 +461,7 @@ export default defineComponent({
               //Forcando token na header, pois esta ocasionando erros
               axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
               //Chama o fetchda uf e sexos
-              this.fetchUF();
+              this.fetchUF(10);
               this.$refs.Stepper.next()
             }).catch(response => {
               this.$q.notify({

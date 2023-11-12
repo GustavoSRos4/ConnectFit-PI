@@ -2,15 +2,16 @@
   <div>
     <q-layout view="lHr Lpr lff">
 
-      <q-drawer v-model="leftDrawerOpen" show-if-above elevated bordered :mini="miniState" @mouseover="miniState = false"
-        @mouseout="miniState = true" :width="350" :breakpoint="350" :mini-width="150" class="bg-primary window-height">
+      <q-drawer v-model="leftDrawerOpen" show-if-above elevated bordered :mini="!leftDrawerOpen || miniState"
+        @click.capture="drawerClick" :width="350" :breakpoint="350" :mini-width="150" class="bg-primary window-height">
         <q-card class="window-height transparent">
           <q-list padding class="column fit">
-            <q-toolbar class="bg-primary text-white text-center">
-              <q-img :style="miniState ? 'width: 100%' : 'width: 50%'" src="~assets/iconeAppwhite.png" />
-              <q-toolbar-title class="Anton text-h4" v-if="!miniState">ConnectFit</q-toolbar-title>
-            </q-toolbar>
-
+            <q-item>
+              <q-toolbar class="bg-primary text-white">
+                <q-img src="~assets/iconeAppwhite.png" :style="miniState ? 'max-width: 150px;' : 'max-width: 120px;'" />
+                <q-toolbar-title class=" Anton text-h4" v-if="!miniState">ConnectFit</q-toolbar-title>
+              </q-toolbar>
+            </q-item>
             <q-separator spaced inset />
 
             <q-item clickable v-ripple class="col" :to="{ name: 'IndexDashboard' }
@@ -58,7 +59,9 @@
             </q-item>
           </q-list>
         </q-card>
-        <!-- <q-btn @click="buscarDados">aaaaaaaaaaaa</q-btn> -->
+        <div class="q-mini-drawer-hide absolute" style="top: 100px; right: -17px; z-index: 999;">
+          <q-btn dense round elevated color="dark" icon="arrow_back" @click="miniState = true" />
+        </div>
       </q-drawer>
 
       <q-page-container v-show="islogged">
@@ -117,14 +120,17 @@ export default {
     })
 
     const leftDrawerOpen = ref(false);
+    const miniState = ref(true)
 
     return {
       leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      },
-      miniState: ref(true),
       islogged,
+      miniState,
+      drawerClick(e) {
+        if (miniState.value) {
+          miniState.value = false
+        }
+      },
     }
   },
   methods: {
