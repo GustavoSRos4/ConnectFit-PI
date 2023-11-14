@@ -42,7 +42,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     // our routes to be protected will go in her
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/mostrarPessoa', [PessoaController::class, 'show']);
     Route::get('/ufSexo', [RegistroController::class, 'ufSexo']);
     Route::get('/{uf}/cidades', [RegistroController::class, 'cidades']);
     Route::post('/criarPessoa', [RegistroController::class, 'create']);
@@ -62,4 +61,8 @@ Route::middleware(['cors', 'json.response', 'auth:api'])->group(function () {
     Route::post('/createExercicio', [FichaController::class, 'createExercicio']);
     Route::get('/showExercicio', [FichaController::class, 'showExercicio']);
     Route::get('/showFicha', [FichaController::class, 'showFicha']);
+    Route::get('/showDataAlunos', [PessoaUsuarioController::class, 'showDataAlunos']);
+    Route::get('/showDataAluno/{idPessoa}', [PessoaUsuarioController::class, 'showDataAluno']);
+    Route::get('/mostrarPessoa', [PessoaController::class, 'show']);
+    Route::get('/showDataProfissional/{idProfissional}', [PessoaProfissionalController::class, 'showDataProfissional']);
 });

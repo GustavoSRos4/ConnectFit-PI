@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Endereco;
+use App\Models\EnderecoPessoa;
 use App\Models\Especialidade;
 use App\Models\EspecialidadeProfissional;
+use App\Models\Pessoa;
 use App\Models\PessoaProfissional;
+use App\Models\Telefone;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -75,6 +80,53 @@ class PessoaProfissionalController extends Controller
     public function showAllProfissionais()
     {
         $profissionais = PessoaProfissional::where('ativo', 1)->get();
-        return response()->json(['PessoaProfissionais' => $profissionais]);
+        $profissionaisResult = [];
+        foreach ($profissionais as $profissional) {
+            $idProfissional = $profissional->idPessoaProfissional;
+            $user = User::where('id', $idProfissional)->first();
+            $especialidadeProfissionais = EspecialidadeProfissional::where('idPessoaProfissional', $idProfissional)->get();
+            $especialidades = [];
+            $profissionalResult = [];
+            foreach ($especialidadeProfissionais as $especialidadeProfissional) {
+                $especialidade = Especialidade::where('idEspecialidade', $especialidadeProfissional->idEspecialidade)->get();
+                $especialidades[] = $especialidade;
+            }
+            $profissionalResult[] = [
+                'User' => $user,
+                'PessoaProfissional' => $profissional,
+                'Especialidades' => $especialidades,
+            ];
+        }
+        $profissionaisResult[] = [
+            'Profissional' => $profissionalResult,
+        ];
+        return response()->json(['PessoaProfissionais' => $profissionaisResult]);
+    }
+    public function showDataProfissional($idProfissional)
+    {
+        $user = User::where('id', $idProfissional)->first();
+        $pessoa = Pessoa::where('idPessoa', $idProfissional)->first();
+        $telefone = Telefone::where('idPessoaTelefone', $idProfissional)->first();
+        $enderecosPessoa = EnderecoPessoa::where('idPessoa', $idProfissional)->get();
+        $enderecos = [];
+        foreach ($enderecosPessoa as $enderecoPessoa) {
+            $endereco = Endereco::where('idEndereco', $enderecoPessoa->idEndereco)->get();
+            $enderecos[] = $endereco;
+        }
+        $pessoaProfissional = PessoaProfissional::where('idPessoaProfissional', $idProfissional)->first();
+        $especialidadeProfissionais = EspecialidadeProfissional::where('idPessoaProfissional', $idProfissional)->get();
+        $especialidades = [];
+        foreach ($especialidadeProfissionais as $especialidadeProfissional) {
+            $especialidade = Especialidade::where('idEspecialidade', $especialidadeProfissional->idEspecialidade)->get();
+            $especialidades[] = $especialidade;
+        }
+        return response()->json([
+            'User' => $user,
+            'Pessoa' => $pessoa,
+            'Telefone' => $telefone,
+            'Enderecos' => $enderecos,
+            'PessoaProfissional' => $pessoaProfissional,
+            'Especialidades' => $especialidades,
+        ], 200);
     }
 }

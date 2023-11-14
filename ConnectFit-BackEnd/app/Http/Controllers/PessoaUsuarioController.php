@@ -9,6 +9,9 @@ use App\Models\AreaMedidaCorporal;
 use App\Models\Comorbidade;
 use App\Models\ComposicaoCorporal;
 use App\Models\ConsumoAlc;
+use App\Models\Contrato;
+use App\Models\Endereco;
+use App\Models\EnderecoPessoa;
 use App\Models\Fumante;
 use App\Models\PessoaMedicamento;
 use App\Models\PessoaUsuario;
@@ -16,7 +19,10 @@ use App\Models\Medicamento;
 use App\Models\Medida;
 use App\Models\NivelAtiFisica;
 use App\Models\Objetivo;
+use App\Models\Pessoa;
 use App\Models\PessoaComorbidades;
+use App\Models\Telefone;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -103,7 +109,15 @@ class PessoaUsuarioController extends Controller
     public function showDataPessoaUsuario()
     {
         $userId = auth('api')->user()->id;
-        $pessoa = PessoaUsuario::where('idPessoaUsuario', $userId)->first();
+        $pessoa = Pessoa::where('idPessoa', $userId)->first();
+        $telefone = Telefone::where('idPessoaTelefone', $userId)->first();
+        $enderecosPessoa = EnderecoPessoa::where('idPessoa', $userId)->get();
+        $enderecos = [];
+        foreach ($enderecosPessoa as $enderecoPessoa) {
+            $endereco = Endereco::where('idEndereco', $enderecoPessoa->idEndereco)->get();
+            $enderecos[] = $endereco;
+        }
+        $pessoaUsuario = PessoaUsuario::where('idPessoaUsuario', $userId)->first();
         $medicamentosPessoa = PessoaMedicamento::where('idPessoaUsuario', $userId)->get();
         $medicamentos = [];
         foreach ($medicamentosPessoa as $medicamentoPessoa) {
@@ -132,7 +146,72 @@ class PessoaUsuarioController extends Controller
                 ];
             }
 
-            return response()->json(['PessoaUsuario' => $pessoa, 'Medicamentos' => $medicamentos, 'Comorbidades' => $comorbidades, "Medidas" => $resultMedidas], 200);
+            return response()->json(['Pessoa' => $pessoa, 'Telefone' => $telefone, 'Endereço' => $enderecos, 'PessoaUsuario' => $pessoaUsuario, 'Medicamentos' => $medicamentos, 'Comorbidades' => $comorbidades, "Medidas" => $resultMedidas], 200);
         }
+    }
+    public function showDataAlunos()
+    {
+        $userId = auth('api')->user()->id;
+        $contratos = Contrato::where('idPessoaProfissional', $userId)->get();
+        $pessoas = [];
+        foreach ($contratos as $contrato) {
+            $idPessoa = $contrato->idPessoaUsuario;
+            $user = User::where('id', $idPessoa)->first();
+            $pessoa = Pessoa::where('idPessoa', $idPessoa)->first();
+            $pessoaUsuario = PessoaUsuario::where('idPessoaUsuario', $idPessoa)->first();
+            $pessoas[] = [
+                'User' => $user,
+                'Pessoa' => $pessoa,
+                'PessoaUsuario' => $pessoaUsuario,
+            ];
+        }
+        return response()->json(['Pessoas' => $pessoas], 200);
+    }
+    public function showDataAluno($idPessoa)
+    {
+        $user = User::where('id', $idPessoa)->first();
+        $pessoa = Pessoa::where('idPessoa', $idPessoa)->first();
+        $telefone = Telefone::where('idPessoaTelefone', $idPessoa)->first();
+        $enderecosPessoa = EnderecoPessoa::where('idPessoa', $idPessoa)->get();
+        $enderecos = [];
+        foreach ($enderecosPessoa as $enderecoPessoa) {
+            $endereco = Endereco::where('idEndereco', $enderecoPessoa->idEndereco)->get();
+            $enderecos[] = $endereco;
+        }
+        $pessoaUsuario = PessoaUsuario::where('idPessoaUsuario', $idPessoa)->first();
+        $medicamentosPessoa = PessoaMedicamento::where('idPessoaUsuario', $idPessoa)->get();
+        $medicamentos = [];
+        foreach ($medicamentosPessoa as $medicamentoPessoa) {
+            $medicamento = Medicamento::where('idMedicamento', $medicamentoPessoa->idMedicamento)->get();
+            $medicamentos[] = $medicamento;
+        }
+        $comorbidadesPessoa = PessoaComorbidades::where('idPessoaUsuario', $idPessoa)->get();
+        $comorbidades = [];
+        foreach ($comorbidadesPessoa as $comorbidadePessoa) {
+            $comorbidade = Comorbidade::where('idComorbidade', $comorbidadePessoa->idComorbidade)->get();
+            $comorbidades[] = $comorbidade;
+        }
+        $medidas = Medida::where('idPessoaUsuarioMedida', $idPessoa)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+        $resultMedidas = [];
+        foreach ($medidas as $medida) {
+            $AreaMedidasCorporal = AreaMedida::where('idMedida', $medida->idMedida)->get();
+
+            $resultMedidas[] = [
+                'Medida' => $medida,
+                'AreaMedidas' => $AreaMedidasCorporal,
+            ];
+        }
+        return response()->json([
+            'User' => $user,
+            'Pessoa' => $pessoa,
+            'Telefone' => $telefone,
+            'Enderecos' => $enderecos,
+            'PessoaUsuario' => $pessoaUsuario,
+            'Medicamentos' => $medicamentos,
+            'Comorbidades' => $comorbidades,
+            'Medidas' => $resultMedidas,
+        ], 200);
     }
 }
