@@ -35,9 +35,16 @@ const routes = [
         component: () => import("pages/Dashboard/Alunos/AlunosDashboard.vue")
       },
       {
+        name: "ExercicioCreate",
+        path: "exercicios/create",
+        component: () =>
+          import("pages/Dashboard/Exercicios/ExercicioCreate.vue")
+      },
+      {
         name: "ExerciciosDashboard",
         path: "exercicios",
-        component: () => import("pages/Dashboard/ExerciciosDashboard.vue")
+        component: () =>
+          import("pages/Dashboard/Exercicios/ExerciciosDashboard.vue")
       }
     ]
   },

@@ -106,11 +106,6 @@ export default defineComponent({
     return {
       isPwd: ref(true),
       submit,
-      showLoading() {
-        $q.loading.show({
-          message: 'First message. Gonna change it in 3 seconds...'
-        })
-      },
     };
   },
   data() {
@@ -126,13 +121,6 @@ export default defineComponent({
     validateEmail,
     required,
     minLength,
-    loadshow() {
-      const $q = useQuasar()
-      $q.loading.show({
-      })
-      $q.loading.hide()
-    }
-
   },
   mounted() {
     $q = useQuasar();
