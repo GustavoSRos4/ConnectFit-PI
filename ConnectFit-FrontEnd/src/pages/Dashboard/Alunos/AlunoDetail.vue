@@ -74,7 +74,6 @@
         </div>
       </div>
     </q-card>
-    <p>ID do Aluno: {{ $route.params.id }}</p>
   </div>
 </template>
 
