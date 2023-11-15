@@ -96,10 +96,11 @@ class PessoaProfissionalController extends Controller
                 'PessoaProfissional' => $profissional,
                 'Especialidades' => $especialidades,
             ];
+
+            $profissionaisResult[] = [
+                'Profissional' => $profissionalResult,
+            ];
         }
-        $profissionaisResult[] = [
-            'Profissional' => $profissionalResult,
-        ];
         return response()->json(['PessoaProfissionais' => $profissionaisResult]);
     }
     public function showDataProfissional($idProfissional)
