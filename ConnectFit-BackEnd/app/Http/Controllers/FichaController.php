@@ -26,6 +26,7 @@ class FichaController extends Controller
 
             $ficha = new Ficha();
             $ficha->idPessoaUsuario = $request->input('idPessoaUsuario');
+            $ficha->descricao = $request->input('descricao');
             $ficha->idPessoaProfissional = $userId;
             $ficha->save();
 
