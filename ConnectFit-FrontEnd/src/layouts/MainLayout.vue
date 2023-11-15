@@ -14,8 +14,8 @@
             </q-item>
             <q-separator spaced inset />
 
-            <q-item clickable v-ripple class="col" :to="{ name: 'IndexDashboard' }
-              ">
+            <q-item clickable v-ripple class="col"
+              :class="{ 'router-link-exact-active': isRouterLinkActive('/dashboard') }" :to="{ name: 'IndexDashboard' }">
               <q-item-section avatar>
                 <q-icon name="dashboard" />
               </q-item-section>
@@ -81,10 +81,12 @@ import { api } from 'src/boot/axios.js';
 import axios from 'axios';
 import { Loading } from 'quasar'
 import { frase_aleatoria } from '../utils/validar'
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
     const islogged = ref(false);
+    const route = useRoute();
 
     const realizarChamada = async (tentativasRestantes) => {
       const frase = frase_aleatoria();
@@ -119,6 +121,11 @@ export default {
       realizarChamada(10);
     })
 
+    const isRouterLinkActive = (path) => {
+      console.log(route.path.startsWith(path))
+      return route.path.startsWith(path);
+    };
+
     const leftDrawerOpen = ref(false);
     const miniState = ref(true)
 
@@ -126,6 +133,7 @@ export default {
       leftDrawerOpen,
       islogged,
       miniState,
+      isRouterLinkActive,
       drawerClick(e) {
         if (miniState.value) {
           miniState.value = false

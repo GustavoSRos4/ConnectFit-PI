@@ -21,31 +21,26 @@ const routes = [
     children: [
       {
         name: "IndexDashboard",
-        path: "",
+        path: "index",
         component: () => import("pages/Dashboard/IndexDashboard.vue")
       },
       {
+        name: "AlunoDetail",
+        path: "alunos/:id",
+        component: () => import("pages/Dashboard/Alunos/AlunoDetail.vue")
+      },
+      {
         name: "AlunosDashboard",
-        path: "",
+        path: "alunos",
         component: () => import("pages/Dashboard/Alunos/AlunosDashboard.vue")
       },
       {
         name: "ExerciciosDashboard",
-        path: "",
+        path: "exercicios",
         component: () => import("pages/Dashboard/ExerciciosDashboard.vue")
       }
     ]
   },
-
-  // {
-  //   name: "DashboardIndex",
-  //   path: "/dashboard",
-  //   component: () => import("layouts/DashBoardTemplate.vue"),
-  //   children: {
-  //     path: "index",
-  //     component: () => import("pages/Dashboard/IndexDashboard.vue")
-  //   }
-  // },
   {
     name: "UserIndex",
     path: "/user",

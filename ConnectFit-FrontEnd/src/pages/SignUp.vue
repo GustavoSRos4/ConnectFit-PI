@@ -399,7 +399,7 @@ export default defineComponent({
         if (tentativasRestantes > 0) {
           console.error(`Erro na tentativa. Tentativas restantes: ${tentativasRestantes}`);
           await new Promise((resolve) => setTimeout(resolve, 1000)); // Espera 1 segundo entre as tentativas
-          await fetchUF(tentativasRestantes - 1); // Tenta novamente com uma tentativa a menos
+          await this.fetchUF(tentativasRestantes - 1); // Tenta novamente com uma tentativa a menos
         } else {
           this.$q.notify({
             type: 'negative',
