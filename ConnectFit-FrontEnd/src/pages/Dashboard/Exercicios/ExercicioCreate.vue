@@ -1,5 +1,7 @@
 <template>
   <div class="q-pa-lg">
+    <q-btn label="Voltar" @click="Voltar" icon="arrow_back">
+    </q-btn>
     <q-card class="q-pa-md">
       <q-form class="q-gutter-md" @submit.prevent="submit">
         <div class="row">
@@ -103,7 +105,10 @@ export default defineComponent({
       //   Loading.hide();
       // Aqui, você pode exibir uma mensagem de erro ao usuário
     }
-    return { submit }
+    const Voltar = () => {
+      router.back();
+    };
+    return { submit, Voltar }
   },
   data() {
     return {

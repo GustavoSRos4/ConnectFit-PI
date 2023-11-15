@@ -53,7 +53,7 @@
               </q-item-section>
 
               <q-item-section class="text-subtitle1 text-weight-regular">
-                Gustavo Silvério
+                {{ user }}
                 <p class="text-caption">Personal Trainer</p>
               </q-item-section>
             </q-item>
@@ -87,6 +87,7 @@ export default {
   setup() {
     const islogged = ref(false);
     const route = useRoute();
+    const user = ref();
 
     const realizarChamada = async (tentativasRestantes) => {
       const frase = frase_aleatoria();
@@ -98,7 +99,7 @@ export default {
       });
       try {
         const response = await api.get('api/mostrarPessoa');
-        console.log(response);
+        user.value = response.data.user.name
         islogged.value = true;
       } catch (error) {
         if (tentativasRestantes > 0) {
@@ -122,7 +123,7 @@ export default {
     })
 
     const isRouterLinkActive = (path) => {
-      console.log(route.path.startsWith(path))
+      // console.log(route.path.startsWith(path))
       return route.path.startsWith(path);
     };
 
@@ -134,31 +135,13 @@ export default {
       islogged,
       miniState,
       isRouterLinkActive,
+      user,
       drawerClick(e) {
         if (miniState.value) {
           miniState.value = false
         }
       },
     }
-  },
-  methods: {
-    async buscarDados() {
-      await api.get('api/mostrarPessoa').then(response => {
-        console.log(response);
-        islogged.value = true;
-      }).catch(response => {
-        this.$q.notify({
-          type: 'negative',
-          message: `${response.response.data.errors}`,
-        })
-        console.error(response.response.data.errors);
-      });
-    }
-  },
-  data() {
-    return {
-      user: null,
-    };
   },
 }
 </script>

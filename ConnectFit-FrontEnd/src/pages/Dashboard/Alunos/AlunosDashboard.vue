@@ -94,7 +94,9 @@ export default defineComponent({
     // Filtro para exibir apenas as linhas que correspondem ao filtro
     const filteredRows = computed(() => {
       const lowerCaseFilter = filter.value.toLowerCase();
-      return rows.filter(row => row.nome.toLowerCase().includes(lowerCaseFilter));
+      const filtrado = rows.filter(row => row.nome.toLowerCase().includes(lowerCaseFilter));
+      // console.log(filtrado);
+      return filtrado;
     });
 
     const getFirstLetter = (name) => {

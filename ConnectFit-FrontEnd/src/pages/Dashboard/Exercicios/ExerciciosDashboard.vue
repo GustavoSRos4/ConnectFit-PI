@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <q-table flat bordered title="Meus Exercícios" :rows="rows" :columns="columns" row-key="name" binary-state-sort
+    <q-table flat bordered title="Meus Exercícios" :rows="filteredRows" :columns="columns" row-key="idExercicio"
       :filter="filter" :loading="loading">
       <!-- HEADER DA TABELA, NOME e EDITAR -->
       <template v-slot:header="props">
@@ -8,14 +8,13 @@
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             {{ col.label }}
           </q-th>
-
           <q-th auto-width>Modificar Exercício</q-th>
         </q-tr>
       </template>
       <!-- Barra de pesquisa -->
       <template v-slot:top-right>
-        <q-btn icon-right="edit" ripple rounded class="bg-primary q-mr-lg" label="Criar Exercício" />
-        <!-- <q-separator vertical spaced /> -->
+        <q-btn icon-right="edit" @click="CriarExercicio" ripple rounded class="bg-primary q-mr-lg"
+          label="Criar Exercício" />
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Pesquisar">
           <template v-slot:append>
             <q-icon name="search" />
@@ -25,18 +24,22 @@
       <!-- Body Da tabela(dados) -->
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="name" :props="props">
-            {{ props.row.name }}
+          <q-td key="Nome" :props="props">
+            {{ props.row.Nome }}
           </q-td>
           <!-- Btn de editar -->
           <q-td class="row justify-center">
             <q-btn size="md" color="primary" dense icon='edit'>
               <q-menu anchor="center middle" self="top middle">
-                <q-item clickable @click="removeRow(props.row.id)">
-                  <q-item-section>Apagar Exercicio</q-item-section>
+                <q-item clickable>
+                  <q-item-section @click="apagarExercicio(props.row)">
+                    Apagar Exercicio
+                  </q-item-section>
                 </q-item>
                 <q-item clickable>
-                  <q-item-section>Editar Exercicio</q-item-section>
+                  <q-item-section @click="editarExercicio(props.row)">
+                    Editar Exercicio
+                  </q-item-section>
                 </q-item>
               </q-menu>
             </q-btn>
@@ -52,58 +55,88 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { api } from 'src/boot/axios';
+import { ref, computed, defineComponent, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 const columns = [
   {
-    name: 'name',
+    name: 'Nome',
     required: true,
     label: 'Nome do Exercício',
     align: 'left',
-    field: row => row.name,
+    field: row => row.Nome,
     format: val => `${val}`,
     sortable: true
   },
-]
+];
 
-const Originalrows = [
-  { id: 1, name: 'Flexão de braço' },
-  { id: 2, name: 'Agachamento' },
-  { id: 3, name: 'Abdominal' },
-  { id: 4, name: 'Levantamento de peso' }
-]
-
-import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ExerciciosDashboard',
   setup() {
-    const loading = ref(false)
-    const rows = ref([...Originalrows])
+    const loading = ref(false);
+    const rows = ref([]);
+    const filter = ref('');
 
-    const removeRow = (e) => {
-      console.log(loading.value);
-      loading.value = true; // Define loading como verdadeiro imediatamente
-      setTimeout(() => {
-        let index = 0;
-        for (let i = 0; i < rows.value.length; i++) {
-          if (rows.value[i].id == e) {
-            index = i;
-            break;
-          }
-        }
-        rows.value = [...rows.value.slice(0, index), ...rows.value.slice(index + 1)];
-        loading.value = false; // Define loading como falso após 500ms
-      }, 500);
+    const router = useRouter();
+
+    const CriarExercicio = () => {
+      router.push({ name: 'ExercicioCreate' });
     };
+
+    const fetchExercicios = async (tentativas) => {
+      if (tentativas === 0) {
+        console.log("Número de tentativas esgotado. Desistindo...");
+        return;
+      }
+
+      try {
+        console.log(`Tentativa ${11 - tentativas}`);
+        const res = await api.get('api/showExercicio');
+        rows.value = [...res.data.Exercicios];
+      } catch (err) {
+        console.log(err);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await fetchExercicios(tentativas - 1);
+      }
+    };
+
+    onMounted(async () => {
+      loading.value = true;
+      try {
+        await fetchExercicios(10);
+      } finally {
+        loading.value = false;
+      }
+    });
+
+    const apagarExercicio = (exercicio) => {
+      console.log("Apagar exercício:", exercicio);
+      // Lógica para apagar exercício
+    };
+
+    const editarExercicio = (exercicio) => {
+      console.log("Editar exercício:", exercicio);
+      // Lógica para editar exercício
+    };
+
+    const filteredRows = computed(() => {
+      const lowerCaseFilter = filter.value.toLowerCase();
+      return rows.value.filter(row => row.Nome.toLowerCase().includes(lowerCaseFilter));
+    });
 
     return {
       loading,
-      filter: ref(''),
       columns,
       rows,
-      removeRow,
-
-    }
+      CriarExercicio,
+      fetchExercicios,
+      filteredRows,
+      filter,
+      apagarExercicio,
+      editarExercicio,
+      print,
+    };
   },
-})
+});
 </script>
