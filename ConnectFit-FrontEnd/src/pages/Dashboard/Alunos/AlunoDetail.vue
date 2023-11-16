@@ -1,24 +1,24 @@
 <template>
   <div class="q-pa-md">
     <q-card class="q-pa-md">
-
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <q-avatar rounded color="red" text-color="white">
-            {{ getFirstLetter('Gustavo') }}
+            {{ getFirstLetter('gustavo') }}
           </q-avatar>
-          <span class="q-pl-sm text-h6">Gustavo Silvério Rosa</span>
+          <span class="q-pl-sm text-h6">{{ nome() }}</span>
         </div>
 
         <div class="col-md-6 col-xs-12 flex column flex-center">
-          <span class="text-caption">Nivel Atividade Física</span>
-          <span class="row q-pl-sm text-h6" :class="NivelAtvFisica(1)">Sedentário</span>
+          <span class="text-caption">Nível Atividade Física</span>
+          <span class="row q-pl-sm text-h6" :class="NivelAtvFisica(idNivelAtiFis())">{{
+            getAtividadeFisica(idNivelAtiFis()) }}</span>
         </div>
       </div>
       <div class="row q-pt-lg">
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Altura</span>
-          <span class="row q-pl-sm text-h6">1,79</span>
+          <span class="row q-pl-sm text-h6">{{ altura() }}</span>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Peso</span>
@@ -26,11 +26,11 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Fumante</span>
-          <span class="row q-pl-sm text-h6">Sim</span>
+          <span class="row q-pl-sm text-h6">{{ getFumante() }}</span>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Consumo Alcoólico</span>
-          <span class="row q-pl-sm text-h6">Regular</span>
+          <span class="row q-pl-sm text-h6">{{ getConsumoAlc() }}</span>
         </div>
       </div>
       <div class="row q-pt-lg">
@@ -74,43 +74,25 @@
         </div>
       </div>
     </q-card>
+    <q-btn>asdasdasdas</q-btn>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { ref, computed } from 'vue';
+import { ref, defineComponent, onMounted, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 import lineChart from 'src/components/lineChart.vue';
-
-
-const columns = [
-  { name: 'Nome', label: 'Nome', field: 'nome', sortable: true },
-  { name: 'Idade', label: 'Idade', field: 'idade', sortable: true },
-  { name: 'Objetivo', label: 'Objetivo', field: 'objetivos' },
-]
-
-const rows = [
-  { nome: 'Gustavo Silvério Rosa Rosa Rosa RosaRosa', idade: 25, objetivos: 'Emagrecer, manter forma' },
-  { nome: 'Ana Ana Ana Ana Ana Ana', idade: 30, objetivos: 'Manter a forma' },
-  { nome: 'Carlos Carlos Carlos Carlos', idade: 22, objetivos: 'Ganhar massa muscular' },
-  { nome: 'Maria', idade: 28, objetivos: 'Melhorar a flexibilidade' },
-  { nome: 'José', idade: 35, objetivos: 'Aumentar resistência cardiovascular' },
-  { nome: 'Camila', idade: 27, objetivos: 'Praticar esportes' },
-  { nome: 'Lucas', idade: 29, objetivos: 'Aprender yoga' },
-  { nome: 'Fernanda', idade: 26, objetivos: 'Participar de competições de corrida' },
-  { nome: 'Rafael', idade: 31, objetivos: 'Desenvolver força muscular' },
-  { nome: 'Patrícia', idade: 33, objetivos: 'Alcançar equilíbrio mental' },
-  // Adicione mais linhas conforme necessário
-];
-
+import { api } from 'src/boot/axios';
 
 export default defineComponent({
   components: { lineChart },
   name: 'AlunoDetail',
   setup() {
+    const aluno = ref({});
     const route = useRoute();
     const clientId = route.params.id;
+    const anamnese = ref([{ nvAtvFisica: {} }, { Fumante: {} }, { ConsumoAlc: {} }]);
+    const nvAtividadeFisica = ref();
 
     const getFirstLetter = (name) => {
       return name.charAt(0).toUpperCase();
@@ -120,22 +102,17 @@ export default defineComponent({
       switch (nivel) {
         case 1:
           return "text-red-10";
-          break;
         case 2:
           return "text-yellow-9";
-          break;
         case 3:
           return "text-deep-orange-10";
-          break;
         case 4:
           return "text-light-green-14";
-          break;
         case 5:
           return "text-green-14";
-          break;
       }
+    };
 
-    }
     const data = {
       labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
       datasets: [
@@ -152,11 +129,138 @@ export default defineComponent({
       ]
     };
 
+    const fetchAluno = async (tentativas) => {
+      if (tentativas === 0) {
+        console.log("Número de tentativas esgotado. Desistindo...");
+        return;
+      }
+
+      try {
+        console.log(`Tentativa ${11 - tentativas} Aluno.`);
+        const res = await api.get(`api/showDataAluno/${route.params.id}`);
+        aluno.value = { ...res.data };
+      } catch (err) {
+        console.log(err);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await fetchAluno(tentativas - 1);
+      }
+    };
+
+
+    const fetchAnam = async (tentativas) => {
+      if (tentativas === 0) {
+        console.log("Número de tentativas esgotado (Anamnese). Desistindo...");
+        return;
+      }
+
+      try {
+        console.log(`Tentativa ${11 - tentativas} Anamnese.`);
+        const res = await api.get('api/anamneseData');
+        anamnese.value = [res.data];
+        anamnese.value.nvAtvFisica = [res.data.nivelAtiFis];
+        anamnese.value.Fumante = [res.data.Fumante];
+        anamnese.value.ConsumoAlc = [res.data.ConsumoAlc];
+      } catch (err) {
+        console.log(err);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await fetchAluno(tentativas - 1);
+      }
+    };
+
+    onMounted(async () => {
+      await fetchAluno(10);
+      await fetchAnam(10);
+    });
+
+    const nome = () => {
+      //Verifica se no render ele carregou, entao envia para o template! (nao consegui fazer funcionar de outra maneira)
+      return aluno.value.User ? aluno.value.User.name : '';
+    }
+    const altura = () => {
+      const alturaValue = aluno.value.User ? aluno.value.PessoaUsuario.Altura : '';
+      const alturaNumerica = parseFloat(alturaValue) / 100;
+      return isNaN(alturaNumerica) ? '' : alturaNumerica.toFixed(2);
+    }
+
+
+    const idNivelAtiFis = () => {
+      return aluno.value.PessoaUsuario ? aluno.value.PessoaUsuario.idNivelAtiFis : '';
+    }
+
+    const getFumante = () => {
+      try {
+        const idA = aluno.value.PessoaUsuario.idFumante;
+        if (anamnese.value && anamnese.value.Fumante) {
+
+          const Encontrado = anamnese.value.Fumante[0].find(obj => obj.idFumante === idA);
+
+          if (Encontrado) {
+            return Encontrado.Descricao;
+          } else {
+            return '';
+          }
+        } else {
+          return '';
+        }
+      } catch (err) {
+        console.error(err);
+        return '';
+      }
+    }
+    const getAtividadeFisica = (idA) => {
+      try {
+        if (anamnese.value && anamnese.value.nvAtvFisica) {
+
+          const Encontrado = anamnese.value.nvAtvFisica[0].find(obj => obj.idNivelAtiFis === idA);
+
+          if (Encontrado) {
+            return Encontrado.Descricao;
+          } else {
+            return '';
+          }
+        } else {
+          return '';
+        }
+      } catch (err) {
+        console.error(err);
+        return '';
+      }
+    }
+
+    const getConsumoAlc = () => {
+      try {
+        const idA = aluno.value.PessoaUsuario.idConsumoAlc; //Pega o idConsumo do Usuario
+        if (anamnese.value && anamnese.value.nvAtvFisica) {
+
+          const Encontrado = anamnese.value.ConsumoAlc[0].find(obj => obj.idConsumoAlc === idA);
+
+          if (Encontrado) {
+            return Encontrado.Descricao;
+          } else {
+            return '';
+          }
+        } else {
+          return '';
+        }
+      } catch (err) {
+        console.error(err);
+        return '';
+      }
+    }
+
     return {
       clientId,
       getFirstLetter,
       NivelAtvFisica,
+      idNivelAtiFis,
       data,
+      nome,
+      altura,
+      anamnese,
+      getAtividadeFisica,
+      getFumante,
+      getConsumoAlc,
+      ...toRefs(aluno),
     };
   },
 });
