@@ -152,7 +152,9 @@ class PessoaUsuarioController extends Controller
     public function showDataAlunos()
     {
         $userId = auth('api')->user()->id;
-        $contratos = Contrato::where('idPessoaProfissional', $userId)->get();
+        $contratos = Contrato::where('idPessoaProfissional', $userId)
+            ->where('dataFinal', null)
+            ->get();
         $pessoas = [];
         foreach ($contratos as $contrato) {
             $idPessoa = $contrato->idPessoaUsuario;
@@ -163,6 +165,7 @@ class PessoaUsuarioController extends Controller
                 'User' => $user,
                 'Pessoa' => $pessoa,
                 'PessoaUsuario' => $pessoaUsuario,
+                'Contrato' => $contrato,
             ];
         }
         return response()->json(['Pessoas' => $pessoas], 200);

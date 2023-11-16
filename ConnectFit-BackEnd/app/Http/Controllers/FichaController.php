@@ -26,7 +26,7 @@ class FichaController extends Controller
 
             $ficha = new Ficha();
             $ficha->idPessoaUsuario = $request->input('idPessoaUsuario');
-            $ficha->descricao = $request->input('descricao');
+            $ficha->nomeFicha = $request->input('nomeFicha');
             $ficha->idPessoaProfissional = $userId;
             $ficha->save();
 
@@ -116,27 +116,15 @@ class FichaController extends Controller
                 $resultTreinos = [];
 
                 foreach ($treinosFicha as $treinoFicha) {
-                    $treino = Treino::where('idTreino', $treinoFicha->idTreino)->first(); // Assuming a treino is unique for an idTreino
+                    $treino = Treino::where('idTreino', $treinoFicha->idTreino)->first();
 
-                    $resultExercicios = [];
                     if ($treino) {
                         $exercicios = TreinoExercicio::where('idTreino', $treino->idTreino)->get();
-
-                        foreach ($exercicios as $exercicio) {
-                            $resultExercicios[] = [
-                                'idExercicio' => $exercicio->idExercicio,
-                                'Descricao' => $exercicio->Descricao,
-                                'Repeticoes' => $exercicio->Repeticoes,
-                                'descanso' => $exercicio->descanso,
-                                'carga' => $exercicio->carga,
-                                'linkvideo' => $exercicio->linkvideo,
-                            ];
-                        }
                     }
 
                     $resultTreinos[] = [
                         'Treino' => $treino,
-                        'Exercicios' => $resultExercicios,
+                        'Exercicios' => $exercicios,
                     ];
                 }
 
@@ -146,7 +134,8 @@ class FichaController extends Controller
                 ];
             }
 
-            return response()->json(['Fichas' => $resultFichas], 200);
+            return response()->json(['Fichas' => $resultFichas], 200, [], JSON_UNESCAPED_SLASHES);
+
         }
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('idPessoaUsuario');
             $table->unsignedInteger('idPessoaProfissional');
             $table->date('dataFim')->nullable();
-            $table->string('descricao',40);
+            $table->string('nomeFicha',40);
             $table->timestamps();
 
             $table->foreign('idPessoaUsuario')->references('idPessoaUsuario')->on('pessoa_usuarios')->onDelete('cascade');
