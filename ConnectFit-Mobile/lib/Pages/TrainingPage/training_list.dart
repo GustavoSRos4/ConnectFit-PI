@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/Pages/TrainingPage/form_details.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/get_fichas.dart';
+import 'package:projeto/Shared/Blocs/calcular_datas.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 
@@ -11,11 +14,29 @@ class TrainingList extends StatefulWidget {
 
 class _TrainingListState extends State<TrainingList> {
   String _selectedStatus = "Todas";
+  List<Map<String, dynamic>> fichas = [];
+  bool isLoading = true;
 
   void _applyFilter(String status) {
     setState(() {
       _selectedStatus = status;
     });
+  }
+
+  Future<void> loadData() async {
+    await FetchFichas.fetchFichas().then((data) {
+      debugPrint('Fichas: $data');
+      setState(() {
+        fichas = data;
+        isLoading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
   }
 
   @override
@@ -32,8 +53,8 @@ class _TrainingListState extends State<TrainingList> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   right: 30,
                   left: 30,
                   top: 15,
@@ -43,12 +64,13 @@ class _TrainingListState extends State<TrainingList> {
                   height: 35,
                   child: TextField(
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
                       filled: true,
-                      fillColor: Colors.brancoBege,
+                      fillColor: Colors.grey[800],
                       labelText: 'Buscar',
-                      border: OutlineInputBorder(
+                      labelStyle: const TextStyle(color: Colors.brancoBege),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(
                           Radius.circular(5),
@@ -70,8 +92,11 @@ class _TrainingListState extends State<TrainingList> {
                           isBold: true,
                         ),
                         PopupMenuButton<String>(
-                          icon: const Icon(Icons.filter_list),
-                          color: Colors.white,
+                          icon: const Icon(
+                            Icons.filter_list,
+                            color: Colors.brancoBege,
+                          ),
+                          color: Colors.grey[800],
                           onSelected: _applyFilter,
                           itemBuilder: (BuildContext context) {
                             return [
@@ -79,21 +104,18 @@ class _TrainingListState extends State<TrainingList> {
                                 value: 'Ativo',
                                 child: CustomText(
                                   text: 'Ativo',
-                                  color: Colors.pretoPag,
                                 ),
                               ),
                               const PopupMenuItem(
                                 value: 'Concluido',
                                 child: CustomText(
                                   text: 'Concluído',
-                                  color: Colors.pretoPag,
                                 ),
                               ),
                               const PopupMenuItem(
                                 value: 'Todas',
                                 child: CustomText(
                                   text: 'Todas',
-                                  color: Colors.pretoPag,
                                 ),
                               ),
                             ];
@@ -105,8 +127,13 @@ class _TrainingListState extends State<TrainingList> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: fichas.length,
                     itemBuilder: (context, index) {
+                      var ficha = fichas[index];
+                      var descricaoFicha = ficha["Ficha"]["descricao"];
+                      var dataFim = ficha["Ficha"]["dataFim"];
+                      var dataInicio = ficha["Ficha"]["created_at"];
+                      var treinos = ficha["Treinos"];
                       if (_selectedStatus != "Todas" &&
                           _selectedStatus != fichas[index]['status']) {
                         return const SizedBox
@@ -121,7 +148,7 @@ class _TrainingListState extends State<TrainingList> {
                               Radius.circular(10),
                             ),
                             border: Border.all(
-                              color: fichas[index]['status'] == 'Ativo'
+                              color: CalculosDatas.checarDataisNull(dataFim)
                                   ? Colors.green
                                   : Colors.red,
                               width: 2,
@@ -135,7 +162,7 @@ class _TrainingListState extends State<TrainingList> {
                             collapsedIconColor: Colors.white,
                             iconColor: Colors.white,
                             title: CustomText(
-                              text: "${fichas[index]['nome']}",
+                              text: descricaoFicha,
                               isBold: true,
                             ),
                             subtitle: Row(
@@ -143,11 +170,11 @@ class _TrainingListState extends State<TrainingList> {
                               children: [
                                 CustomText(
                                     text:
-                                        "Início: ${fichas[index]['dataInicio']}"),
-                                fichas[index]['dataFim'] != null
+                                        "Início: ${FormatarDatas.formatarData(dataInicio)}"),
+                                dataFim != null
                                     ? CustomText(
                                         text:
-                                            "Fim: ${fichas[index]['dataFim']}")
+                                            "Fim: ${FormatarDatas.formatarData(dataFim)}")
                                     : const SizedBox.shrink()
                               ],
                             ),
@@ -155,21 +182,33 @@ class _TrainingListState extends State<TrainingList> {
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 5,
+                                itemCount: treinos.length,
                                 itemBuilder: (context, index) {
+                                  var treino = treinos[index];
+                                  String descricaoTreino =
+                                      treino["Treino"]["Descricao"];
+                                  List<Map<String, dynamic>> exercicios =
+                                      treino["Exercicios"];
                                   return Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 40, left: 40),
+                                        right: 15, left: 15, bottom: 15),
                                     child: Card(
-                                      color: Colors.deepOrange,
+                                      color: Colors.grey[800],
                                       child: ListTile(
                                         onTap: () {
-                                          Navigator.pushNamed(
-                                              context, '/formDetails',
-                                              arguments: (index + 1));
+                                          Navigator.push<void>(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  FormDetails(
+                                                data: exercicios,
+                                                nomeExercicio: descricaoTreino,
+                                              ),
+                                            ),
+                                          );
                                         },
                                         textColor: Colors.white,
-                                        title: Text(textos[index]),
+                                        title: Text(descricaoTreino),
                                       ),
                                     ),
                                   );
@@ -197,28 +236,4 @@ List<String> textos = [
   "Treino C",
   "Treino D",
   "Treino E",
-];
-
-var fichas = [
-  {
-    'id': 1,
-    'nome': "Ficha teeste 1",
-    'status': "Ativo",
-    'dataInicio': "01/10/2023",
-    'dataFim': null
-  },
-  {
-    'id': 2,
-    'nome': "Ficha teeste 2",
-    'status': "Concluido",
-    'dataInicio': "01/08/2023",
-    'dataFim': "31/08/2023"
-  },
-  {
-    'id': 3,
-    'nome': "Ficha teeste 3",
-    'status': "Concluido",
-    'dataInicio': "01/09/2023",
-    'dataFim': "30/09/2023"
-  },
 ];

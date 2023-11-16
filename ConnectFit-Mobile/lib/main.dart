@@ -12,7 +12,6 @@ import 'package:projeto/Pages/PerfilPage/perfil.dart';
 import 'package:projeto/Pages/PerfilPage/sobre_app.dart';
 import 'package:projeto/Pages/PersonalPage/personal_page.dart';
 import 'package:projeto/Pages/RankingPage/ranking.dart';
-import 'package:projeto/Pages/TrainingPage/form_details.dart';
 import 'package:projeto/Pages/TrainingPage/training_list.dart';
 import 'package:projeto/Pages/CreateAcc/register1.dart';
 import 'Pages/LoginPage/login.dart';
@@ -46,7 +45,6 @@ class MyApp extends StatelessWidget {
         '/register': (_) => const Register1(),
         '/perfil': (_) => const PerfilPage(),
         '/trainingList': (_) => const TrainingList(),
-        '/formDetails': (_) => const FormDetails(),
         '/graphics': (_) => const GraphicsPage(),
         '/measures': (_) => const PageMedidas(),
         '/personal': (_) => const PersonalPage(),
