@@ -9,6 +9,7 @@ DropdownButtonFormField<String> buildCustomDropdownButtonFormFieldSexo({
   required String? value,
   required Function(String) onChanged,
   required String labelText,
+  AutovalidateMode? autovalidateMode = AutovalidateMode.onUserInteraction,
 }) {
   return DropdownButtonFormField<String>(
     iconEnabledColor: Colors.brancoBege,
@@ -53,5 +54,12 @@ DropdownButtonFormField<String> buildCustomDropdownButtonFormFieldSexo({
       labelText: labelText,
       labelStyle: const TextStyle(color: Colors.brancoBege),
     ),
+    validator: (String? value) {
+      if (value == null) {
+        return 'Selecione uma opção.';
+      }
+      return null;
+    },
+    autovalidateMode: autovalidateMode,
   );
 }

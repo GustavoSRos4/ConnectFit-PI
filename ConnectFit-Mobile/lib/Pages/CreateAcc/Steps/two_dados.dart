@@ -42,7 +42,7 @@ class _OnePageState extends State<TwoDados> {
   String? estadoSelecionado;
   Map<String, dynamic>? cidadeSelecionada;
   int? idCidade;
-  String siglaSexo = '';
+  String? siglaSexo;
   DateTime selectedDate = DateTime.now();
   bool isLoading = true;
 

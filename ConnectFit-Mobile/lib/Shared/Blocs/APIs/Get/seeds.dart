@@ -223,4 +223,29 @@ class FetchData {
       return [];
     }
   }
+
+  static Future<List<Map<String, dynamic>>> fetchDuracao() async {
+    var url = Uri.parse('$baseURL/duracao');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      List<dynamic> duracoesList = data['Duracao'];
+      List<Map<String, dynamic>> duracoes = [
+        for (var duracao in duracoesList)
+          {'id': duracao['idDuracao'], 'Descricao': duracao['Descricao']}
+      ];
+
+      return duracoes;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
 }

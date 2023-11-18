@@ -117,12 +117,12 @@ class _FormDetailsState extends State<FormDetails> {
                   const SizedBox(height: 10),
                   CustomRowText(
                     indicador: 'Descanso',
-                    valor: '${exercicio["descanso"]}',
+                    valor: '${exercicio["Descanso"]}',
                   ),
                   const SizedBox(height: 10),
                   CustomRowText(
                     indicador: 'Carga',
-                    valor: '${exercicio["carga"]}',
+                    valor: '${exercicio["Carga"]}',
                   ),
                 ],
               ),

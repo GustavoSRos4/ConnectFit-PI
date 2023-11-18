@@ -5,9 +5,10 @@ DropdownButtonFormField<int> buildCustomDropdownButtonFormField({
   BorderSide borderSide = BorderSide.none,
   Color? fillCollor = Colors.brancoBege,
   required List<Map<String, dynamic>> data,
-  required int value,
+  required int? value,
   required Function(int) onChanged,
   required String labelText,
+  AutovalidateMode? autovalidateMode = AutovalidateMode.onUserInteraction,
 }) {
   return DropdownButtonFormField<int>(
     iconEnabledColor: Colors.brancoBege,
@@ -42,5 +43,12 @@ DropdownButtonFormField<int> buildCustomDropdownButtonFormField({
       labelText: labelText,
       labelStyle: const TextStyle(color: Colors.brancoBege),
     ),
+    validator: (int? value) {
+      if (value == null) {
+        return 'Selecione uma opção.';
+      }
+      return null;
+    },
+    autovalidateMode: autovalidateMode,
   );
 }

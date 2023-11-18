@@ -32,17 +32,18 @@ class AuthServices {
 
   //API para a segunda parte de criação de conta
   static Future<http.Response> registerTwo(
-      int cpf,
-      String dataNas,
-      int ddd,
-      int numeroTel,
-      String logradouro,
-      String numeroEnd,
-      String complemento,
-      int cep,
-      String bairro,
-      int idCidade,
-      String siglaSexo) async {
+    int cpf,
+    String dataNas,
+    int ddd,
+    int numeroTel,
+    String logradouro,
+    String numeroEnd,
+    String complemento,
+    int cep,
+    String bairro,
+    int idCidade,
+    String? siglaSexo,
+  ) async {
     Map data = {
       "cpf": cpf,
       "dataNas": dataNas,
@@ -74,10 +75,10 @@ class AuthServices {
   //APIs para a terceira parte de criação de conta
   static Future<http.Response> registerThree(
     int altura,
-    int idFumante,
-    int idNivelAtiFis,
-    int idObjetivo,
-    int idConsumoAlc,
+    int? idFumante,
+    int? idNivelAtiFis,
+    int? idObjetivo,
+    int? idConsumoAlc,
     List<Map<String, String>> medicamentos,
     List<Map<String, String>> comorbidades,
   ) async {

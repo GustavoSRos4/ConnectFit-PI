@@ -34,13 +34,13 @@ class _ThreeInfosState extends State<ThreeInfos> {
   final alturaEC = TextEditingController();
   final pesoEC = TextEditingController();
   List<Map<String, dynamic>> dataConsumoAlc = [];
-  int idConsumoAlc = 1;
+  int? idConsumoAlc;
   List<Map<String, dynamic>> dataObjetivos = [];
-  int idObjetivo = 1;
+  int? idObjetivo;
   List<Map<String, dynamic>> dataFumante = [];
-  int idFumante = 1;
+  int? idFumante;
   List<Map<String, dynamic>> dataNivelAtiFis = [];
-  int idNivelAtiFis = 1;
+  int? idNivelAtiFis;
   List<Map<dynamic, dynamic>> peso = [];
 
   Future<void> stepThreeCreateAccountPressed() async {
@@ -223,7 +223,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                                     controller: pesoEC,
                                     validator: (text) {
                                       if (text == null || text.isEmpty) {
-                                        return "Esse campo não pode ficar vazio";
+                                        return "Digite seu peso.";
                                       }
                                       return null;
                                     },
@@ -242,7 +242,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
                                     controller: alturaEC,
                                     validator: (text) {
                                       if (text == null || text.isEmpty) {
-                                        return "Esse campo não pode ficar vazio";
+                                        return "Digite sua altura.";
                                       }
                                       return null;
                                     },

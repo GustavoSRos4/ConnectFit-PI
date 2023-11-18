@@ -37,10 +37,6 @@ class CustomListTileMedidas extends StatelessWidget {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
-          side: const BorderSide(
-            width: 1,
-            color: Colors.brancoBege,
-          ),
         ),
       ),
     );

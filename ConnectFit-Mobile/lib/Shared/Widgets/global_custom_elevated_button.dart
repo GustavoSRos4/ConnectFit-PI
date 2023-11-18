@@ -28,16 +28,17 @@ class GlobalCustomElevatedButton extends StatelessWidget {
         height: height,
         width: width,
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: color,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(borderRadius),
-                ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(borderRadius),
               ),
             ),
-            onPressed: onPressed,
-            child: child),
+          ),
+          onPressed: onPressed,
+          child: child,
+        ),
       ),
     );
   }

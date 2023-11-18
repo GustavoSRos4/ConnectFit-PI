@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
+import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/post_contrato.dart';
+import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Blocs/calcular_datas.dart';
+import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 class DetalhesPersonal extends StatefulWidget {
   final int id;
@@ -17,21 +25,59 @@ class DetalhesPersonal extends StatefulWidget {
 
 class _DetalhesPersonalState extends State<DetalhesPersonal> {
   bool isLoading = true;
+  int idDuracao = 1;
+  List<Map<String, dynamic>> seedDuracoes = [];
   Map<String, dynamic> profissional = {};
   List<String> especialidadesDesc = [];
+  late int idPessoaProfissional;
+
+  criarContratoPressed() async {
+    http.Response response = await Contratos.criarContrato(
+      idPessoaProfissional,
+      idDuracao,
+    );
+
+    Map responseMap = jsonDecode(response.body);
+    debugPrint("Código de status da resposta: ${response.statusCode}");
+    if (response.statusCode == 201) {
+      if (mounted) {
+        Navigator.pop(context);
+        debugPrint("Deu certo 201 contrato");
+      } else {
+        if (mounted) {
+          errorSnackBar(context, responseMap.values.first[0]);
+        }
+      }
+    }
+  }
 
   Future<void> loadData() async {
-    FetchProfissonais.fetchProfissional(widget.id).then((data) {
+    await FetchProfissonais.fetchProfissional(widget.id).then((data) {
       debugPrint('Profissional ${widget.id}: $data,');
       setState(() {
         profissional = data;
-        isLoading = false;
+        idPessoaProfissional = profissional["User"]['id'];
       });
+      debugPrint("$idPessoaProfissional");
       for (var lista in profissional['Especialidades']) {
         for (var especialidade in lista) {
           especialidadesDesc.add(especialidade['descricao']);
         }
       }
+    });
+    await FetchData.fetchDuracao().then((data) {
+      debugPrint('Duracoes: $data');
+      setState(() {
+        seedDuracoes = data;
+        isLoading = false;
+      });
+    });
+  }
+
+  void onChangedDuracao(int newValue) {
+    debugPrint("$newValue");
+    setState(() {
+      idDuracao = newValue;
     });
   }
 
@@ -145,8 +191,51 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                 Positioned(
                   bottom: 20,
                   right: 20,
-                  child: ElevatedButton(
-                      onPressed: () {},
+                  child: GlobalCustomElevatedButton(
+                      onPressed: () => showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => Dialog(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              backgroundColor: Colors.pretoPag,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    const CustomText(
+                                      text: 'Selecine a duração contrato:',
+                                      fontSize: 15,
+                                    ),
+                                    const SizedBox(height: 30),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: buildCustomDropdownButtonFormField(
+                                        data: seedDuracoes,
+                                        value: idDuracao,
+                                        onChanged: onChangedDuracao,
+                                        labelText: 'Duração',
+                                      ),
+                                    ),
+                                    const SizedBox(height: 30),
+                                    GlobalCustomElevatedButton(
+                                      width: 150,
+                                      onPressed: () => criarContratoPressed(),
+                                      child: const CustomText(
+                                        text: "Criar contrato",
+                                        isBold: true,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                       child: const CustomText(
                         fontSize: 13.5,
                         text: 'Solicitar',
