@@ -240,6 +240,12 @@ class _OnePageState extends State<TwoDados> {
                               children: [
                                 Expanded(
                                   child: CustomTextField(
+                                    validator: (String? value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Selecione uma data.';
+                                      }
+                                      return null;
+                                    },
                                     icon: Icons.calendar_month,
                                     controller: dataNasEC,
                                     label: 'Nascimento',

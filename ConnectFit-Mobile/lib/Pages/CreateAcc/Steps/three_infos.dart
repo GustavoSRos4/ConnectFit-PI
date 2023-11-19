@@ -46,8 +46,8 @@ class _ThreeInfosState extends State<ThreeInfos> {
   Future<void> stepThreeCreateAccountPressed() async {
     await Future.wait<void>([
       joinMedidasInList(pesoEC.text, '2'),
-      stepThreeApiPeso(),
       stepThreeCreateApiAnamnese(),
+      stepThreeApiPeso(),
     ]);
   }
 

@@ -40,6 +40,7 @@ class _PageMedidasState extends State<PageMedidas> {
     });
 
     await FetchMedidas.fetchMedidas().then((data) {
+      debugPrint(data.toString());
       setState(() {
         medidas = data;
         isLoading = false;
@@ -61,6 +62,19 @@ class _PageMedidasState extends State<PageMedidas> {
       }
     }
     return valor;
+  }
+
+  String getDataAltercaoMedidaById(id) {
+    String dataFormatada = '-';
+    for (Map<String, dynamic> medida in medidas.reversed) {
+      if (medida['idArea'] == id) {
+        final createdAt = medida['created_at'];
+        final createdAtMicro = DateTime.parse(createdAt).microsecondsSinceEpoch;
+        DateTime data = DateTime.fromMicrosecondsSinceEpoch(createdAtMicro);
+        dataFormatada = "${data.day}/${data.month}/${data.year}";
+      }
+    }
+    return dataFormatada;
   }
 
   @override
@@ -117,14 +131,14 @@ class _PageMedidasState extends State<PageMedidas> {
                     CustomListTileMedidas(
                       nomeMedida: getNameById(1),
                       valorMedida: getValorMedidaById(1),
-                      dataAlteracao: "10/09/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(1),
                       textUnidadeMedida: '%',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(2),
                       valorMedida: getValorMedidaById(2),
-                      dataAlteracao: "10/10/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(2),
                       textUnidadeMedida: 'Kg',
                     ),
                     const SizedBox(height: 20),
@@ -133,49 +147,49 @@ class _PageMedidasState extends State<PageMedidas> {
                     CustomListTileMedidas(
                       nomeMedida: getNameById(17),
                       valorMedida: getValorMedidaById(17),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(17),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(20),
                       valorMedida: getValorMedidaById(20),
-                      dataAlteracao: "15/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(20),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(14),
                       valorMedida: getValorMedidaById(14),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(14),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(18),
                       valorMedida: getValorMedidaById(18),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(18),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(15),
                       valorMedida: getValorMedidaById(15),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(15),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(16),
                       valorMedida: getValorMedidaById(16),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(16),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(19),
                       valorMedida: getValorMedidaById(19),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(19),
                       textUnidadeMedida: 'mm',
                     ),
                     const SizedBox(height: 20),
@@ -184,77 +198,77 @@ class _PageMedidasState extends State<PageMedidas> {
                     CustomListTileMedidas(
                       nomeMedida: getNameById(3),
                       valorMedida: getValorMedidaById(3),
-                      dataAlteracao: "09/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(3),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(4),
                       valorMedida: getValorMedidaById(4),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(4),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(5),
                       valorMedida: getValorMedidaById(5),
-                      dataAlteracao: "11/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(5),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(6),
                       valorMedida: getValorMedidaById(6),
-                      dataAlteracao: "12/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(6),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(7),
                       valorMedida: getValorMedidaById(7),
-                      dataAlteracao: "13/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(7),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(8),
                       valorMedida: getValorMedidaById(8),
-                      dataAlteracao: "14/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(8),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(9),
                       valorMedida: getValorMedidaById(9),
-                      dataAlteracao: "15/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(9),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(10),
                       valorMedida: getValorMedidaById(10),
-                      dataAlteracao: "16/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(10),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(11),
                       valorMedida: getValorMedidaById(11),
-                      dataAlteracao: "16/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(11),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(12),
                       valorMedida: getValorMedidaById(12),
-                      dataAlteracao: "17/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(12),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),
                     CustomListTileMedidas(
                       nomeMedida: getNameById(13),
                       valorMedida: getValorMedidaById(13),
-                      dataAlteracao: "17/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(13),
                       textUnidadeMedida: 'cm',
                     ),
                     const SizedBox(height: 10),

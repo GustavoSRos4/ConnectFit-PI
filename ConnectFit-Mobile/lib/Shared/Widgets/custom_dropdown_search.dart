@@ -41,6 +41,7 @@ class CustomDropdownSearch extends StatelessWidget {
   final String Function(Map<String, dynamic>) itemAsString;
   final Color? fillColor;
   final Color? prefixIconColor;
+  final AutovalidateMode? autoValidateMode;
 
   const CustomDropdownSearch({
     Key? key,
@@ -55,11 +56,21 @@ class CustomDropdownSearch extends StatelessWidget {
     required this.itemAsString,
     this.fillColor,
     this.prefixIconColor = Colors.brancoBege,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<Map<String, dynamic>>(
+      autoValidateMode: autoValidateMode,
+      validator: (Map<String, dynamic>? value) {
+        // Perform validation here
+        if (value == null) {
+          return 'Please select an item';
+        }
+        // Return null if validation succeeds
+        return null;
+      },
       selectedItem: selectedItem,
       popupProps: PopupProps.menu(
         itemBuilder: (context, item, isSelected) {

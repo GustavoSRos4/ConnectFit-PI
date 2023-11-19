@@ -119,19 +119,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   ],
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/perfilEditFoto');
-                      },
-                      icon: const Icon(
-                        Icons.create_outlined,
-                      ),
-                    ),
-                  ),
-                ],
+                actions: const [],
               ),
             ),
       body: isLoading
@@ -141,112 +129,90 @@ class _PerfilPageState extends State<PerfilPage> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            color: Colors.brancoBege,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/perfilEditDados');
-                            },
-                            icon: const Icon(
-                              Icons.create_outlined,
-                            ),
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20, left: 20, bottom: 20, right: 20),
+                    child: Column(
+                      children: [
+                        CustomRowText(
+                          indicador: 'Altura',
+                          valor: dadosUsuario['PessoaUsuario'] != null &&
+                                  dadosUsuario['PessoaUsuario']['Altura'] !=
+                                      null
+                              ? '${dadosUsuario['PessoaUsuario']['Altura']} cm'
+                              : '',
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, left: 20, bottom: 20, right: 20),
-                        child: Column(
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Objetivo',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? getNameById(
+                                  dadosUsuario['PessoaUsuario']['idObjetivo'],
+                                  dataObjetivos)
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Fumante',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? getNameById(
+                                  dadosUsuario['PessoaUsuario']['idFumante'],
+                                  dataFumante)
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Nivel de Atividade',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? getNameById(
+                                  dadosUsuario['PessoaUsuario']
+                                      ['idNivelAtiFis'],
+                                  dataNivelAtiFis)
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Consumo alcoolico',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? getNameById(
+                                  dadosUsuario['PessoaUsuario']['idConsumoAlc'],
+                                  dataConsumoAlc)
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Medicamentos',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? medicamentoDescricao.join(', ')
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        CustomRowText(
+                          indicador: 'Comorbidades',
+                          valor: dadosUsuario['PessoaUsuario'] != null
+                              ? comorbidadeDescricao.join(', ')
+                              : '',
+                        ),
+                        const SizedBox(height: 10),
+                        const ExpansionTile(
+                          collapsedIconColor: Colors.white,
+                          iconColor: Colors.white,
+                          tilePadding: EdgeInsets.only(right: 0),
+                          title: CustomText(
+                            text: 'Descrição:',
+                            isBold: true,
+                            fontSize: 13.5,
+                          ),
                           children: [
-                            CustomRowText(
-                              indicador: 'Altura',
-                              valor: dadosUsuario['PessoaUsuario'] != null &&
-                                      dadosUsuario['PessoaUsuario']['Altura'] !=
-                                          null
-                                  ? '${dadosUsuario['PessoaUsuario']['Altura']} cm'
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Objetivo',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? getNameById(
-                                      dadosUsuario['PessoaUsuario']
-                                          ['idObjetivo'],
-                                      dataObjetivos)
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Fumante',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? getNameById(
-                                      dadosUsuario['PessoaUsuario']
-                                          ['idFumante'],
-                                      dataFumante)
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Nivel de Atividade',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? getNameById(
-                                      dadosUsuario['PessoaUsuario']
-                                          ['idNivelAtiFis'],
-                                      dataNivelAtiFis)
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Consumo alcoolico',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? getNameById(
-                                      dadosUsuario['PessoaUsuario']
-                                          ['idConsumoAlc'],
-                                      dataConsumoAlc)
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Medicamentos',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? medicamentoDescricao.join(', ')
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            CustomRowText(
-                              indicador: 'Comorbidades',
-                              valor: dadosUsuario['PessoaUsuario'] != null
-                                  ? comorbidadeDescricao.join(', ')
-                                  : '',
-                            ),
-                            const SizedBox(height: 10),
-                            const ExpansionTile(
-                              collapsedIconColor: Colors.white,
-                              iconColor: Colors.white,
-                              tilePadding: EdgeInsets.only(right: 0),
-                              title: CustomText(
-                                text: 'Descrição:',
-                                isBold: true,
-                                fontSize: 13.5,
-                              ),
-                              children: [
-                                CustomText(
-                                  fontSize: 13.5,
-                                  text:
-                                      'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
-                                ),
-                              ],
+                            CustomText(
+                              fontSize: 13.5,
+                              text:
+                                  'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const CustomContainerTitlePerfil(text: 'Opções Gerais'),
                   CustomListTilePerfil(

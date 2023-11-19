@@ -41,12 +41,7 @@ class _HomePageState extends State<HomePage> {
           : CustomAppBar(
               automaticallyImplyLeading: false,
               title: Text("Olá, $nomeUsuario"),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.notifications),
-                  onPressed: () {},
-                ),
-              ],
+              actions: [],
             ),
       body: isLoading
           ? const Center(

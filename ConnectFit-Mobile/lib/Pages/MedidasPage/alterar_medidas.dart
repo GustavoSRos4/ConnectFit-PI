@@ -83,6 +83,19 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
     return valor;
   }
 
+  String getDataAltercaoMedidaById(id) {
+    String dataFormatada = '-';
+    for (Map<String, dynamic> medida in medidas.reversed) {
+      if (medida['idArea'] == id) {
+        final createdAt = medida['created_at'];
+        final createdAtMicro = DateTime.parse(createdAt).microsecondsSinceEpoch;
+        DateTime data = DateTime.fromMicrosecondsSinceEpoch(createdAtMicro);
+        dataFormatada = "${data.day}/${data.month}/${data.year}";
+      }
+    }
+    return dataFormatada;
+  }
+
   joinMedidasInList(String medida, String id) {
     int index = areas.indexWhere((element) => element["idArea"] == id);
     setState(() {
@@ -162,7 +175,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: percentualGorduraEC.text.isNotEmpty
                           ? int.parse(percentualGorduraEC.text)
                           : getValorMedidaById(1),
-                      dataAlteracao: "10/09/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(1),
                       textUnidadeMedida: '%',
                       controller: percentualGorduraEC,
                       funcao: () =>
@@ -174,7 +187,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: pesoEC.text.isNotEmpty
                           ? int.parse(pesoEC.text)
                           : getValorMedidaById(2),
-                      dataAlteracao: "10/10/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(2),
                       textUnidadeMedida: 'Kg',
                       controller: pesoEC,
                       funcao: () => joinMedidasInList(pesoEC.text, '2'),
@@ -187,7 +200,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: axilarMediaEC.text.isNotEmpty
                           ? int.parse(axilarMediaEC.text)
                           : getValorMedidaById(17),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(17),
                       textUnidadeMedida: 'mm',
                       controller: axilarMediaEC,
                       funcao: () => joinMedidasInList(axilarMediaEC.text, '17'),
@@ -198,7 +211,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: femuralMediaEC.text.isNotEmpty
                           ? int.parse(femuralMediaEC.text)
                           : getValorMedidaById(20),
-                      dataAlteracao: "15/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(20),
                       textUnidadeMedida: 'mm',
                       controller: femuralMediaEC,
                       funcao: () =>
@@ -210,7 +223,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: subescapularEC.text.isNotEmpty
                           ? int.parse(subescapularEC.text)
                           : getValorMedidaById(14),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(14),
                       textUnidadeMedida: 'mm',
                       controller: subescapularEC,
                       funcao: () =>
@@ -222,7 +235,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: supraIliacaEC.text.isNotEmpty
                           ? int.parse(supraIliacaEC.text)
                           : getValorMedidaById(18),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(18),
                       textUnidadeMedida: 'mm',
                       controller: supraIliacaEC,
                       funcao: () => joinMedidasInList(supraIliacaEC.text, '18'),
@@ -233,7 +246,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: tricepsEC.text.isNotEmpty
                           ? int.parse(tricepsEC.text)
                           : getValorMedidaById(15),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(15),
                       textUnidadeMedida: 'mm',
                       controller: tricepsEC,
                       funcao: () => joinMedidasInList(tricepsEC.text, '15'),
@@ -244,7 +257,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: peitoralEC.text.isNotEmpty
                           ? int.parse(peitoralEC.text)
                           : getValorMedidaById(16),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(16),
                       textUnidadeMedida: 'mm',
                       controller: peitoralEC,
                       funcao: () => joinMedidasInList(peitoralEC.text, '16'),
@@ -255,7 +268,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: abdominalEC.text.isNotEmpty
                           ? int.parse(abdominalEC.text)
                           : getValorMedidaById(19),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(19),
                       textUnidadeMedida: 'mm',
                       controller: abdominalEC,
                       funcao: () => joinMedidasInList(abdominalEC.text, '19'),
@@ -268,7 +281,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: ombrosEC.text.isNotEmpty
                           ? int.parse(ombrosEC.text)
                           : getValorMedidaById(3),
-                      dataAlteracao: "09/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(3),
                       textUnidadeMedida: 'cm',
                       controller: ombrosEC,
                       funcao: () => joinMedidasInList(ombrosEC.text, '3'),
@@ -279,7 +292,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: toraxEC.text.isNotEmpty
                           ? int.parse(toraxEC.text)
                           : getValorMedidaById(4),
-                      dataAlteracao: "10/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(4),
                       textUnidadeMedida: 'cm',
                       controller: toraxEC,
                       funcao: () => joinMedidasInList(toraxEC.text, '4'),
@@ -290,7 +303,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: abdomenEC.text.isNotEmpty
                           ? int.parse(abdomenEC.text)
                           : getValorMedidaById(5),
-                      dataAlteracao: "11/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(5),
                       textUnidadeMedida: 'cm',
                       controller: abdomenEC,
                       funcao: () => joinMedidasInList(abdomenEC.text, '5'),
@@ -301,7 +314,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: cinturaEC.text.isNotEmpty
                           ? int.parse(cinturaEC.text)
                           : getValorMedidaById(6),
-                      dataAlteracao: "12/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(6),
                       textUnidadeMedida: 'cm',
                       controller: cinturaEC,
                       funcao: () => joinMedidasInList(cinturaEC.text, '6'),
@@ -312,7 +325,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: quadrilEC.text.isNotEmpty
                           ? int.parse(quadrilEC.text)
                           : getValorMedidaById(7),
-                      dataAlteracao: "13/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(7),
                       textUnidadeMedida: 'cm',
                       controller: quadrilEC,
                       funcao: () => joinMedidasInList(quadrilEC.text, '7'),
@@ -323,7 +336,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: bracoEsqEC.text.isNotEmpty
                           ? int.parse(bracoEsqEC.text)
                           : getValorMedidaById(8),
-                      dataAlteracao: "14/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(8),
                       textUnidadeMedida: 'cm',
                       controller: bracoEsqEC,
                       funcao: () => joinMedidasInList(bracoEsqEC.text, '8'),
@@ -334,7 +347,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: bracoDirEC.text.isNotEmpty
                           ? int.parse(bracoDirEC.text)
                           : getValorMedidaById(9),
-                      dataAlteracao: "15/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(9),
                       textUnidadeMedida: 'cm',
                       controller: bracoDirEC,
                       funcao: () => joinMedidasInList(bracoDirEC.text, '9'),
@@ -345,7 +358,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: coxaEsqEC.text.isNotEmpty
                           ? int.parse(coxaEsqEC.text)
                           : getValorMedidaById(10),
-                      dataAlteracao: "16/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(10),
                       textUnidadeMedida: 'cm',
                       controller: coxaEsqEC,
                       funcao: () => joinMedidasInList(coxaEsqEC.text, '10'),
@@ -356,7 +369,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: coxaDirEC.text.isNotEmpty
                           ? int.parse(coxaDirEC.text)
                           : getValorMedidaById(11),
-                      dataAlteracao: "16/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(11),
                       textUnidadeMedida: 'cm',
                       controller: coxaDirEC,
                       funcao: () => joinMedidasInList(coxaDirEC.text, '11'),
@@ -367,7 +380,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: pernaEsqEC.text.isNotEmpty
                           ? int.parse(pernaEsqEC.text)
                           : getValorMedidaById(12),
-                      dataAlteracao: "17/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(12),
                       textUnidadeMedida: 'cm',
                       controller: pernaEsqEC,
                       funcao: () => joinMedidasInList(pernaEsqEC.text, '12'),
@@ -378,7 +391,7 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
                       valorMedida: pernaDirEC.text.isNotEmpty
                           ? int.parse(pernaDirEC.text)
                           : getValorMedidaById(13),
-                      dataAlteracao: "17/11/2023",
+                      dataAlteracao: getDataAltercaoMedidaById(13),
                       textUnidadeMedida: 'cm',
                       controller: pernaDirEC,
                       funcao: () => joinMedidasInList(pernaDirEC.text, '13'),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_contratos.dart';
-import 'package:projeto/Shared/Blocs/calcular_datas.dart';
+import 'package:projeto/Shared/Blocs/funcos_datas.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 
