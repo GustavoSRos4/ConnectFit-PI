@@ -75,10 +75,9 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
 
   getValorMedidaById(id) {
     var valor = 0;
-    for (Map<String, dynamic> mapa in medidas) {
+    for (Map<String, dynamic> mapa in medidas.reversed) {
       if (mapa['idArea'] == id) {
         valor = mapa['medida'];
-        debugPrint('Valor da medida: $valor');
       }
     }
     return valor;

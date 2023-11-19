@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 DropdownButtonFormField<int> buildCustomDropdownButtonFormField({
   double? menuMaxHeight,
   BorderSide borderSide = BorderSide.none,
-  Color? fillCollor = Colors.brancoBege,
+  Color? fillCollor,
   required List<Map<String, dynamic>> data,
   required int? value,
   required Function(int) onChanged,
@@ -31,7 +31,7 @@ DropdownButtonFormField<int> buildCustomDropdownButtonFormField({
     }).toList(),
     decoration: InputDecoration(
       filled: true,
-      fillColor: Colors.grey[800],
+      fillColor: fillCollor ?? Colors.grey[800],
       hintStyle: const TextStyle(color: Colors.white),
       border: OutlineInputBorder(
         borderSide: borderSide,

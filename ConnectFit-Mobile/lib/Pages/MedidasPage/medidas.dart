@@ -33,15 +33,13 @@ class _PageMedidasState extends State<PageMedidas> {
   }
 
   Future<void> loadData() async {
-    FetchData.fetchAreas().then((data) {
-      debugPrint('Areas: $data');
+    await FetchData.fetchAreas().then((data) {
       setState(() {
         seedAreas = data;
       });
     });
 
-    FetchMedidas.fetchMedidas().then((data) {
-      debugPrint('Medidas: $data');
+    await FetchMedidas.fetchMedidas().then((data) {
       setState(() {
         medidas = data;
         isLoading = false;
@@ -57,10 +55,9 @@ class _PageMedidasState extends State<PageMedidas> {
 
   getValorMedidaById(id) {
     var valor = 0;
-    for (Map<String, dynamic> mapa in medidas) {
+    for (Map<String, dynamic> mapa in medidas.reversed) {
       if (mapa['idArea'] == id) {
         valor = mapa['medida'];
-        debugPrint('Valor da medida: $valor');
       }
     }
     return valor;
