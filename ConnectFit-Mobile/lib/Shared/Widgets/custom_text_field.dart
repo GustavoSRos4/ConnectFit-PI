@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final bool readOnly;
-  final String label;
+  final String? label;
   final String? hint;
   final IconData? icon;
   final bool obscureTest;
@@ -21,10 +21,12 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
   final AutovalidateMode? autovalidateMode;
+  final bool autofocus;
+  final InputBorder? inputBorder;
 
   const CustomTextField({
     Key? key,
-    required this.label,
+    this.label,
     this.icon,
     this.hint,
     this.validator,
@@ -43,11 +45,19 @@ class CustomTextField extends StatelessWidget {
     this.prefixIconColor = Colors.brancoBege,
     this.fillColor,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
+    this.autofocus = false,
+    this.inputBorder = const OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(
+        Radius.circular(50),
+      ),
+    ),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus,
       maxLength: maxLength,
       keyboardType: keyboardType,
       onTap: onTap,
@@ -74,12 +84,7 @@ class CustomTextField extends StatelessWidget {
         hintStyle: const TextStyle(color: Colors.brancoBege),
         labelText: label,
         hintText: hint,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.all(
-            Radius.circular(50),
-          ),
-        ),
+        border: inputBorder,
         prefixIcon: icon == null
             ? null
             : Icon(

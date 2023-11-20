@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 
-class CustomListTileAlterarMedidas extends StatelessWidget {
+class CustomListTileAlterarMedidas extends StatefulWidget {
   final String dataAlteracao;
   final String nomeMedida;
   final int valorMedida;
   final String textUnidadeMedida;
   final TextEditingController controller;
   final void Function() funcao;
+
   const CustomListTileAlterarMedidas({
     super.key,
     required this.nomeMedida,
@@ -21,6 +24,14 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
   });
 
   @override
+  State<CustomListTileAlterarMedidas> createState() =>
+      _CustomListTileAlterarMedidasState();
+}
+
+class _CustomListTileAlterarMedidasState
+    extends State<CustomListTileAlterarMedidas> {
+  final formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -31,50 +42,86 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
             onTap: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => Dialog(
+                backgroundColor: Colors.grey[800],
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CustomText(
-                        text: 'Inserir medida $nomeMedida:',
-                        color: Colors.black,
-                        fontSize: 15,
-                      ),
-                      TextField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        onSubmitted: (z) {
-                          funcao();
-                          Navigator.pop(context);
-                        },
-                        keyboardType: TextInputType.number,
-                        controller: controller,
-                        autofocus: true,
-                      ),
-                      const SizedBox(height: 15),
-                      ElevatedButton(
-                        onPressed: () {
-                          funcao();
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Inserir'),
-                      ),
-                    ],
+                  padding: const EdgeInsets.all(15.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CustomText(
+                          text: 'Inserir medida ${widget.nomeMedida}:',
+                          color: Colors.brancoBege,
+                          fontSize: 15,
+                        ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          inputBorder: const UnderlineInputBorder(),
+                          autofocus: true,
+                          controller: widget.controller,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onFieldSubmitted: (z) {
+                            if (formKey.currentState!.validate()) {
+                              widget.funcao();
+                              widget.controller.clear();
+                              Navigator.pop(context);
+                            } else {
+                              errorSnackBar(context,
+                                  'Por favor, preencha os campos corretamente!');
+                            }
+                          },
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return "Esse campo não pode ficar vazio";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                        // TextField(
+                        //   inputFormatters: [
+                        //     FilteringTextInputFormatter.digitsOnly
+                        //   ],
+                        //   onSubmitted: (z) {
+                        //     funcao();
+                        //     Navigator.pop(context);
+                        //   },
+                        //   keyboardType: TextInputType.number,
+                        //   controller: controller,
+                        //   autofocus: true,
+                        // ),
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              widget.funcao();
+                              widget.controller.clear();
+                              Navigator.pop(context);
+                            } else {
+                              errorSnackBar(context,
+                                  'Por favor, preencha os campos corretamente!');
+                            }
+                          },
+                          child: const Text('Inserir'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
             title: CustomText(
-              text: nomeMedida,
+              text: widget.nomeMedida,
               fontSize: 15,
               isBold: true,
             ),
             subtitle: CustomRowText(
               indicador: 'Alteração',
-              valor: dataAlteracao,
+              valor: widget.dataAlteracao,
             ),
             trailing: const Icon(
               Icons.create_outlined,
@@ -90,7 +137,7 @@ class CustomListTileAlterarMedidas extends StatelessWidget {
             top: 0,
             child: Center(
               child: CustomText(
-                text: '$valorMedida $textUnidadeMedida',
+                text: '${widget.valorMedida} ${widget.textUnidadeMedida}',
                 fontSize: 15,
               ),
             ),
