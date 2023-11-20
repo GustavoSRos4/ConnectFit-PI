@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class Contratos {
-  //API para primeria parte de ciração de conta
+  ///API para criar o contrato
   static Future<http.Response> criarContrato(
     int idPessoaProfissional,
     int idDuracao,

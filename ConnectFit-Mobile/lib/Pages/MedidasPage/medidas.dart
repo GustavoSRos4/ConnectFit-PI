@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_medidas.dart';
 
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
-import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/create_medida.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_alterar_medidas.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Widgets/custom_text.dart';
 
 class PageMedidas extends StatefulWidget {
   const PageMedidas({super.key});
@@ -99,7 +98,6 @@ class _PageMedidasState extends State<PageMedidas> {
         });
       }
     });
-    debugPrint(areas.toString());
     salvarPressed();
   }
 
@@ -345,30 +343,5 @@ class _PageMedidasState extends State<PageMedidas> {
                   ],
                 ),
               ));
-  }
-}
-
-class getValorMedidaByIdExpansion extends StatelessWidget {
-  final String text;
-  final List<Widget> children;
-  const getValorMedidaByIdExpansion({
-    super.key,
-    required this.text,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      onExpansionChanged: (value) {},
-      collapsedBackgroundColor: Colors.deepOrange,
-      iconColor: Colors.white,
-      title: CustomText(
-        text: text,
-        isBold: true,
-        fontSize: 15,
-      ),
-      children: children,
-    );
   }
 }

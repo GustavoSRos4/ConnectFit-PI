@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -69,9 +68,6 @@ class _CustomListTileAlterarMedidasState
                               widget.funcao();
                               widget.controller.clear();
                               Navigator.pop(context);
-                            } else {
-                              errorSnackBar(context,
-                                  'Por favor, preencha os campos corretamente!');
                             }
                           },
                           validator: (text) {
@@ -82,18 +78,6 @@ class _CustomListTileAlterarMedidasState
                           },
                           keyboardType: TextInputType.number,
                         ),
-                        // TextField(
-                        //   inputFormatters: [
-                        //     FilteringTextInputFormatter.digitsOnly
-                        //   ],
-                        //   onSubmitted: (z) {
-                        //     funcao();
-                        //     Navigator.pop(context);
-                        //   },
-                        //   keyboardType: TextInputType.number,
-                        //   controller: controller,
-                        //   autofocus: true,
-                        // ),
                         const SizedBox(height: 15),
                         ElevatedButton(
                           onPressed: () {
@@ -101,9 +85,6 @@ class _CustomListTileAlterarMedidasState
                               widget.funcao();
                               widget.controller.clear();
                               Navigator.pop(context);
-                            } else {
-                              errorSnackBar(context,
-                                  'Por favor, preencha os campos corretamente!');
                             }
                           },
                           child: const Text('Inserir'),

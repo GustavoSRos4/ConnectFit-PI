@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_medidas.dart';
 
-import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/create_medida.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Models/medidas_model.dart';
 import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
@@ -55,7 +55,6 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
     );
 
     Map responseMap = jsonDecode(response.body);
-    debugPrint("Código de status da resposta: ${response.statusCode}");
     if (response.statusCode == 201) {
       setState(() {
         areas = [];
@@ -64,7 +63,6 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
       if (mounted) {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, '/measures');
-        debugPrint("Deu certo 201");
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -108,7 +106,6 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
         });
       }
     });
-    debugPrint(areas.toString());
   }
 
   String getNameById(int id) {
@@ -121,15 +118,13 @@ class _PageMedidasAlterarState extends State<PageMedidasAlterar> {
   }
 
   Future<void> loadData() async {
-    FetchData.fetchAreas().then((data) {
-      debugPrint('Areas: $data');
+    await FetchData.fetchAreas().then((data) {
       setState(() {
         seedAreas = data;
       });
     });
 
-    FetchMedidas.fetchMedidas().then((data) {
-      debugPrint('Medidas: $data');
+    await FetchMedidas.fetchMedidas().then((data) {
       setState(() {
         medidas = data;
         isLoading = false;

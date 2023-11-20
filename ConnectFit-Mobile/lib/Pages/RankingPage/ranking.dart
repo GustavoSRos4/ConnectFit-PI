@@ -15,7 +15,7 @@ class RankingPage extends StatelessWidget {
       body: Center(
           child: CustomText(
         text: 'Em desenvolvimento...',
-        fontSize: 30,
+        fontSize: 20,
         isBold: true,
       )),
     );

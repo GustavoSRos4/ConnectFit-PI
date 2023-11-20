@@ -22,14 +22,12 @@ class _GraphicsPageState extends State<GraphicsPage> {
 
   Future<void> loadData() async {
     await FetchData.fetchAreas().then((data) {
-      debugPrint('Areas: $data');
       setState(() {
         seedAreas = data;
       });
     });
 
     await FetchMedidas.fetchMedidas().then((data) {
-      debugPrint('Medidas: $data');
       setState(() {
         medidas = data;
         isLoading = false;
@@ -38,7 +36,6 @@ class _GraphicsPageState extends State<GraphicsPage> {
   }
 
   void onChangedArea(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idArea = newValue;
     });
@@ -136,7 +133,6 @@ class _GraphicsPageState extends State<GraphicsPage> {
                           DateTime.fromMicrosecondsSinceEpoch(item[0]);
                       String dataFormatada =
                           "${data.day}/${data.month}/${data.year}";
-
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

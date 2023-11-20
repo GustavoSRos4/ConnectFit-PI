@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Blocs/APIs/Post/post_contrato.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Blocs/funcos_datas.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
@@ -38,11 +38,9 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
     );
 
     Map responseMap = jsonDecode(response.body);
-    debugPrint("Código de status da resposta: ${response.statusCode}");
     if (response.statusCode == 201) {
       if (mounted) {
         Navigator.pop(context);
-        debugPrint("Deu certo 201 contrato");
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -53,12 +51,10 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
 
   Future<void> loadData() async {
     await FetchProfissonais.fetchProfissional(widget.id).then((data) {
-      debugPrint('Profissional ${widget.id}: $data,');
       setState(() {
         profissional = data;
         idPessoaProfissional = profissional["User"]['id'];
       });
-      debugPrint("$idPessoaProfissional");
       for (var lista in profissional['Especialidades']) {
         for (var especialidade in lista) {
           especialidadesDesc.add(especialidade['descricao']);
@@ -66,7 +62,6 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
       }
     });
     await FetchData.fetchDuracao().then((data) {
-      debugPrint('Duracoes: $data');
       setState(() {
         seedDuracoes = data;
         isLoading = false;
@@ -75,7 +70,6 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
   }
 
   void onChangedDuracao(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idDuracao = newValue;
     });

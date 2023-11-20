@@ -25,7 +25,6 @@ class _TrainingListState extends State<TrainingList> {
 
   Future<void> loadData() async {
     await FetchFichas.fetchFichas().then((data) {
-      debugPrint('Fichas: $data');
       setState(() {
         fichas = data;
         isLoading = false;
@@ -239,11 +238,3 @@ class _TrainingListState extends State<TrainingList> {
     );
   }
 }
-
-List<String> textos = [
-  "Treino A",
-  "Treino B",
-  "Treino C",
-  "Treino D",
-  "Treino E",
-];

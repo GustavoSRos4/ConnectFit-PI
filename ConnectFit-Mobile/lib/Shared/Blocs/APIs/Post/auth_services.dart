@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class AuthServices {
-  //API para primeria parte de ciração de conta
+  ///API para primeria parte de ciração de conta
   static Future<http.Response> register(
     String name,
     String email,
@@ -30,7 +30,7 @@ class AuthServices {
     return response;
   }
 
-  //API para a segunda parte de criação de conta
+  ///API para a segunda parte de criação de conta
   static Future<http.Response> registerTwo(
     int cpf,
     String dataNas,
@@ -72,7 +72,7 @@ class AuthServices {
     return response;
   }
 
-  //APIs para a terceira parte de criação de conta
+  ///APIs para a terceira parte de criação de conta
   static Future<http.Response> registerThree(
     int altura,
     int? idFumante,
@@ -108,29 +108,11 @@ class AuthServices {
     return response;
   }
 
-  static Future<http.Response> registerThreePeso(
-    int peso,
+  ///API para o login
+  static Future<http.Response> login(
+    String email,
+    String password,
   ) async {
-    Map data = {
-      "peso": peso,
-    };
-    debugPrint('$data');
-    var body = json.encode(data);
-    var url = Uri.parse('$baseURL/createMedida'); //trocar pela rota do laravel
-    String? token = await getToken();
-    http.Response response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: body,
-    );
-    debugPrint('teste ${response.body}');
-    return response;
-  }
-
-  static Future<http.Response> login(String email, String password) async {
     Map data = {
       "email": email,
       "password": password,

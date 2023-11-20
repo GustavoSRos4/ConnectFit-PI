@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/auth_services.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 import 'package:string_validator/string_validator.dart';
 import 'package:http/http.dart' as http;
-import '../../../Shared/Blocs/APIs/globals.dart';
+import '../../../Shared/Blocs/globals.dart';
 
 class OneLogin extends StatefulWidget {
   const OneLogin({super.key});
@@ -28,7 +28,6 @@ class _ThreePageState extends State<OneLogin> {
   final formKey = GlobalKey<FormState>();
 
   stepOneCreateAccountPressed() async {
-    debugPrint("DEu");
     http.Response response = await AuthServices.register(
       nomeEC.text,
       emailEC.text,

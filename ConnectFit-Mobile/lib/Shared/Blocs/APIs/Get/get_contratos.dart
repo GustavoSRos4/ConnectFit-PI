@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class FetchContratos {
+  ///API para mostrar os contratos
   static Future<List<Map<String, dynamic>>> fetchContratos() async {
     var url = Uri.parse('$baseURL/mostrarContratos');
     String? token = await getToken();
@@ -16,7 +17,6 @@ class FetchContratos {
     );
 
     if (response.statusCode == 200) {
-      //debugPrint('Response data: ${response.body}');
       Map<String, dynamic> data = jsonDecode(response.body);
       List<dynamic> contratosList = data['Contrato'];
 

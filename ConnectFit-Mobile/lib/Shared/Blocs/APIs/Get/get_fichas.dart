@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class FetchFichas {
+  ///API para buscar as Fichas
   static Future<List<Map<String, dynamic>>> fetchFichas() async {
     var url = Uri.parse('$baseURL/showFicha');
     String? token = await getToken();
@@ -16,7 +17,6 @@ class FetchFichas {
     );
 
     if (response.statusCode == 200) {
-      debugPrint('Response data: ${response.body}');
       List<Map<String, dynamic>> fichas = [];
 
       List<dynamic> fichasJson = jsonDecode(response.body)['Fichas'];

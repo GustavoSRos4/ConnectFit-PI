@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
-import 'package:projeto/Shared/Blocs/APIs/create_medida.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/auth_services.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/create_medida.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_container_text_field_add_various_itens.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
@@ -28,8 +28,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
   final List<String> medicamentos = [];
   final List<String> comorbidades = [];
   final formKey = GlobalKey<FormState>();
-
-  String? token;
   bool isLoading = true;
   final alturaEC = TextEditingController();
   final pesoEC = TextEditingController();
@@ -83,13 +81,11 @@ class _ThreeInfosState extends State<ThreeInfos> {
     );
 
     Map responseMap = jsonDecode(response.body);
-    debugPrint("Código de status da resposta: ${response.statusCode}");
     if (response.statusCode == 201) {
       setState(() {
         peso = [];
       });
       if (mounted) {
-        debugPrint("Deu certo 201");
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -110,7 +106,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
         });
       }
     });
-    debugPrint(peso.toString());
   }
 
   void enviarMedicamentos() {
@@ -126,28 +121,24 @@ class _ThreeInfosState extends State<ThreeInfos> {
   }
 
   void onChangedObjetivo(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idObjetivo = newValue;
     });
   }
 
   void onChangedConsumoAlc(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idConsumoAlc = newValue;
     });
   }
 
   void onChangedNivelAtiFis(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idNivelAtiFis = newValue;
     });
   }
 
   void onChangedFumante(int newValue) {
-    debugPrint("$newValue");
     setState(() {
       idFumante = newValue;
     });
@@ -182,12 +173,6 @@ class _ThreeInfosState extends State<ThreeInfos> {
   @override
   void initState() {
     super.initState();
-    getToken().then((value) {
-      setState(() {
-        token = value;
-      });
-    });
-
     loaddata();
   }
 
@@ -354,21 +339,22 @@ class _ThreeInfosState extends State<ThreeInfos> {
                             ),
                             const SizedBox(height: 15),
                             GlobalCustomElevatedButton(
-                                width: double.infinity,
-                                borderRadius: 50,
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    stepThreeCreateAccountPressed();
-                                  } else {
-                                    errorSnackBar(context,
-                                        'Por favor, preencha os campos corretamente!');
-                                  }
-                                },
-                                child: const CustomText(
-                                  text: "Avançar",
-                                  fontSize: 17,
-                                  isBold: true,
-                                ))
+                              width: double.infinity,
+                              borderRadius: 50,
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  stepThreeCreateAccountPressed();
+                                } else {
+                                  errorSnackBar(context,
+                                      'Por favor, preencha os campos corretamente!');
+                                }
+                              },
+                              child: const CustomText(
+                                text: "Avançar",
+                                fontSize: 17,
+                                isBold: true,
+                              ),
+                            )
                           ],
                         ),
                       ),

@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 
 class FetchDadosUsuario {
+  ///API para buscar os dados do usuario
   static Future<Map<String, dynamic>> fetchDadosUsuario() async {
     var url = Uri.parse('$baseURL/mostrarPessoaUsuario');
     String? token = await getToken();

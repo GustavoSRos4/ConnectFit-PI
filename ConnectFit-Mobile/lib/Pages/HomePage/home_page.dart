@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> loadData() async {
     await FetchNomeUsuario.fetchNomeUsuario().then((data) {
-      debugPrint('Nome usuario: $data');
       setState(() {
         nomeUsuario = data;
         isLoading = false;
@@ -41,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           : CustomAppBar(
               automaticallyImplyLeading: false,
               title: Text("Olá, $nomeUsuario"),
-              actions: [],
+              actions: const [],
             ),
       body: isLoading
           ? const Center(

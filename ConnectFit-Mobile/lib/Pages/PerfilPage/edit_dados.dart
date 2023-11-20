@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
-import 'package:projeto/Shared/Blocs/APIs/globals.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/auth_services.dart';
+import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_container_text_field_add_various_itens.dart';
@@ -59,22 +59,6 @@ class _PerfilEditDadosState extends State<PerfilEditDados> {
       idConsumoAlc,
       medicamentosMap,
       comorbidadesMap,
-    );
-    Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      if (mounted) {
-      } else {
-        if (mounted) {
-          errorSnackBar(context, responseMap.values.first[0]);
-        }
-      }
-    }
-  }
-
-  stepThreeApiPeso() async {
-    int peso = int.parse(pesoEC.text);
-    http.Response response = await AuthServices.registerThreePeso(
-      peso,
     );
     Map responseMap = jsonDecode(response.body);
     if (response.statusCode == 200) {

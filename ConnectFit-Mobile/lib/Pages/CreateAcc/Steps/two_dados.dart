@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
-import 'package:projeto/Shared/Blocs/APIs/auth_services.dart';
+import 'package:projeto/Shared/Blocs/APIs/Post/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Widgets/custom_drop_down_button_form_field_sexo.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_search.dart';
@@ -14,7 +14,7 @@ import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 import 'package:http/http.dart' as http;
-import '../../../Shared/Blocs/APIs/globals.dart';
+import '../../../Shared/Blocs/globals.dart';
 
 class TwoDados extends StatefulWidget {
   const TwoDados({super.key});
@@ -35,7 +35,6 @@ class _OnePageState extends State<TwoDados> {
   final formKey = GlobalKey<FormState>();
 
   String? selectedValue;
-  String? token;
   List<Map<String, String>> estados = [];
   List<Map<String, String>> sexos = [];
   List<Map<String, dynamic>> cidades = [];
@@ -43,7 +42,6 @@ class _OnePageState extends State<TwoDados> {
   Map<String, dynamic>? cidadeSelecionada;
   int? idCidade;
   String? siglaSexo;
-  DateTime selectedDate = DateTime.now();
   bool isLoading = true;
 
   stepTwoCreateAccountPressed() async {
@@ -75,12 +73,12 @@ class _OnePageState extends State<TwoDados> {
         siglaSexo,
       );
 
+      Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 201) {
         if (mounted) {
           Navigator.pushNamed(context, '/threeInfos');
         }
       } else {
-        Map responseMap = jsonDecode(response.body);
         if (mounted) {
           errorSnackBar(context, responseMap.values.toString());
         }
@@ -123,11 +121,6 @@ class _OnePageState extends State<TwoDados> {
   @override
   void initState() {
     super.initState();
-    getToken().then((value) {
-      setState(() {
-        token = value;
-      });
-    });
     loadData();
   }
 
@@ -149,7 +142,6 @@ class _OnePageState extends State<TwoDados> {
 
   void buscarCidades(uf) {
     FetchData.fetchCidades(uf).then((data) {
-      debugPrint('Estados: $data');
       setState(() {
         cidades = data;
       });
@@ -182,8 +174,7 @@ class _OnePageState extends State<TwoDados> {
                                 buscarCidades(novoEstado?['SiglaUF']);
                                 setState(() {
                                   estadoSelecionado = novoEstado?['SiglaUF'];
-                                  cidadeSelecionada =
-                                      null; // Adicione esta linha
+                                  cidadeSelecionada = null;
                                 });
                               },
                               labelPrincipal: 'Estado',
@@ -195,15 +186,16 @@ class _OnePageState extends State<TwoDados> {
                                   estado['Descricao']!,
                             ),
                             const SizedBox(height: 15),
-
                             CustomDropdownSearch(
                               selectedItem: cidadeSelecionada,
                               items: cidades,
                               onChanged: (Map<String, dynamic>? novaCidade) {
-                                setState(() {
-                                  cidadeSelecionada = novaCidade;
-                                  idCidade = novaCidade?['idCidade'];
-                                });
+                                setState(
+                                  () {
+                                    cidadeSelecionada = novaCidade;
+                                    idCidade = novaCidade?['idCidade'];
+                                  },
+                                );
                               },
                               labelPrincipal: 'Cidade',
                               hintTextPrincipal: 'Escolha a cidade...',
@@ -392,7 +384,6 @@ class _OnePageState extends State<TwoDados> {
                               ),
                             ),
                             const SizedBox(height: 15),
-                            //Testando
                           ],
                         ),
                       ),
