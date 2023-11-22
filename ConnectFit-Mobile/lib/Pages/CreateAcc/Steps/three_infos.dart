@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:projeto/Pages/HomePage/home.dart';
 import 'package:projeto/Shared/Blocs/APIs/Post/auth_services.dart';
 import 'package:projeto/Shared/Blocs/APIs/Post/create_medida.dart';
 import 'package:projeto/Shared/Blocs/globals.dart';
@@ -63,10 +64,8 @@ class _ThreeInfosState extends State<ThreeInfos> {
       comorbidadesMap,
     );
     Map responseMap = jsonDecode(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       if (mounted) {
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, '/home');
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -85,7 +84,13 @@ class _ThreeInfosState extends State<ThreeInfos> {
       setState(() {
         peso = [];
       });
+
       if (mounted) {
+        Navigator.of(context, rootNavigator: true).pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => const Home(),
+          ),
+        );
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
