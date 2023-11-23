@@ -30,7 +30,8 @@
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
                   <span class="text-caption">Link video referência</span>
-                  <a class="row q-pl-sm text-h6 text-white" :href="exercicios.linkVideo">{{ exercicios.linkVideo }}</a>
+                  <a class="row q-pl-sm text-h6 text-white" target="_blank" @click="open(exercicios.linkVideo)">{{
+                    exercicios.linkVideo }}</a>
                 </div>
               </div>
               <q-separator class="q-my-sm " />
@@ -39,7 +40,7 @@
         </q-expansion-item>
       </div>
     </q-card>
-    <!-- <q-btn @click="teste">asdads</q-btn> -->
+
   </div>
 </template>
 
@@ -47,6 +48,8 @@
 import { useRoute } from 'vue-router';
 import { defineComponent, onMounted, ref } from 'vue';
 import { api } from 'src/boot/axios';
+import { openURL } from 'quasar'
+
 export default defineComponent({
   name: 'FichaList',
   props: {
@@ -64,9 +67,9 @@ export default defineComponent({
       await fetchAluno(10);
     });
 
-    const teste = () => {
-      console.log(Fichas.value);
-    }
+    const open = (link) => {
+      openURL(`https://${link}`)
+    };
 
     const fetchAluno = async (tentativas) => {
       if (tentativas === 0) {
@@ -100,7 +103,7 @@ export default defineComponent({
 
 
     return {
-      teste,
+      open,
       getNome,
       Fichas,
     }

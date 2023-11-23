@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md" @prevent="submit">
-    <q-input v-model.lazy="inputData.descricao" :rules="[required]" label="Descrição"></q-input>
+  <div class="q-pa-md">
+    <q-input v-model="inputData.descricao" :rules="[required]" label="Nome" />
 
     <q-select filled v-model="model" :options="exerciciosfilter" option-label="Nome" label="Exercicios" multiple
       emit-value map-options use-input @filter="filter" @update:model-value="enviarDados()">
@@ -30,7 +30,7 @@
             <q-input class="col-md-4 col-sm-12 q-px-md" v-on:change="handleInputChange()" name="Repeticoes"
               label="Repetições" v-model.lazy="item.Repeticoes" :rules="[required]" lazy-rules type="number" />
             <q-input class="col-md-4 col-sm-12 q-px-md" name="Descanso" label="Tempo de descanso"
-              v-model.lazy="item.descanso" v-on:change="handleInputChange()" :rules="[required]" lazy-rules type="number">
+              v-model.lazy="item.Descanso" v-on:change="handleInputChange()" :rules="[required]" lazy-rules type="number">
               <template v-slot:append>
                 <div>seg</div>
               </template>
@@ -72,9 +72,9 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const salvo = ref(false);
-    const inputData = {
+    const inputData = ref({
       descricao: "",
-    };
+    });
     const model = ref([]);
 
     onMounted(() => {
@@ -96,7 +96,7 @@ export default defineComponent({
 
       emit('dados-atualizados', {
         index: props.index,
-        descricao: inputData.descricao,
+        descricao: inputData.value.descricao,
         ExerciciosTreino: [...model.value],
       });
     };
