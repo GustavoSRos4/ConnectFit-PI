@@ -108,8 +108,8 @@ class FichaController extends Controller
         $userId = auth('api')->user()->id;
         $fichas = Ficha::where('idPessoaUsuario', $userId)->orderBy('created_at', 'desc')->get();
 
+        $resultFichas = [];
         if ($fichas->isNotEmpty()) {
-            $resultFichas = [];
 
             foreach ($fichas as $ficha) {
                 $treinosFicha = FichaTreino::where('idFicha', $ficha->idFicha)->get();
@@ -135,7 +135,6 @@ class FichaController extends Controller
             }
 
             return response()->json(['Fichas' => $resultFichas], 200, [], JSON_UNESCAPED_SLASHES);
-
         }
     }
 }

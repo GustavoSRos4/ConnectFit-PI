@@ -12,6 +12,8 @@ use App\Models\ConsumoAlc;
 use App\Models\Contrato;
 use App\Models\Endereco;
 use App\Models\EnderecoPessoa;
+use App\Models\Ficha;
+use App\Models\FichaTreino;
 use App\Models\Fumante;
 use App\Models\PessoaMedicamento;
 use App\Models\PessoaUsuario;
@@ -22,6 +24,8 @@ use App\Models\Objetivo;
 use App\Models\Pessoa;
 use App\Models\PessoaComorbidades;
 use App\Models\Telefone;
+use App\Models\Treino;
+use App\Models\TreinoExercicio;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -133,9 +137,8 @@ class PessoaUsuarioController extends Controller
         $medidas = Medida::where('idPessoaUsuarioMedida', $userId)
             ->orderBy('updated_at', 'desc')
             ->get();
-
+        $resultMedidas = [];
         if ($medidas->isNotEmpty()) {
-            $resultMedidas = [];
 
             foreach ($medidas as $medida) {
                 $AreaMedidasCorporal = AreaMedida::where('idMedida', $medida->idMedida)->get();
@@ -145,9 +148,8 @@ class PessoaUsuarioController extends Controller
                     'AreaMedidas' => $AreaMedidasCorporal,
                 ];
             }
-
-            return response()->json(['Pessoa' => $pessoa, 'Telefone' => $telefone, 'Endereço' => $enderecos, 'PessoaUsuario' => $pessoaUsuario, 'Medicamentos' => $medicamentos, 'Comorbidades' => $comorbidades, "Medidas" => $resultMedidas], 200);
         }
+        return response()->json(['Pessoa' => $pessoa, 'Telefone' => $telefone, 'Endereço' => $enderecos, 'PessoaUsuario' => $pessoaUsuario, 'Medicamentos' => $medicamentos, 'Comorbidades' => $comorbidades, "Medidas" => $resultMedidas], 200);
     }
     public function showDataAlunos()
     {
@@ -206,6 +208,32 @@ class PessoaUsuarioController extends Controller
                 'AreaMedidas' => $AreaMedidasCorporal,
             ];
         }
+        $fichas = Ficha::where('idPessoaUsuario', $idPessoa)->orderBy('created_at', 'desc')->get();
+        $resultFichas = [];
+        if ($fichas->isNotEmpty()) {
+            foreach ($fichas as $ficha) {
+                $treinosFicha = FichaTreino::where('idFicha', $ficha->idFicha)->get();
+                $resultTreinos = [];
+
+                foreach ($treinosFicha as $treinoFicha) {
+                    $treino = Treino::where('idTreino', $treinoFicha->idTreino)->first();
+
+                    if ($treino) {
+                        $exercicios = TreinoExercicio::where('idTreino', $treino->idTreino)->get();
+                    }
+
+                    $resultTreinos[] = [
+                        'Treino' => $treino,
+                        'Exercicios' => $exercicios,
+                    ];
+                }
+
+                $resultFichas[] = [
+                    'Ficha' => $ficha,
+                    'Treinos' => $resultTreinos,
+                ];
+            }
+        }
         return response()->json([
             'User' => $user,
             'Pessoa' => $pessoa,
@@ -215,6 +243,7 @@ class PessoaUsuarioController extends Controller
             'Medicamentos' => $medicamentos,
             'Comorbidades' => $comorbidades,
             'Medidas' => $resultMedidas,
+            'Fichas' => $resultFichas,
         ], 200);
     }
 }
