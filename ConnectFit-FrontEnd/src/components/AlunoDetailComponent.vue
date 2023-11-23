@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-6 col-xs-12">
           <q-avatar rounded color="red" text-color="white">
-            {{ getFirstLetter('gustavo') }}
+            {{ getFirstLetter(nome()) }}
           </q-avatar>
           <span class="q-pl-sm text-h6">{{ nome() }}</span>
         </div>

@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col" v-if="create">
-      <ficha-list />
+      <ficha-list :exercicios="exercicios" />
     </div>
     <div class="col" v-if="!create">
       <ficha-create :exercicios="exercicios" />
