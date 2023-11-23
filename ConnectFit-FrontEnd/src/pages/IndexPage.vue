@@ -6,7 +6,7 @@
 
     <h3 class="title text-h5 text-uppercase text-weight-regular">Bem-vindo(a) à Jornada de Transformação!</h3>
     <q-btn class="bg-primary" icon-right="send" label="Começar" :to="{ name: 'LoginPage' }" />
-    <q-btn class="bg-primary" @click="buscarDados">teste get nome</q-btn>
+    <!-- <q-btn class="bg-primary" @click="b  uscarDados">teste get nome</q-btn> -->
   </q-parallax>
   <div class="row">
     <div class="col-12 flex flex-center inicioContent">

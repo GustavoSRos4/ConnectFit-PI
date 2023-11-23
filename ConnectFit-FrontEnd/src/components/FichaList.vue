@@ -39,7 +39,7 @@
         </q-expansion-item>
       </div>
     </q-card>
-    <q-btn @click="teste">asdads</q-btn>
+    <!-- <q-btn @click="teste">asdads</q-btn> -->
   </div>
 </template>
 
