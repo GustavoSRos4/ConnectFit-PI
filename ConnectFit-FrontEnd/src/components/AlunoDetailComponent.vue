@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Peso</span>
-          <span class="row q-pl-sm text-h6">86kg</span>
+          <span class="row q-pl-sm text-h6">{{ getPeso() }}</span>
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 flex column flex-center">
           <span class="text-caption">Fumante</span>
@@ -86,6 +86,8 @@ export default defineComponent({
     const anamnese = ref([{ nvAtvFisica: {} }, { Fumante: {} }, { ConsumoAlc: {} }, { Objetivos: {} }]);
     const Medicamentos = ref();
     const Comorbidades = ref();
+    const AlunoMedidas = ref();
+    const Medidas = ref();
 
     const getFirstLetter = (name) => {
       return name.charAt(0).toUpperCase();
@@ -132,9 +134,12 @@ export default defineComponent({
         console.log(`Tentativa ${11 - tentativas} Aluno.`);
         const res = await api.get(`api/showDataAluno/${route.params.id}`);
         aluno.value = { ...res.data };
-        console.log(aluno.value);
-        Medicamentos.value = aluno.value.Medicamentos
-        Comorbidades.value = aluno.value.Comorbidades
+        // console.log("aluno.value");
+        // console.log(aluno.value);
+        Medicamentos.value = aluno.value.Medicamentos;
+        Comorbidades.value = aluno.value.Comorbidades;
+        AlunoMedidas.value = aluno.value.Medidas;
+        // console.log("AlunoMedidas", AlunoMedidas.value)
       } catch (err) {
         console.log(err);
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -158,7 +163,26 @@ export default defineComponent({
         anamnese.value.ConsumoAlc = [res.data.ConsumoAlc];
         anamnese.value.Objetivos = [res.data.Objetivos];
       } catch (err) {
-        console.log(err);
+        console.error(err);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await fetchAluno(tentativas - 1);
+      }
+    };
+
+    const fetchMedidas = async (tentativas) => {
+      if (tentativas === 0) {
+        console.log("Número de tentativas esgotado (Anamnese). Desistindo...");
+        return;
+      }
+
+      try {
+        console.log(`Tentativa ${11 - tentativas} Medidas.`);
+        const res = await api.get('api/showAreas');
+        Medidas.value = res.data.Areas;
+        // console.log("medidas", Medidas.value)
+      } catch (err) {
+        console.log("ERROMEDIDAS");
+        console.error(err);
         await new Promise(resolve => setTimeout(resolve, 1000));
         await fetchAluno(tentativas - 1);
       }
@@ -167,6 +191,7 @@ export default defineComponent({
     onMounted(async () => {
       await fetchAluno(10);
       await fetchAnam(10);
+      await fetchMedidas(10);
     });
 
     const nome = () => {
@@ -248,7 +273,7 @@ export default defineComponent({
     const getMedicamentos = () => {
       try {
         const arrayTratado = [].concat(...Medicamentos.value);
-        console.log(arrayTratado)
+        // console.log(arrayTratado)
         return aluno.value.User ? arrayTratado : '';
       } catch (err) {
         console.error(err);
@@ -259,7 +284,7 @@ export default defineComponent({
     const getComorbidades = () => {
       try {
         const arrayTratado = [].concat(...Comorbidades.value);
-        console.log(arrayTratado)
+        // console.log(arrayTratado)
         return aluno.value.User ? arrayTratado : '';
       } catch (err) {
         console.error(err);
@@ -267,7 +292,36 @@ export default defineComponent({
       }
     }
 
+    function getMedidaNome(idmedida) {
+      console.log("idmedida", idmedida);
+      try {
+        // console.log("value.", Medidas.value.length)
+        for (var i = 0; i < Medidas.value.length; i++) {
+          if (idmedida === Medidas.value[i].idArea) {
+            return Medidas.value[i].Descricao;
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        return '-';
+      }
+    }
 
+
+    const getPeso = () => {
+      try {
+        for (var i = 0; i < AlunoMedidas.value.length; i++) {
+          for (var j = 0; j < AlunoMedidas.value[i].AreaMedidas.length; j++) {
+            if (AlunoMedidas.value[i].AreaMedidas[j].idArea === 2) {
+              return AlunoMedidas.value[i].AreaMedidas[j].Medida
+            }
+          }
+        }
+      } catch (err) {
+        console.log("erro getPeso", err);
+        return '';
+      }
+    }
 
     return {
       clientId,
@@ -283,6 +337,7 @@ export default defineComponent({
       getConsumoAlc,
       getMedicamentos,
       getComorbidades,
+      getPeso,
       ...toRefs(aluno),
     };
   },
