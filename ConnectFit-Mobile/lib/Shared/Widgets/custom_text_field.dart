@@ -23,7 +23,6 @@ class CustomTextField extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   final bool autofocus;
   final InputBorder? inputBorder;
-  final int? maxLines;
 
   const CustomTextField({
     Key? key,
@@ -53,13 +52,11 @@ class CustomTextField extends StatelessWidget {
         Radius.circular(50),
       ),
     ),
-    this.maxLines = 1,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: maxLines,
       autofocus: autofocus,
       maxLength: maxLength,
       keyboardType: keyboardType,

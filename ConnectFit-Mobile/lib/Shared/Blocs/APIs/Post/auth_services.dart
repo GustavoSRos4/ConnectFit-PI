@@ -33,7 +33,6 @@ class AuthServices {
   ///API para a segunda parte de criação de conta
   static Future<http.Response> registerTwo(
     int cpf,
-    String descricao,
     String dataNas,
     int ddd,
     int numeroTel,
@@ -47,7 +46,6 @@ class AuthServices {
   ) async {
     Map data = {
       "cpf": cpf,
-      "descricao": descricao,
       "dataNas": dataNas,
       "ddd": ddd,
       "numeroTel": numeroTel,
