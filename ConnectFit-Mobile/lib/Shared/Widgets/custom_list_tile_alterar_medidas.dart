@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
+import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 
 class CustomListTileAlterarMedidas extends StatefulWidget {
   final String dataAlteracao;
@@ -41,6 +42,9 @@ class _CustomListTileAlterarMedidasState
             onTap: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 backgroundColor: Colors.grey[800],
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -79,7 +83,8 @@ class _CustomListTileAlterarMedidasState
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 15),
-                        ElevatedButton(
+                        GlobalCustomElevatedButton(
+                          height: 40,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               widget.funcao();
@@ -87,7 +92,10 @@ class _CustomListTileAlterarMedidasState
                               Navigator.pop(context);
                             }
                           },
-                          child: const Text('Inserir'),
+                          child: const CustomText(
+                            text: 'Inserir',
+                            isBold: true,
+                          ),
                         ),
                       ],
                     ),
@@ -109,7 +117,7 @@ class _CustomListTileAlterarMedidasState
               color: Colors.brancoBege,
             ),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(15),
             ),
           ),
           Positioned(

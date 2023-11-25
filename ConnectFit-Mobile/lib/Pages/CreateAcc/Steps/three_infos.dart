@@ -26,8 +26,8 @@ class _ThreeInfosState extends State<ThreeInfos> {
   final comorbidadesEC = TextEditingController();
   List<Map<String, String>> medicamentosMap = [];
   List<Map<String, String>> comorbidadesMap = [];
-  final List<String> medicamentos = [];
-  final List<String> comorbidades = [];
+  List<String> medicamentos = [];
+  List<String> comorbidades = [];
   final formKey = GlobalKey<FormState>();
   bool isLoading = true;
   final alturaEC = TextEditingController();
@@ -63,6 +63,7 @@ class _ThreeInfosState extends State<ThreeInfos> {
       medicamentosMap,
       comorbidadesMap,
     );
+
     Map responseMap = jsonDecode(response.body);
     if (response.statusCode == 201) {
       if (mounted) {
@@ -115,13 +116,23 @@ class _ThreeInfosState extends State<ThreeInfos> {
 
   void enviarMedicamentos() {
     for (String medicamento in medicamentos) {
-      medicamentosMap.add({"descricao": medicamento});
+      if (!medicamentosMap.any((map) => map['descricao'] == medicamento)) {
+        medicamentosMap.add({"descricao": medicamento});
+      } else {
+        errorSnackBar(context,
+            "Erro ao cadastrar, medicamento já existe para esse usuário");
+      }
     }
   }
 
   void enviarComorbidades() {
-    for (String comorbidades in comorbidades) {
-      comorbidadesMap.add({"descricao": comorbidades});
+    for (String comorbidade in comorbidades) {
+      if (!comorbidadesMap.any((map) => map['descricao'] == comorbidade)) {
+        medicamentosMap.add({"descricao": comorbidade});
+      } else {
+        errorSnackBar(context,
+            "Erro ao cadastrar, medicamento já existe para esse usuário");
+      }
     }
   }
 
@@ -280,19 +291,41 @@ class _ThreeInfosState extends State<ThreeInfos> {
                                   controller: medicamentosEC,
                                   textTitulo: 'Medicamentos',
                                   onFieldSubmitted: (z) {
-                                    if (medicamentosEC.text.isNotEmpty) {
+                                    final String newMedicamento =
+                                        medicamentosEC.text;
+
+                                    if (newMedicamento.isNotEmpty &&
+                                        !medicamentos
+                                            .contains(newMedicamento)) {
                                       setState(() {
-                                        medicamentos.add(medicamentosEC.text);
+                                        medicamentos.add(newMedicamento);
                                         medicamentosEC.clear();
                                       });
+                                    } else {
+                                      if (newMedicamento.isEmpty) {
+                                      } else {
+                                        errorSnackBar(context,
+                                            'Você já adicionou: $newMedicamento ');
+                                      }
                                     }
                                   },
                                   onPressedButton: () {
-                                    if (medicamentosEC.text.isNotEmpty) {
+                                    final String newMedicamento =
+                                        medicamentosEC.text;
+
+                                    if (newMedicamento.isNotEmpty &&
+                                        !medicamentos
+                                            .contains(newMedicamento)) {
                                       setState(() {
-                                        medicamentos.add(medicamentosEC.text);
+                                        medicamentos.add(newMedicamento);
                                         medicamentosEC.clear();
                                       });
+                                    } else {
+                                      if (newMedicamento.isEmpty) {
+                                      } else {
+                                        errorSnackBar(context,
+                                            'Você já adicionou: $newMedicamento ');
+                                      }
                                     }
                                   },
                                   childrenChip: medicamentos
@@ -311,21 +344,43 @@ class _ThreeInfosState extends State<ThreeInfos> {
                                 customContainerTextFieldAddVariousItens(
                                   textTitulo: 'Comorbidades',
                                   onFieldSubmitted: (z) {
-                                    if (comorbidadesEC.text.isNotEmpty) {
+                                    final String newComorbidade =
+                                        comorbidadesEC.text;
+
+                                    if (newComorbidade.isNotEmpty &&
+                                        !comorbidades
+                                            .contains(newComorbidade)) {
                                       setState(() {
-                                        comorbidades.add(comorbidadesEC.text);
+                                        comorbidades.add(newComorbidade);
                                         comorbidadesEC.clear();
                                       });
+                                    } else {
+                                      if (newComorbidade.isEmpty) {
+                                      } else {
+                                        errorSnackBar(context,
+                                            'Você já adicionou: $newComorbidade ');
+                                      }
                                     }
                                   },
                                   controller: comorbidadesEC,
                                   label: 'Digite suas comorbidades',
                                   onPressedButton: () {
-                                    if (comorbidadesEC.text.isNotEmpty) {
+                                    final String newComorbidade =
+                                        comorbidadesEC.text;
+
+                                    if (newComorbidade.isNotEmpty &&
+                                        !comorbidades
+                                            .contains(newComorbidade)) {
                                       setState(() {
-                                        comorbidades.add(comorbidadesEC.text);
+                                        comorbidades.add(newComorbidade);
                                         comorbidadesEC.clear();
                                       });
+                                    } else {
+                                      if (newComorbidade.isEmpty) {
+                                      } else {
+                                        errorSnackBar(context,
+                                            'Você já adicionou: $newComorbidade ');
+                                      }
                                     }
                                   },
                                   childrenChip: comorbidades
