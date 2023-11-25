@@ -45,7 +45,6 @@ class _TrainingListState extends State<TrainingList> {
             });
           });
         }
-        debugPrint(exerciciosMap.toString());
         isLoading = false;
       });
     });

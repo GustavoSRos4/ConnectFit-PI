@@ -26,11 +26,6 @@ class _FormDetailsState extends State<FormDetails> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
@@ -53,9 +48,11 @@ class _FormDetailsState extends State<FormDetails> {
             const SizedBox(
               height: 15,
             ),
-            SingleChildScrollView(
-              child: Container(
-                child: _buildPanel(),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Container(
+                  child: _buildPanel(),
+                ),
               ),
             ),
           ],
@@ -84,16 +81,12 @@ class _FormDetailsState extends State<FormDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.bege,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    height: 100,
-                    child: const Center(
-                      child: Text('VIDEO'),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+                  // const VideoPlayerView(
+                  //   url:
+                  //       'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+                  //   dataSourceType: DataSourceType.network,
+                  // ),
+                  // const SizedBox(height: 10),
                   CustomText(
                     text: "${exercicio["Descricao"]}",
                   ),

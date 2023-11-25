@@ -18,32 +18,35 @@ class FetchFichas {
 
     if (response.statusCode == 200) {
       List<Map<String, dynamic>> fichas = [];
+      if (response.body.isNotEmpty) {
+        List<dynamic> fichasJson = jsonDecode(response.body)['Fichas'];
 
-      List<dynamic> fichasJson = jsonDecode(response.body)['Fichas'];
+        for (var fichaJson in fichasJson) {
+          Map<String, dynamic> ficha = {};
+          ficha['Ficha'] = fichaJson['Ficha'];
 
-      for (var fichaJson in fichasJson) {
-        Map<String, dynamic> ficha = {};
-        ficha['Ficha'] = fichaJson['Ficha'];
+          List<Map<String, dynamic>> treinos = [];
+          for (var treinoJson in fichaJson['Treinos']) {
+            Map<String, dynamic> treino = {};
+            treino['Treino'] = treinoJson['Treino'];
 
-        List<Map<String, dynamic>> treinos = [];
-        for (var treinoJson in fichaJson['Treinos']) {
-          Map<String, dynamic> treino = {};
-          treino['Treino'] = treinoJson['Treino'];
+            List<Map<String, dynamic>> exercicios = [];
+            for (var exercicioJson in treinoJson['Exercicios']) {
+              exercicios.add(exercicioJson);
+            }
 
-          List<Map<String, dynamic>> exercicios = [];
-          for (var exercicioJson in treinoJson['Exercicios']) {
-            exercicios.add(exercicioJson);
+            treino['Exercicios'] = exercicios;
+            treinos.add(treino);
           }
 
-          treino['Exercicios'] = exercicios;
-          treinos.add(treino);
+          ficha['Treinos'] = treinos;
+          fichas.add(ficha);
         }
 
-        ficha['Treinos'] = treinos;
-        fichas.add(ficha);
+        return fichas;
+      } else {
+        return [];
       }
-
-      return fichas;
     } else {
       debugPrint('Erro na requisição: ${response.statusCode}');
       return [];
