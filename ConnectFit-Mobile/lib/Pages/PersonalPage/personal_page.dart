@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:projeto/Pages/PersonalPage/detalhes_personal.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
@@ -157,27 +158,18 @@ class _PersonalPageState extends State<PersonalPage> {
                               padding: const EdgeInsets.only(top: 5),
                               child: Card(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side: const BorderSide(
-                                    width: 1,
-                                    color: Colors.grey,
-                                  ),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                color: Colors.pretoPag,
+                                color: Colors.grey[800],
                                 child: Row(
                                   children: <Widget>[
                                     const SizedBox(width: 5),
-                                    Container(
-                                      width: 90,
-                                      height: 90,
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5)),
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'assets/images/fotoAleatoria.jpg'),
-                                          fit: BoxFit.cover,
-                                        ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ProfilePicture(
+                                        name: userName,
+                                        radius: 30,
+                                        fontsize: 20,
                                       ),
                                     ),
                                     Padding(
@@ -192,11 +184,6 @@ class _PersonalPageState extends State<PersonalPage> {
                                             valor: userName,
                                           ),
                                           const SizedBox(height: 5),
-                                          CustomRowText(
-                                            fontSize: 13.5,
-                                            indicador: 'Especialidade',
-                                            valor: especialidades.join(', '),
-                                          ),
                                           const SizedBox(height: 5),
                                           CustomRowText(
                                             fontSize: 13.5,

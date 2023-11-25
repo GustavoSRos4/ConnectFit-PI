@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:http/http.dart' as http;
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
@@ -95,15 +96,12 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                     bottom: Radius.circular(20),
                   ),
                 ),
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.vertical(
-                      bottom: Radius.circular(20),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/fotoAleatoria.jpg'),
-                      fit: BoxFit.fill,
-                    ),
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ProfilePicture(
+                    name: profissional["User"]['name'],
+                    radius: 120,
+                    fontsize: 50,
                   ),
                 ),
               ),

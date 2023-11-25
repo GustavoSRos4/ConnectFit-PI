@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_nome_usuario.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_dados_usuario.dart';
@@ -15,7 +16,7 @@ class PerfilPage extends StatefulWidget {
 }
 
 class _PerfilPageState extends State<PerfilPage> {
-  String? nome;
+  String nome = '';
   Map<String, dynamic> dadosUsuario = {};
   Map<String, dynamic> seedAnamnese = {};
   List<Map<String, dynamic>> dataConsumoAlc = [];
@@ -109,12 +110,14 @@ class _PerfilPageState extends State<PerfilPage> {
                 flexibleSpace: Column(
                   children: [
                     const SizedBox(height: 25),
-                    const Image(
-                      alignment: Alignment.bottomCenter,
-                      image: AssetImage('assets/images/iconePerfil.png'),
+                    ProfilePicture(
+                      name: nome,
+                      radius: 80,
+                      fontsize: 50,
                     ),
+                    const SizedBox(height: 10),
                     CustomText(
-                      text: '$nome',
+                      text: nome,
                       fontSize: 15,
                     )
                   ],

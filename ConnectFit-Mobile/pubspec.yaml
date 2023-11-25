@@ -47,6 +47,7 @@ dependencies:
   dropdown_search: ^5.0.6
   intl: ^0.18.1
   collection: ^1.17.2
+  flutter_profile_picture: ^2.0.0
 
 
   
