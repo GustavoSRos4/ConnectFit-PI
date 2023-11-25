@@ -8,7 +8,7 @@ import 'package:projeto/Shared/Widgets/global_custom_elevated_button.dart';
 class CustomListTileAlterarMedidas extends StatefulWidget {
   final String dataAlteracao;
   final String nomeMedida;
-  final int valorMedida;
+  final String valorMedida;
   final String textUnidadeMedida;
   final TextEditingController controller;
   final void Function() funcao;
@@ -77,6 +77,9 @@ class _CustomListTileAlterarMedidasState
                           validator: (text) {
                             if (text == null || text.isEmpty) {
                               return "Esse campo não pode ficar vazio";
+                            }
+                            if (double.parse(text) <= 0) {
+                              return "Esse campo não pode ser zero";
                             }
                             return null;
                           },

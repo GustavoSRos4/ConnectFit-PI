@@ -5,6 +5,7 @@ import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({super.key});
@@ -14,15 +15,27 @@ class PersonalPage extends StatefulWidget {
 }
 
 class _PersonalPageState extends State<PersonalPage> {
+  final TextEditingController _searchController = TextEditingController();
   bool isLoading = true;
   List<Map<String, dynamic>> profissionais = [];
-
+  List<Map<String, dynamic>> filteredProfissionais = [];
   Future<void> loadData() async {
     await FetchProfissonais.fetchAllProfissionais().then((data) {
       setState(() {
         profissionais = data;
+        filteredProfissionais = data;
         isLoading = false;
       });
+    });
+  }
+
+  void filterByName(String query) {
+    setState(() {
+      filteredProfissionais = profissionais
+          .where((profissional) => profissional["User"]["name"]
+              .toLowerCase()
+              .contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -58,69 +71,15 @@ class _PersonalPageState extends State<PersonalPage> {
                         top: 15,
                         bottom: 15,
                       ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: SizedBox(
-                              height: 25,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 20,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.brancoBege,
-                                  labelText: 'Buscar',
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.brancoBege,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                      ),
-                                    ),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.8,
-                                    child: Center(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              icon: const Icon(Icons.close),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            icon: const Icon(Icons.filter_alt),
-                            color: Colors.brancoBege,
-                            iconSize: 30,
-                          )
-                        ],
+                      child: SizedBox(
+                        height: 35,
+                        child: CustomTextField(
+                          label: 'Buscar',
+                          onChanged: (query) {
+                            filterByName(query);
+                          },
+                          controller: _searchController,
+                        ),
                       ),
                     ),
                     Container(
@@ -128,9 +87,9 @@ class _PersonalPageState extends State<PersonalPage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: profissionais.length,
+                        itemCount: filteredProfissionais.length,
                         itemBuilder: (context, index) {
-                          var profissional = profissionais[index];
+                          var profissional = filteredProfissionais[index];
                           var userName = profissional["User"]["name"];
                           var id = profissional["User"]["id"];
                           var valor =

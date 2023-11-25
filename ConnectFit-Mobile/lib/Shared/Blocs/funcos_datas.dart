@@ -22,7 +22,7 @@ class FormatarDatas {
     String dataOriginal = dataRecebida;
     DateTime data = DateTime.parse(dataOriginal);
 
-    String dataFormatada = DateFormat('dd-MM-yyyy').format(data);
+    String dataFormatada = DateFormat('dd/MM/yyyy').format(data);
 
     return dataFormatada;
   }

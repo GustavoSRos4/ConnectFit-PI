@@ -5,6 +5,7 @@ import 'package:projeto/Shared/Blocs/funcos_datas.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 
 class PageContrato extends StatefulWidget {
   const PageContrato({super.key});
@@ -14,8 +15,10 @@ class PageContrato extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<PageContrato> {
+  final TextEditingController _searchController = TextEditingController();
   bool isLoading = true;
   List<Map<String, dynamic>> contratos = [];
+  List<Map<String, dynamic>> filteredContratos = [];
 
   Future<void> loadData() async {
     await FetchContratos.fetchContratos().then((data) async {
@@ -30,8 +33,19 @@ class _MyWidgetState extends State<PageContrato> {
 
       setState(() {
         contratos = data;
+        filteredContratos = data;
         isLoading = false;
       });
+    });
+  }
+
+  void filterByName(String query) {
+    setState(() {
+      filteredContratos = contratos
+          .where((contrato) => contrato["DadosProfissional"]["User"]["name"]
+              .toLowerCase()
+              .contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -67,69 +81,15 @@ class _MyWidgetState extends State<PageContrato> {
                         top: 15,
                         bottom: 15,
                       ),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: SizedBox(
-                              height: 25,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 20,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.brancoBege,
-                                  labelText: 'Buscar',
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.brancoBege,
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                      ),
-                                    ),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.8,
-                                    child: Center(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Align(
-                                            alignment: Alignment.centerRight,
-                                            child: IconButton(
-                                              icon: const Icon(Icons.close),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            icon: const Icon(Icons.filter_alt),
-                            color: Colors.brancoBege,
-                            iconSize: 30,
-                          )
-                        ],
+                      child: SizedBox(
+                        height: 35,
+                        child: CustomTextField(
+                          label: 'Buscar',
+                          onChanged: (query) {
+                            filterByName(query);
+                          },
+                          controller: _searchController,
+                        ),
                       ),
                     ),
                     Container(
@@ -144,10 +104,9 @@ class _MyWidgetState extends State<PageContrato> {
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: contratos.length,
+                              itemCount: filteredContratos.length,
                               itemBuilder: (context, index) {
-                                var contrato = contratos[index];
-
+                                var contrato = filteredContratos[index];
                                 var createdAt = contrato["created_at"];
                                 var valor = contrato["valor"];
                                 var nome = contrato["DadosProfissional"]["User"]

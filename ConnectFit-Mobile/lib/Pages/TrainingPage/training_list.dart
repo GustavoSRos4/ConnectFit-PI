@@ -4,6 +4,7 @@ import 'package:projeto/Shared/Blocs/APIs/Get/get_fichas.dart';
 import 'package:projeto/Shared/Blocs/funcos_datas.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
+import 'package:projeto/Shared/Widgets/custom_text_field.dart';
 
 class TrainingList extends StatefulWidget {
   const TrainingList({super.key});
@@ -13,13 +14,30 @@ class TrainingList extends StatefulWidget {
 }
 
 class _TrainingListState extends State<TrainingList> {
+  final TextEditingController _searchController = TextEditingController();
   String _selectedStatus = "Todas";
   List<Map<String, dynamic>> fichas = [];
-  bool isLoading = false;
+  List<Map<String, dynamic>> filteredFichas = [];
+  bool isLoading = true;
 
   void _applyFilter(String status) {
     setState(() {
       _selectedStatus = status;
+      _filterByStatus();
+    });
+  }
+
+  void _filterByStatus() {
+    setState(() {
+      if (_selectedStatus == 'Todas') {
+        filteredFichas = fichas;
+      } else if (_selectedStatus == "Ativo") {
+        filteredFichas =
+            fichas.where((ficha) => ficha['Ficha']['dataFim'] == null).toList();
+      } else {
+        filteredFichas =
+            fichas.where((ficha) => ficha['Ficha']['dataFim'] != null).toList();
+      }
     });
   }
 
@@ -45,8 +63,19 @@ class _TrainingListState extends State<TrainingList> {
             });
           });
         }
+        filteredFichas = fichas;
         isLoading = false;
       });
+    });
+  }
+
+  void filterByName(String query) {
+    setState(() {
+      filteredFichas = fichas
+          .where((ficha) => ficha["Ficha"]["nomeFicha"]
+              .toLowerCase()
+              .contains(query.toLowerCase()))
+          .toList();
     });
   }
 
@@ -83,22 +112,12 @@ class _TrainingListState extends State<TrainingList> {
                       ),
                       child: SizedBox(
                         height: 35,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            filled: true,
-                            fillColor: Colors.grey[800],
-                            labelText: 'Buscar',
-                            labelStyle:
-                                const TextStyle(color: Colors.brancoBege),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                            ),
-                          ),
+                        child: CustomTextField(
+                          label: 'Buscar',
+                          onChanged: (query) {
+                            filterByName(query);
+                          },
+                          controller: _searchController,
                         ),
                       ),
                     ),
@@ -157,20 +176,20 @@ class _TrainingListState extends State<TrainingList> {
                             : ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: fichas.length,
+                                itemCount: filteredFichas.length,
                                 itemBuilder: (context, index) {
-                                  var ficha = fichas[index];
+                                  var ficha = filteredFichas[index];
                                   var descricaoFicha =
                                       ficha["Ficha"]["nomeFicha"];
                                   var dataFim = ficha["Ficha"]["dataFim"];
                                   var dataInicio = ficha["Ficha"]["created_at"];
                                   var treinos = ficha["Treinos"];
-                                  if (_selectedStatus != "Todas" &&
-                                      _selectedStatus !=
-                                          fichas[index]['status']) {
-                                    return const SizedBox
-                                        .shrink(); // Retorna um widget vazio
-                                  }
+                                  // if (_selectedStatus != "Todas" &&
+                                  //     _selectedStatus !=
+                                  //         fichas[index]['status']) {
+                                  //   return const SizedBox
+                                  //       .shrink(); // Retorna um widget vazio
+                                  // }
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 15),
                                     child: Container(

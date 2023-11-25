@@ -64,10 +64,10 @@ class _PageMedidasState extends State<PageMedidas> {
   }
 
   getValorMedidaById(id) {
-    var valor = 0;
+    var valor = '';
     for (Map<String, dynamic> mapa in medidas.reversed) {
       if (mapa['idArea'] == id) {
-        valor = mapa['medida'];
+        valor = mapa['medida'].toString();
       }
     }
     return valor;
