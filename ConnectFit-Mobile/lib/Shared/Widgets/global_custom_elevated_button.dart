@@ -18,7 +18,7 @@ class GlobalCustomElevatedButton extends StatelessWidget {
     this.width = 100,
     this.height = 50,
     this.color = Colors.deepOrange,
-    this.borderRadius = 5,
+    this.borderRadius = 15,
   });
 
   @override

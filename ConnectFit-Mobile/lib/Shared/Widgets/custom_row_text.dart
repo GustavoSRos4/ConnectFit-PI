@@ -37,3 +37,48 @@ class CustomRowText extends StatelessWidget {
     );
   }
 }
+
+class CustomRowTextVariosItens extends StatelessWidget {
+  final String indicador;
+  final Color color;
+  final double? fontSize;
+  final String textos;
+
+  const CustomRowTextVariosItens({
+    Key? key,
+    required this.indicador,
+    this.color = Colors.white,
+    this.fontSize,
+    required this.textos,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CustomText(
+          text: '$indicador:',
+          isBold: true,
+          fontSize: fontSize,
+          color: color,
+        ),
+        const SizedBox(
+          width: 7,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                CustomText(
+                  text: textos,
+                  fontSize: 14,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

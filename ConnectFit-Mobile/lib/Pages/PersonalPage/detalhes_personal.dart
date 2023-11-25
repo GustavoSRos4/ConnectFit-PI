@@ -149,10 +149,9 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                             '${profissional["PessoaProfissional"]["numReg"]}',
                       ),
                       const SizedBox(height: 10),
-                      CustomRowText(
-                        color: Colors.brancoBege,
-                        indicador: 'Especialidade',
-                        valor: especialidadesDesc.join(', '),
+                      CustomRowTextVariosItens(
+                        indicador: "Especialidades",
+                        textos: especialidadesDesc.join(', '),
                       ),
                       ExpansionTile(
                         collapsedIconColor: Colors.brancoBege,

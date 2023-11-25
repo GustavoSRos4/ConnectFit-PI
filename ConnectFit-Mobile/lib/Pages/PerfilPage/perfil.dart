@@ -183,16 +183,16 @@ class _PerfilPageState extends State<PerfilPage> {
                               : '',
                         ),
                         const SizedBox(height: 10),
-                        CustomRowText(
+                        CustomRowTextVariosItens(
                           indicador: 'Medicamentos',
-                          valor: dadosUsuario['PessoaUsuario'] != null
+                          textos: dadosUsuario['PessoaUsuario'] != null
                               ? medicamentoDescricao.join(', ')
                               : '',
                         ),
                         const SizedBox(height: 10),
-                        CustomRowText(
+                        CustomRowTextVariosItens(
                           indicador: 'Comorbidades',
-                          valor: dadosUsuario['PessoaUsuario'] != null
+                          textos: dadosUsuario['PessoaUsuario'] != null
                               ? comorbidadeDescricao.join(', ')
                               : '',
                         ),

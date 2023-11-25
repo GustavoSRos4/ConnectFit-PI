@@ -25,6 +25,7 @@ class TwoDados extends StatefulWidget {
 
 class _OnePageState extends State<TwoDados> {
   final cpfEC = TextEditingController();
+  final descricaoEC = TextEditingController();
   final dataNasEC = TextEditingController();
   final telefoneEC = TextEditingController();
   final cepEC = TextEditingController();
@@ -61,6 +62,7 @@ class _OnePageState extends State<TwoDados> {
     try {
       http.Response response = await AuthServices.registerTwo(
         cpf,
+        descricaoEC.text,
         dataNasEC.text,
         ddd,
         numeroTelefone,
@@ -80,7 +82,7 @@ class _OnePageState extends State<TwoDados> {
         }
       } else {
         if (mounted) {
-          errorSnackBar(context, responseMap.values.toString());
+          errorSnackBar(context, responseMap["message"].toString());
         }
       }
     } catch (e) {
@@ -168,42 +170,13 @@ class _OnePageState extends State<TwoDados> {
                         padding: const EdgeInsets.all(20),
                         child: Column(
                           children: [
-                            CustomDropdownSearch(
-                              items: estados,
-                              onChanged: (Map<String, dynamic>? novoEstado) {
-                                buscarCidades(novoEstado?['SiglaUF']);
-                                setState(() {
-                                  estadoSelecionado = novoEstado?['SiglaUF'];
-                                  cidadeSelecionada = null;
-                                });
-                              },
-                              labelPrincipal: 'Estado',
-                              hintTextPrincipal: 'Escolha o estado...',
-                              prefixIcon: const Icon(Icons.flag),
-                              labelSecundaria: 'Buscar estado',
-                              hintTextSecundaria: 'Digite o nome do estado...',
-                              itemAsString: (Map<String, dynamic> estado) =>
-                                  estado['Descricao']!,
-                            ),
-                            const SizedBox(height: 15),
-                            CustomDropdownSearch(
-                              selectedItem: cidadeSelecionada,
-                              items: cidades,
-                              onChanged: (Map<String, dynamic>? novaCidade) {
-                                setState(
-                                  () {
-                                    cidadeSelecionada = novaCidade;
-                                    idCidade = novaCidade?['idCidade'];
-                                  },
-                                );
-                              },
-                              labelPrincipal: 'Cidade',
-                              hintTextPrincipal: 'Escolha a cidade...',
-                              prefixIcon: const Icon(Icons.location_city),
-                              labelSecundaria: 'Buscar cidade',
-                              hintTextSecundaria: 'Digite o nome da cidade...',
-                              itemAsString: (Map<String, dynamic> cidade) =>
-                                  cidade['NomeCidade']!,
+                            CustomTextField(
+                              maxLines: 3,
+                              maxLength: 500,
+                              label: "Descrição",
+                              icon: Icons.description,
+                              hint: "Fale mais sobre você...",
+                              controller: descricaoEC,
                             ),
                             const SizedBox(height: 15),
                             CustomTextField(
@@ -284,6 +257,44 @@ class _OnePageState extends State<TwoDados> {
                                 }
                                 return null;
                               },
+                            ),
+                            const SizedBox(height: 15),
+                            CustomDropdownSearch(
+                              items: estados,
+                              onChanged: (Map<String, dynamic>? novoEstado) {
+                                buscarCidades(novoEstado?['SiglaUF']);
+                                setState(() {
+                                  estadoSelecionado = novoEstado?['SiglaUF'];
+                                  cidadeSelecionada = null;
+                                });
+                              },
+                              labelPrincipal: 'Estado',
+                              hintTextPrincipal: 'Escolha o estado...',
+                              prefixIcon: const Icon(Icons.flag),
+                              labelSecundaria: 'Buscar estado',
+                              hintTextSecundaria: 'Digite o nome do estado...',
+                              itemAsString: (Map<String, dynamic> estado) =>
+                                  estado['Descricao']!,
+                            ),
+                            const SizedBox(height: 15),
+                            CustomDropdownSearch(
+                              selectedItem: cidadeSelecionada,
+                              items: cidades,
+                              onChanged: (Map<String, dynamic>? novaCidade) {
+                                setState(
+                                  () {
+                                    cidadeSelecionada = novaCidade;
+                                    idCidade = novaCidade?['idCidade'];
+                                  },
+                                );
+                              },
+                              labelPrincipal: 'Cidade',
+                              hintTextPrincipal: 'Escolha a cidade...',
+                              prefixIcon: const Icon(Icons.location_city),
+                              labelSecundaria: 'Buscar cidade',
+                              hintTextSecundaria: 'Digite o nome da cidade...',
+                              itemAsString: (Map<String, dynamic> cidade) =>
+                                  cidade['NomeCidade']!,
                             ),
                             const SizedBox(height: 15),
                             CustomTextField(
