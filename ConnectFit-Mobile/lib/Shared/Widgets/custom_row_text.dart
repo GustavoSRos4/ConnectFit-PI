@@ -11,7 +11,7 @@ class CustomRowText extends StatelessWidget {
     super.key,
     required this.indicador,
     required this.valor,
-    this.color = Colors.white,
+    this.color = Colors.brancoBege,
     this.fontSize,
   });
 
@@ -47,7 +47,7 @@ class CustomRowTextVariosItens extends StatelessWidget {
   const CustomRowTextVariosItens({
     Key? key,
     required this.indicador,
-    this.color = Colors.white,
+    this.color = Colors.brancoBege,
     this.fontSize,
     required this.textos,
   }) : super(key: key);
@@ -71,6 +71,7 @@ class CustomRowTextVariosItens extends StatelessWidget {
             child: Row(
               children: [
                 CustomText(
+                  color: color,
                   text: textos,
                   fontSize: 14,
                 )
@@ -79,6 +80,35 @@ class CustomRowTextVariosItens extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CustomRowTextVariosItensPersonal extends StatelessWidget {
+  final Color color;
+  final double? fontSize;
+  final String textos;
+
+  const CustomRowTextVariosItensPersonal({
+    Key? key,
+    this.color = Colors.brancoBege,
+    this.fontSize,
+    required this.textos,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          CustomText(
+            color: color,
+            text: textos,
+            fontSize: 14,
+          )
+        ],
+      ),
     );
   }
 }

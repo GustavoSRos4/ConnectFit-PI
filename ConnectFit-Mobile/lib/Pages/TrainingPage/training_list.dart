@@ -27,6 +27,25 @@ class _TrainingListState extends State<TrainingList> {
     await FetchFichas.fetchFichas().then((data) {
       setState(() {
         fichas = data;
+      });
+    });
+
+    await FetchFichas.fetchExercicio().then((data) {
+      Map<int, String> exerciciosMap = {};
+      for (var exercicio in data) {
+        exerciciosMap[exercicio['idExercicio']] = exercicio['Nome'];
+      }
+
+      setState(() {
+        for (var ficha in fichas) {
+          ficha['Treinos'].forEach((treino) {
+            treino['Exercicios'].forEach((exercicio) {
+              int idExercicio = exercicio['idExercicio'];
+              exercicio['Nome'] = exerciciosMap[idExercicio] ?? "";
+            });
+          });
+        }
+        debugPrint(exerciciosMap.toString());
         isLoading = false;
       });
     });

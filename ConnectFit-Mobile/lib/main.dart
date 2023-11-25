@@ -15,8 +15,12 @@ import 'package:projeto/Pages/RankingPage/ranking.dart';
 import 'package:projeto/Pages/TrainingPage/training_list.dart';
 import 'package:projeto/Pages/CreateAcc/register1.dart';
 import 'Pages/LoginPage/login.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('America/Sao_Paulo'));
   runApp(const MyApp());
 }
 
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
       title: "Aplicativo",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF121212),
+        scaffoldBackgroundColor: Colors.pretoPag,
         primarySwatch: Colors.deepOrange,
         fontFamily: "Montserrat",
       ),

@@ -19,6 +19,7 @@ class FetchDadosUsuario {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       Map<String, dynamic> result = {
+        'Pessoa': data['Pessoa'],
         'PessoaUsuario': data['PessoaUsuario'],
         'Medicamentos': parseMedicamentos(data['Medicamentos']),
         'Comorbidades': parseComorbidades(data['Comorbidades']),

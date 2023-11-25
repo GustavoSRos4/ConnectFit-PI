@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_nome_usuario.dart';
 import 'package:projeto/Shared/Blocs/date_format.dart';
@@ -32,6 +34,27 @@ class _HomePageState extends State<HomePage> {
     loadData();
   }
 
+  List<String> mensagensIncentivo = [
+    "Você é mais forte do que pensa. Continue assim!",
+    "Cada gota de suor leva você mais perto dos seus objetivos.",
+    "Seja consistente. Grandes resultados vêm com o tempo.",
+    "Seu corpo pode fazer tudo; é só a sua mente que você precisa convencer.",
+    "A jornada de mil milhas começa com um único passo. Você já deu o seu?",
+    "Não conte os dias, faça os dias contarem.",
+    "A persistência é o caminho do êxito. Continue persistindo!",
+    "Você não tem que ser extremamente talentoso, apenas extremamente dedicado.",
+    "Sua única limitação é você mesmo. Supere!",
+    "Cada treino é uma vitória contra a preguiça e a procrastinação.",
+    "Pequenos progressos são ainda progressos. Celebre cada um deles!",
+    "Acredite em si mesmo e tudo será possível.",
+    "O sucesso não é acidental, é trabalho árduo e determinação.",
+    "A dor que você sente hoje será a força que você sente amanhã.",
+    "Não se compare aos outros. Compare-se à pessoa que era ontem.",
+    "A disciplina é a ponte entre metas e realizações.",
+    "Você está mais perto do que estava ontem. Continue!",
+    "Nunca é tarde para começar. O importante é começar agora!",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: const BoxDecoration(
                       color: Colors.deepOrange,
                       borderRadius: BorderRadius.all(
-                        Radius.circular(5),
+                        Radius.circular(15),
                       ),
                     ),
                     height: 230,
@@ -68,29 +91,16 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.pretoPag,
                       height: 220,
                       width: double.infinity,
-                      onPressed: () {},
+                      onPressed: () {
+                        debugPrint(DateTime.now().toString());
+                      },
                       child: Stack(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Row(
-                              children: [
-                                CustomText(
-                                  text: 'Situação:',
-                                  fontSize: 18,
-                                  isBold: true,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                CustomText(
-                                  text: 'Concluido',
-                                  fontSize: 20,
-                                  isBold: true,
-                                  color: Colors.green,
-                                )
-                              ],
-                            ),
+                          Center(
+                            child: CustomText(
+                                fontSize: 20,
+                                text: mensagensIncentivo[Random()
+                                    .nextInt(mensagensIncentivo.length)]),
                           ),
                           Align(
                             alignment: Alignment.bottomRight,

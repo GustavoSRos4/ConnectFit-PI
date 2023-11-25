@@ -4,6 +4,7 @@ import 'package:projeto/Pages/PersonalPage/detalhes_personal.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
+import 'package:projeto/Shared/Widgets/custom_text.dart';
 
 class PersonalPage extends StatefulWidget {
   const PersonalPage({super.key});
@@ -140,61 +141,54 @@ class _PersonalPageState extends State<PersonalPage> {
                               especialidades.add(especialidade['descricao']);
                             }
                           }
-                          return InkWell(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                            splashColor: Colors.brancoBege,
-                            onTap: () {
-                              Navigator.push<void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      DetalhesPersonal(id: id),
+
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              tileColor: Colors.grey[800],
+                              onTap: () {
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        DetalhesPersonal(id: id),
+                                  ),
+                                );
+                              },
+                              contentPadding: const EdgeInsets.all(10.0),
+                              leading: ProfilePicture(
+                                name: userName,
+                                radius: 30,
+                                fontsize: 20,
+                              ),
+                              title: Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: CustomText(
+                                  fontSize: 13.5,
+                                  text: userName,
                                 ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                color: Colors.grey[800],
-                                child: Row(
-                                  children: <Widget>[
-                                    const SizedBox(width: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ProfilePicture(
-                                        name: userName,
-                                        radius: 30,
-                                        fontsize: 20,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          CustomRowText(
-                                            fontSize: 13.5,
-                                            indicador: 'Nome',
-                                            valor: userName,
-                                          ),
-                                          const SizedBox(height: 5),
-                                          const SizedBox(height: 5),
-                                          CustomRowText(
-                                            fontSize: 13.5,
-                                            indicador: 'Valor cobrado',
-                                            valor: 'R\$ $valor',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  especialidades.isNotEmpty
+                                      ? CustomRowTextVariosItensPersonal(
+                                          textos: especialidades.isNotEmpty
+                                              ? especialidades.join(', ')
+                                              : '',
+                                        )
+                                      : const SizedBox.shrink(),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  CustomText(
+                                    fontSize: 13.5,
+                                    text: 'R\$ $valor',
+                                  ),
+                                ],
                               ),
                             ),
                           );

@@ -96,13 +96,20 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                     bottom: Radius.circular(20),
                   ),
                 ),
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: ProfilePicture(
-                    name: profissional["User"]['name'],
-                    radius: 120,
-                    fontsize: 50,
-                  ),
+                flexibleSpace: Column(
+                  children: [
+                    const SizedBox(height: 25),
+                    ProfilePicture(
+                      name: profissional["User"]['name'],
+                      radius: 80,
+                      fontsize: 50,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomText(
+                      text: profissional["User"]['name'],
+                      fontSize: 15,
+                    )
+                  ],
                 ),
               ),
             ),
@@ -116,13 +123,6 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                   padding: const EdgeInsets.all(30),
                   child: Column(
                     children: <Widget>[
-                      const SizedBox(height: 10),
-                      CustomRowText(
-                        color: Colors.brancoBege,
-                        indicador: 'Nome',
-                        valor: '${profissional["User"]['name']}',
-                      ),
-                      const SizedBox(height: 10),
                       CustomRowText(
                         color: Colors.brancoBege,
                         indicador: 'Idade',
@@ -188,7 +188,7 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                             builder: (BuildContext context) => Dialog(
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
+                                  Radius.circular(15),
                                 ),
                               ),
                               backgroundColor: Colors.pretoPag,

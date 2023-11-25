@@ -46,32 +46,16 @@ class _FormDetailsState extends State<FormDetails> {
         ),
         child: Column(
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  text: '${dateFormat(now)}',
-                  fontSize: 20,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.date_range,
-                    size: 35,
-                  ),
-                  color: Colors.brancoBege,
-                ),
-              ],
+            CustomText(
+              text: '${dateFormat(now)}',
+              fontSize: 20,
             ),
             const SizedBox(
               height: 15,
             ),
-            Flexible(
-              child: SingleChildScrollView(
-                child: Container(
-                  child: _buildPanel(),
-                ),
+            SingleChildScrollView(
+              child: Container(
+                child: _buildPanel(),
               ),
             ),
           ],
@@ -92,7 +76,7 @@ class _FormDetailsState extends State<FormDetails> {
             headerBuilder: (BuildContext context, bool isExpanded) {
               return ListTile(
                 title: CustomText(
-                    isBold: true, text: exercicio["Descricao"], fontSize: 17),
+                    isBold: true, text: exercicio["Nome"], fontSize: 17),
               );
             },
             body: Container(
@@ -108,6 +92,10 @@ class _FormDetailsState extends State<FormDetails> {
                     child: const Center(
                       child: Text('VIDEO'),
                     ),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomText(
+                    text: "${exercicio["Descricao"]}",
                   ),
                   const SizedBox(height: 10),
                   CustomRowText(

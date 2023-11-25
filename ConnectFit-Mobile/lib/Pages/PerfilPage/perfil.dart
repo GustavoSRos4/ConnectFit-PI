@@ -197,11 +197,11 @@ class _PerfilPageState extends State<PerfilPage> {
                               : '',
                         ),
                         const SizedBox(height: 10),
-                        const ExpansionTile(
+                        ExpansionTile(
                           collapsedIconColor: Colors.white,
                           iconColor: Colors.white,
-                          tilePadding: EdgeInsets.only(right: 0),
-                          title: CustomText(
+                          tilePadding: const EdgeInsets.only(right: 0),
+                          title: const CustomText(
                             text: 'Descrição:',
                             isBold: true,
                             fontSize: 13.5,
@@ -209,8 +209,11 @@ class _PerfilPageState extends State<PerfilPage> {
                           children: [
                             CustomText(
                               fontSize: 13.5,
-                              text:
-                                  'Descrição, Descrição, Descriçãoescrição, Descrição, Descrição',
+                              text: dadosUsuario['Pessoa'] != null &&
+                                      dadosUsuario['Pessoa']['descricao'] !=
+                                          null
+                                  ? '${dadosUsuario['Pessoa']['descricao']}'
+                                  : '',
                             ),
                           ],
                         ),

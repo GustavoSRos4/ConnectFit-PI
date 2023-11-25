@@ -49,4 +49,24 @@ class FetchFichas {
       return [];
     }
   }
+
+  static Future<List<dynamic>> fetchExercicio() async {
+    var url = Uri.parse('$baseURL/showExercicio');
+    String? token = await getToken();
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> exercicios = jsonDecode(response.body)['Exercicios'];
+
+      return exercicios;
+    } else {
+      debugPrint('Erro na requisição: ${response.statusCode}');
+      return [];
+    }
+  }
 }

@@ -128,10 +128,10 @@ class _ThreeInfosState extends State<ThreeInfos> {
   void enviarComorbidades() {
     for (String comorbidade in comorbidades) {
       if (!comorbidadesMap.any((map) => map['descricao'] == comorbidade)) {
-        medicamentosMap.add({"descricao": comorbidade});
+        comorbidadesMap.add({"descricao": comorbidade});
       } else {
         errorSnackBar(context,
-            "Erro ao cadastrar, medicamento já existe para esse usuário");
+            "Erro ao cadastrar, comorbidade já existe para esse usuário");
       }
     }
   }
