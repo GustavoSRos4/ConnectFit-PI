@@ -98,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Center(
                             child: CustomText(
+                                textAlign: TextAlign.center,
                                 fontSize: 20,
                                 text: mensagensIncentivo[Random()
                                     .nextInt(mensagensIncentivo.length)]),

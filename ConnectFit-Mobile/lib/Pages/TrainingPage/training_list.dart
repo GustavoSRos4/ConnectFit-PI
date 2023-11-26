@@ -15,31 +15,10 @@ class TrainingList extends StatefulWidget {
 
 class _TrainingListState extends State<TrainingList> {
   final TextEditingController _searchController = TextEditingController();
-  String _selectedStatus = "Todas";
+
   List<Map<String, dynamic>> fichas = [];
   List<Map<String, dynamic>> filteredFichas = [];
   bool isLoading = true;
-
-  void _applyFilter(String status) {
-    setState(() {
-      _selectedStatus = status;
-      _filterByStatus();
-    });
-  }
-
-  void _filterByStatus() {
-    setState(() {
-      if (_selectedStatus == 'Todas') {
-        filteredFichas = fichas;
-      } else if (_selectedStatus == "Ativo") {
-        filteredFichas =
-            fichas.where((ficha) => ficha['Ficha']['dataFim'] == null).toList();
-      } else {
-        filteredFichas =
-            fichas.where((ficha) => ficha['Ficha']['dataFim'] != null).toList();
-      }
-    });
-  }
 
   Future<void> loadData() async {
     await FetchFichas.fetchFichas().then((data) {
@@ -105,8 +84,8 @@ class _TrainingListState extends State<TrainingList> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(
-                        right: 30,
-                        left: 30,
+                        right: 20,
+                        left: 20,
                         top: 15,
                         bottom: 15,
                       ),
@@ -123,48 +102,6 @@ class _TrainingListState extends State<TrainingList> {
                     ),
                     Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30, right: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: _selectedStatus,
-                                isBold: true,
-                              ),
-                              PopupMenuButton<String>(
-                                icon: const Icon(
-                                  Icons.filter_list,
-                                  color: Colors.brancoBege,
-                                ),
-                                color: Colors.grey[800],
-                                onSelected: _applyFilter,
-                                itemBuilder: (BuildContext context) {
-                                  return [
-                                    const PopupMenuItem(
-                                      value: 'Ativo',
-                                      child: CustomText(
-                                        text: 'Ativo',
-                                      ),
-                                    ),
-                                    const PopupMenuItem(
-                                      value: 'Concluido',
-                                      child: CustomText(
-                                        text: 'Concluído',
-                                      ),
-                                    ),
-                                    const PopupMenuItem(
-                                      value: 'Todas',
-                                      child: CustomText(
-                                        text: 'Todas',
-                                      ),
-                                    ),
-                                  ];
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
                         fichas.isEmpty
                             ? const Center(
                                 child: CustomText(
@@ -184,98 +121,92 @@ class _TrainingListState extends State<TrainingList> {
                                   var dataFim = ficha["Ficha"]["dataFim"];
                                   var dataInicio = ficha["Ficha"]["created_at"];
                                   var treinos = ficha["Treinos"];
-                                  // if (_selectedStatus != "Todas" &&
-                                  //     _selectedStatus !=
-                                  //         fichas[index]['status']) {
-                                  //   return const SizedBox
-                                  //       .shrink(); // Retorna um widget vazio
-                                  // }
+
                                   return Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.pretoPag,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                        border: Border.all(
-                                          color: CalculosDatas.checarDataisNull(
-                                                  dataFim)
-                                              ? Colors.green
-                                              : Colors.red,
-                                          width: 2,
+                                    padding: const EdgeInsets.only(
+                                      top: 15,
+                                      right: 20,
+                                      left: 20,
+                                      bottom: 10,
+                                    ),
+                                    child: ExpansionTile(
+                                      collapsedShape:
+                                          const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(15),
                                         ),
                                       ),
-                                      margin: const EdgeInsetsDirectional.only(
-                                        start: 30,
-                                        end: 30,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(15),
+                                        ),
                                       ),
-                                      child: ExpansionTile(
-                                        collapsedIconColor: Colors.white,
-                                        iconColor: Colors.white,
-                                        title: CustomText(
-                                          text: descricaoFicha,
-                                          isBold: true,
-                                        ),
-                                        subtitle: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CustomText(
-                                                text:
-                                                    "Início: ${FormatarDatas.formatarData(dataInicio)}"),
-                                            dataFim != null
-                                                ? CustomText(
-                                                    text:
-                                                        "Fim: ${FormatarDatas.formatarData(dataFim)}")
-                                                : const SizedBox.shrink()
-                                          ],
-                                        ),
-                                        children: <Widget>[
-                                          ListView.builder(
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: treinos.length,
-                                            itemBuilder: (context, index) {
-                                              var treino = treinos[index];
-                                              String descricaoTreino =
-                                                  treino["Treino"]["Descricao"];
-                                              List<Map<String, dynamic>>
-                                                  exercicios =
-                                                  treino["Exercicios"];
-                                              return Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 15,
-                                                    left: 15,
-                                                    bottom: 15),
-                                                child: Card(
-                                                  color: Colors.grey[800],
-                                                  child: ListTile(
-                                                    onTap: () {
-                                                      Navigator.push<void>(
-                                                        context,
-                                                        MaterialPageRoute<void>(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              FormDetails(
-                                                            data: exercicios,
-                                                            nomeExercicio:
-                                                                descricaoTreino,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    textColor: Colors.white,
-                                                    title:
-                                                        Text(descricaoTreino),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
+                                      collapsedBackgroundColor:
+                                          Colors.grey[800],
+                                      backgroundColor: Colors.grey[800],
+                                      collapsedIconColor: Colors.white,
+                                      iconColor: Colors.white,
+                                      title: CustomText(
+                                        text: descricaoFicha,
+                                        isBold: true,
+                                      ),
+                                      subtitle: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                              text:
+                                                  "Início: ${FormatarDatas.formatarData(dataInicio)}"),
+                                          dataFim != null
+                                              ? CustomText(
+                                                  text:
+                                                      "Fim: ${FormatarDatas.formatarData(dataFim)}")
+                                              : const SizedBox.shrink()
                                         ],
                                       ),
+                                      children: <Widget>[
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: treinos.length,
+                                          itemBuilder: (context, index) {
+                                            var treino = treinos[index];
+                                            String descricaoTreino =
+                                                treino["Treino"]["Descricao"];
+                                            List<Map<String, dynamic>>
+                                                exercicios =
+                                                treino["Exercicios"];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 15,
+                                                  left: 15,
+                                                  bottom: 15),
+                                              child: Card(
+                                                color: Colors.grey[700],
+                                                child: ListTile(
+                                                  onTap: () {
+                                                    Navigator.push<void>(
+                                                      context,
+                                                      MaterialPageRoute<void>(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            FormDetails(
+                                                          data: exercicios,
+                                                          nomeExercicio:
+                                                              descricaoTreino,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  textColor: Colors.white,
+                                                  title: Text(descricaoTreino),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },

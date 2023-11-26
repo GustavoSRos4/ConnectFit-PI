@@ -59,32 +59,39 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.deepOrange, // Adicione esta linha
-      showUnselectedLabels: false,
-      selectedItemColor: Colors.brancoBege,
-      unselectedItemColor: Colors.pretoPag,
-      currentIndex: _currentIndex,
-      onTap: setIndex,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: "Início",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: "Personal",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.wallet_travel),
-          label: "Contrato",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_box),
-          label: "Perfil",
-        )
-      ],
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+
+        backgroundColor: Colors.deepOrange, // Adicione esta linha
+        showUnselectedLabels: false,
+        selectedItemColor: Colors.brancoBege,
+        unselectedItemColor: Colors.pretoPag,
+        currentIndex: _currentIndex,
+        onTap: setIndex,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Início",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Personal",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.wallet_travel),
+            label: "Contratos",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box),
+            label: "Perfil",
+          )
+        ],
+      ),
     );
   }
 }

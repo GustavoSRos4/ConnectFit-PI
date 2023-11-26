@@ -13,10 +13,8 @@ class MyLineChart extends StatefulWidget {
 class _MyLineChartState extends State<MyLineChart> {
   List<FlSpot> dadosGrafico = [];
   getDate(int index) {
-    debugPrint(widget.dados.toString());
     final micros = widget.dados[index][0].toDouble();
     final date = DateTime.fromMicrosecondsSinceEpoch(micros.round());
-    debugPrint(date.toString());
     return DateFormat('dd/MM - hh:mm').format(date);
   }
 
@@ -36,17 +34,23 @@ class _MyLineChartState extends State<MyLineChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 16.0 / 9,
       child: LineChart(
         LineChartData(
           minY: 0,
-          borderData: FlBorderData(show: false),
+          borderData: FlBorderData(
+            show: false,
+          ),
           titlesData: const FlTitlesData(
             topTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
             ),
             bottomTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
             ),
           ),
           gridData: const FlGridData(
@@ -61,7 +65,7 @@ class _MyLineChartState extends State<MyLineChart> {
               dotData: const FlDotData(show: true),
               belowBarData: BarAreaData(
                 show: true,
-                color: Colors.deepOrange.withOpacity(0.2),
+                color: Colors.deepOrange.withOpacity(0.1),
               ),
             ),
           ],

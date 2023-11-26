@@ -28,8 +28,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       toolbarHeight: height,
       titleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 25,
+        color: Colors.brancoBege,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
       title: Column(

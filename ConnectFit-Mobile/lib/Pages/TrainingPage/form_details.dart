@@ -43,7 +43,7 @@ class _FormDetailsState extends State<FormDetails> {
           children: [
             CustomText(
               text: '${dateFormat(now)}',
-              fontSize: 20,
+              fontSize: 15,
             ),
             const SizedBox(
               height: 15,
@@ -63,6 +63,8 @@ class _FormDetailsState extends State<FormDetails> {
 
   Widget _buildPanel() {
     return ExpansionPanelList.radio(
+      expandIconColor: Colors.red,
+      dividerColor: Colors.grey[800],
       expandedHeaderPadding: const EdgeInsets.all(0),
       children: widget.data.map<ExpansionPanelRadio>(
         (exercicio) {
@@ -71,9 +73,15 @@ class _FormDetailsState extends State<FormDetails> {
             canTapOnHeader: true,
             backgroundColor: Colors.grey[800],
             headerBuilder: (BuildContext context, bool isExpanded) {
-              return ListTile(
-                title: CustomText(
-                    isBold: true, text: exercicio["Nome"], fontSize: 17),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: CustomText(
+                    isBold: true,
+                    text: exercicio["Nome"],
+                    fontSize: 17,
+                  ),
+                ),
               );
             },
             body: Container(
@@ -98,12 +106,12 @@ class _FormDetailsState extends State<FormDetails> {
                   const SizedBox(height: 10),
                   CustomRowText(
                     indicador: 'Descanso',
-                    valor: '${exercicio["Descanso"]}',
+                    valor: '${exercicio["Descanso"]} sec',
                   ),
                   const SizedBox(height: 10),
                   CustomRowText(
                     indicador: 'Carga',
-                    valor: '${exercicio["Carga"]}',
+                    valor: '${exercicio["Carga"]} Kg',
                   ),
                 ],
               ),

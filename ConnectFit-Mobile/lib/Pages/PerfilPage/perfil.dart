@@ -220,12 +220,6 @@ class _PerfilPageState extends State<PerfilPage> {
                       ],
                     ),
                   ),
-                  const CustomContainerTitlePerfil(text: 'Opções Gerais'),
-                  CustomListTilePerfil(
-                    text: 'Alterar senha',
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/perfilChangePassword'),
-                  ),
                   const CustomContainerTitlePerfil(text: 'Informações'),
                   CustomListTilePerfil(
                     text: 'Sobre o aplicativo',

@@ -73,17 +73,22 @@ class _GraphicsPageState extends State<GraphicsPage> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
+          : Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+                left: 20,
+                top: 20,
+              ),
               child: Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.all(15),
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                        style: BorderStyle.solid,
-                        width: 4,
+                      image: const DecorationImage(
+                        opacity: 0.1,
+                        image: AssetImage(
+                          "assets/images/iconeApp.png",
+                        ),
                       ),
                       color: Colors.grey[800],
                       borderRadius: BorderRadius.circular(5),
@@ -93,7 +98,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         Column(
                           children: [
                             buildCustomDropdownButtonFormField(
-                              fillCollor: Colors.grey[700],
+                              fillCollor: Colors.transparent,
                               menuMaxHeight: 300,
                               data: seedAreas,
                               value: idArea,
@@ -123,30 +128,38 @@ class _GraphicsPageState extends State<GraphicsPage> {
                       ],
                     ),
                   ),
-                  Column(
-                    children: mapMedidasParaChartData(medidas, idArea)
-                        .reversed
-                        .map((item) {
-                      debugPrint(item.toString());
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: mapMedidasParaChartData(medidas, idArea)
+                            .reversed
+                            .map((item) {
+                          debugPrint(item.toString());
 
-                      DateTime data =
-                          DateTime.fromMicrosecondsSinceEpoch(item[0]);
-                      String dataFormatada =
-                          "${data.day}/${data.month}/${data.year}";
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CustomRowText(
-                            indicador: 'Data:',
-                            valor: dataFormatada,
-                          ),
-                          CustomRowText(
-                            indicador: 'Medição',
-                            valor: '${item[1]}',
-                          ),
-                        ],
-                      );
-                    }).toList(),
+                          DateTime data =
+                              DateTime.fromMicrosecondsSinceEpoch(item[0]);
+                          String dataFormatada =
+                              "${data.day}/${data.month}/${data.year}";
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomRowText(
+                                  indicador: 'Data',
+                                  valor: dataFormatada,
+                                ),
+                                CustomRowText(
+                                  indicador: 'Medição',
+                                  valor: '${item[1]}',
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ],
               ),
