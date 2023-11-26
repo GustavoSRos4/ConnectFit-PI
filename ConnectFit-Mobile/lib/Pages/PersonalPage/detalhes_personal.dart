@@ -42,6 +42,7 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
     if (response.statusCode == 201) {
       if (mounted) {
         Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         if (mounted) {
           errorSnackBar(context, responseMap.values.first[0]);
@@ -132,14 +133,9 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                       const SizedBox(height: 10),
                       CustomRowText(
                         color: Colors.brancoBege,
-                        indicador: 'Cidade',
-                        valor: '${profissional["Enderecos"][0][0]['idCidade']}',
-                      ),
-                      const SizedBox(height: 10),
-                      CustomRowText(
-                        color: Colors.brancoBege,
                         indicador: 'Valor',
-                        valor: '${profissional["PessoaProfissional"]["valor"]}',
+                        valor:
+                            'R\$ ${profissional["PessoaProfissional"]["valor"]}',
                       ),
                       const SizedBox(height: 10),
                       CustomRowText(
