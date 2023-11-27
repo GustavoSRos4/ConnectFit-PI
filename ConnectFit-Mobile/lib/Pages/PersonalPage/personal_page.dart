@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:projeto/Pages/PersonalPage/detalhes_personal.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Widgets/custom_app_bar.dart';
+import 'package:projeto/Shared/Widgets/custom_circular_profile_avatar.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_text_field.dart';
@@ -118,10 +118,10 @@ class _PersonalPageState extends State<PersonalPage> {
                                 );
                               },
                               contentPadding: const EdgeInsets.all(10.0),
-                              leading: ProfilePicture(
-                                name: userName,
-                                radius: 30,
-                                fontsize: 20,
+                              leading: CustomCircularProfileAvatar(
+                                text: userName,
+                                radius: 25,
+                                fontSize: 20,
                               ),
                               title: Padding(
                                 padding: const EdgeInsets.only(bottom: 10),

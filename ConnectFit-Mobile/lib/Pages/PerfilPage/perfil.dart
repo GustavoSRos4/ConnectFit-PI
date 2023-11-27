@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+
 import 'package:projeto/Pages/LoginPage/login.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_nome_usuario.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_dados_usuario.dart';
+import 'package:projeto/Shared/Widgets/custom_circular_profile_avatar.dart';
 import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_perfil.dart';
@@ -40,14 +41,12 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Future<void> loadData() async {
     await FetchNomeUsuario.fetchNomeUsuario().then((data) {
-      debugPrint('Nome usuario: $data');
       setState(() {
         nome = data;
       });
     });
 
     await FetchDadosUsuario.fetchDadosUsuario().then((data) {
-      debugPrint('Dados: $data');
       setState(() {
         dadosUsuario = data;
       });
@@ -62,7 +61,6 @@ class _PerfilPageState extends State<PerfilPage> {
     });
 
     await FetchData.fetchConsumoAlc().then((data) {
-      debugPrint('Dados asdasd : $data');
       setState(() {
         dataConsumoAlc = data;
       });
@@ -112,11 +110,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 flexibleSpace: Column(
                   children: [
                     const SizedBox(height: 25),
-                    ProfilePicture(
-                      name: nome,
-                      radius: 80,
-                      fontsize: 50,
-                    ),
+                    CustomCircularProfileAvatar(text: nome),
                     const SizedBox(height: 10),
                     CustomText(
                       text: nome,

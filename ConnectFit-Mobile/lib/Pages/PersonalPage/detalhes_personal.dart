@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:http/http.dart' as http;
 import 'package:projeto/Shared/Blocs/APIs/Get/get_profissionais.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Blocs/APIs/Post/post_contrato.dart';
 import 'package:projeto/Shared/Blocs/globals.dart';
 import 'package:projeto/Shared/Blocs/funcos_datas.dart';
+import 'package:projeto/Shared/Widgets/custom_circular_profile_avatar.dart';
 import 'package:projeto/Shared/Widgets/custom_dropdown_button_form_field.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
@@ -100,10 +100,8 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                 flexibleSpace: Column(
                   children: [
                     const SizedBox(height: 25),
-                    ProfilePicture(
-                      name: profissional["User"]['name'],
-                      radius: 80,
-                      fontsize: 50,
+                    CustomCircularProfileAvatar(
+                      text: profissional["User"]['name'],
                     ),
                     const SizedBox(height: 10),
                     CustomText(
