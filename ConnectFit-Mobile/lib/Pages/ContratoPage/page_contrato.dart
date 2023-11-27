@@ -37,12 +37,51 @@ class _MyWidgetState extends State<PageContrato> {
       }
 
       setState(() {
-        debugPrint("$data");
+        debugPrint('$data');
         contratos = data;
         filteredContratos = data;
         isLoading = false;
       });
     });
+  }
+
+  String verificarDuracao(idDuracao) {
+    if (idDuracao == 1) {
+      return '1 mês';
+    } else if (idDuracao == 2) {
+      return '6 meses';
+    } else if (idDuracao == 3) {
+      return '12 meses';
+    }
+    return '';
+  }
+
+  String verificarFim(idDuracao, dataInicio) {
+    DateTime dataInicioFormatada = DateTime.parse(dataInicio);
+    DateTime? dataFim;
+
+    if (idDuracao == 1) {
+      dataFim = dataInicioFormatada.add(const Duration(days: 30));
+    } else if (idDuracao == 2) {
+      dataFim = dataInicioFormatada.add(const Duration(days: 180));
+    } else if (idDuracao == 3) {
+      dataFim = dataInicioFormatada.add(const Duration(days: 365));
+    }
+
+    return FormatarDatas.formatarData(dataFim.toString());
+  }
+
+  calcularValorContrato(int idDuracao, v) {
+    double valor = double.parse(v);
+    double valorTotal = 0;
+    if (idDuracao == 1) {
+      valorTotal = valor;
+    } else if (idDuracao == 2) {
+      valorTotal = valor * 6;
+    } else if (idDuracao == 3) {
+      valorTotal = valor * 12;
+    }
+    return valorTotal;
   }
 
   void filterByName(String query) {
@@ -119,6 +158,7 @@ class _MyWidgetState extends State<PageContrato> {
                                     contrato["DadosProfissional"]["name"];
                                 var numReg =
                                     contrato["DadosProfissional"]["numReg"];
+                                var idDuracao = contrato['idDuracao'];
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Card(
@@ -126,44 +166,58 @@ class _MyWidgetState extends State<PageContrato> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     color: Colors.grey[800],
-                                    child: Row(
-                                      children: <Widget>[
-                                        const SizedBox(width: 5),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          CustomRowText(
+                                            fontSize: 13.5,
+                                            indicador: 'Personal',
+                                            valor: '$nome',
+                                          ),
+                                          const SizedBox(height: 10),
+                                          CustomRowText(
+                                            fontSize: 13.5,
+                                            indicador: 'Registro',
+                                            valor: '$numReg',
+                                          ),
+                                          const SizedBox(height: 10),
+                                          CustomRowText(
+                                            fontSize: 13.5,
+                                            indicador: 'Duração',
+                                            valor: verificarDuracao(idDuracao),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          CustomRowText(
+                                            fontSize: 13.5,
+                                            indicador: 'Valor Total',
+                                            valor:
+                                                'R\$ ${calcularValorContrato(idDuracao, valor)}',
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
                                               CustomRowText(
                                                 fontSize: 13.5,
-                                                indicador: 'Personal',
-                                                valor: '$nome',
-                                              ),
-                                              const SizedBox(height: 10),
-                                              CustomRowText(
-                                                fontSize: 13.5,
-                                                indicador: 'Registro',
-                                                valor: '$numReg',
-                                              ),
-                                              const SizedBox(height: 10),
-                                              CustomRowText(
-                                                fontSize: 13.5,
-                                                indicador: 'Data Inicio',
+                                                indicador: 'Inicio',
                                                 valor:
                                                     FormatarDatas.formatarData(
                                                         createdAt),
                                               ),
-                                              const SizedBox(height: 10),
                                               CustomRowText(
                                                 fontSize: 13.5,
-                                                indicador: 'Valor cobrado',
-                                                valor: 'R\$ $valor',
+                                                indicador: 'Fim',
+                                                valor: verificarFim(
+                                                    idDuracao, createdAt),
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

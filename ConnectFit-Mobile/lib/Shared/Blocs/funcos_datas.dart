@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CalcularIdade {
@@ -20,7 +19,6 @@ class CalcularIdade {
 
 class FormatarDatas {
   static String formatarData(String dataRecebida) {
-    debugPrint(dataRecebida);
     String dataOriginal = dataRecebida;
     DateTime data = DateTime.parse(dataOriginal);
 
