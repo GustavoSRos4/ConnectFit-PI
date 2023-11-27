@@ -110,7 +110,9 @@ class _PerfilPageState extends State<PerfilPage> {
                 flexibleSpace: Column(
                   children: [
                     const SizedBox(height: 25),
-                    CustomCircularProfileAvatar(text: nome),
+                    CustomCircularProfileAvatar(
+                      text: nome.isNotEmpty ? nome : " ",
+                    ),
                     const SizedBox(height: 10),
                     CustomText(
                       text: nome,

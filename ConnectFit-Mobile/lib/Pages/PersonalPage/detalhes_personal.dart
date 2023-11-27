@@ -77,6 +77,15 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
     });
   }
 
+  String verificarSexo(String sigla) {
+    if (sigla == 'M') {
+      return "Masculino";
+    } else if (sigla == 'F') {
+      return "Feminino";
+    }
+    return '';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -101,7 +110,9 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                   children: [
                     const SizedBox(height: 25),
                     CustomCircularProfileAvatar(
-                      text: profissional["User"]['name'],
+                      text: profissional["User"]['name'].isNotEmpty
+                          ? profissional["User"]['name']
+                          : " ",
                     ),
                     const SizedBox(height: 10),
                     CustomText(
@@ -131,6 +142,13 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                       const SizedBox(height: 10),
                       CustomRowText(
                         color: Colors.brancoBege,
+                        indicador: 'Sexo',
+                        valor:
+                            verificarSexo(profissional["Pessoa"]["SiglaSexo"]),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomRowText(
+                        color: Colors.brancoBege,
                         indicador: 'Valor',
                         valor:
                             'R\$ ${profissional["PessoaProfissional"]["valor"]}',
@@ -141,6 +159,13 @@ class _DetalhesPersonalState extends State<DetalhesPersonal> {
                         indicador: 'Registro',
                         valor:
                             '${profissional["PessoaProfissional"]["numReg"]}',
+                      ),
+                      const SizedBox(height: 10),
+                      CustomRowText(
+                        color: Colors.brancoBege,
+                        indicador: 'Formação',
+                        valor: FormatarDatas.formatarData(
+                            profissional["PessoaProfissional"]["dataFormacao"]),
                       ),
                       const SizedBox(height: 10),
                       CustomRowTextVariosItens(

@@ -22,16 +22,22 @@ class _MyWidgetState extends State<PageContrato> {
 
   Future<void> loadData() async {
     await FetchContratos.fetchContratos().then((data) async {
-      debugPrint("$data");
       for (var contrato in data) {
         var idProfissional = contrato["idPessoaProfissional"];
         await FetchProfissonais.fetchProfissional(idProfissional)
             .then((profissionalData) {
-          contrato['DadosProfissional'] = profissionalData;
+          var profissionalInfo = {
+            'name': profissionalData['User']['name'],
+            'numReg': profissionalData['PessoaProfissional']['numReg'],
+            'valor': profissionalData['PessoaProfissional']['valor'],
+          };
+
+          contrato['DadosProfissional'] = profissionalInfo;
         });
       }
 
       setState(() {
+        debugPrint("$data");
         contratos = data;
         filteredContratos = data;
         isLoading = false;
@@ -109,10 +115,10 @@ class _MyWidgetState extends State<PageContrato> {
                                 var contrato = filteredContratos[index];
                                 var createdAt = contrato["created_at"];
                                 var valor = contrato["valor"];
-                                var nome = contrato["DadosProfissional"]["User"]
-                                    ["name"];
-                                var numReg = contrato["DadosProfissional"]
-                                    ["PessoaProfissional"]["numReg"];
+                                var nome =
+                                    contrato["DadosProfissional"]["name"];
+                                var numReg =
+                                    contrato["DadosProfissional"]["numReg"];
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Card(

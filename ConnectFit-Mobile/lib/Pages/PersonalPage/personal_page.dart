@@ -119,7 +119,7 @@ class _PersonalPageState extends State<PersonalPage> {
                               },
                               contentPadding: const EdgeInsets.all(10.0),
                               leading: CustomCircularProfileAvatar(
-                                text: userName,
+                                text: userName.isNotEmpty ? userName : " ",
                                 radius: 25,
                                 fontSize: 20,
                               ),
