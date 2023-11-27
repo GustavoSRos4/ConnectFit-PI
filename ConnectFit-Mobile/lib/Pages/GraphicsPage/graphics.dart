@@ -91,7 +91,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         ),
                       ),
                       color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
                       children: [
@@ -141,7 +141,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                           String dataFormatada =
                               "${data.day}/${data.month}/${data.year}";
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.only(bottom: 5, top: 5),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

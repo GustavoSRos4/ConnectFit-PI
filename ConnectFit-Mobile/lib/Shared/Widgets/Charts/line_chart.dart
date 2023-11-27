@@ -42,6 +42,16 @@ class _MyLineChartState extends State<MyLineChart> {
             show: false,
           ),
           titlesData: const FlTitlesData(
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
+            ),
             topTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: false,

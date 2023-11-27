@@ -128,6 +128,7 @@ class _OnePageState extends State<TwoDados> {
 
   Future<void> _selectedDate() async {
     DateTime? picked = await showDatePicker(
+      locale: const Locale('pt', 'BR'),
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),

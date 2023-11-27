@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
+import 'package:projeto/Pages/LoginPage/login.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_nome_usuario.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/seeds.dart';
 import 'package:projeto/Shared/Blocs/APIs/Get/get_dados_usuario.dart';
@@ -7,6 +8,7 @@ import 'package:projeto/Shared/Widgets/custom_container_title_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_text.dart';
 import 'package:projeto/Shared/Widgets/custom_list_tile_perfil.dart';
 import 'package:projeto/Shared/Widgets/custom_row_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({super.key});
@@ -231,7 +233,16 @@ class _PerfilPageState extends State<PerfilPage> {
                     alignment: Alignment.centerRight,
                     padding: const EdgeInsets.only(right: 20),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        bool saiu = await sair();
+                        if (saiu) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        }
+                      },
                       child: const IntrinsicWidth(
                         child: Row(
                           children: [
@@ -255,4 +266,10 @@ class _PerfilPageState extends State<PerfilPage> {
             ),
     );
   }
+}
+
+Future<bool> sair() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  await sharedPreferences.clear();
+  return true;
 }

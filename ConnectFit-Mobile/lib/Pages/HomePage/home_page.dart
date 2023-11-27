@@ -57,139 +57,147 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> partesNome = nomeUsuario.split(' ');
+    String primeiroNome = partesNome.isNotEmpty ? partesNome[0] : '';
+    String segundoNome = partesNome.length > 1 ? partesNome[1] : '';
+    String nomeExibicao =
+        partesNome.length > 1 ? '$primeiroNome $segundoNome' : primeiroNome;
+
     return Scaffold(
       appBar: isLoading
           ? null
           : CustomAppBar(
               automaticallyImplyLeading: false,
-              title: Text("Olá, $nomeUsuario"),
+              title: Text("Olá, $nomeExibicao"),
               actions: const [],
             ),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Column(children: [
-              Stack(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(
-                        top: 20.5, right: 20.5, left: 20.5),
-                    decoration: const BoxDecoration(
-                      color: Colors.deepOrange,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
+          : SingleChildScrollView(
+              child: Column(children: [
+                Stack(
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(
+                          top: 20.5, right: 20.5, left: 20.5),
+                      decoration: const BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
                       ),
-                    ),
-                    height: 230,
-                    width: double.infinity,
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20, right: 30.5, left: 20),
-                    child: GlobalCustomElevatedButton(
-                      color: Colors.pretoPag,
-                      height: 220,
+                      height: 230,
                       width: double.infinity,
-                      onPressed: () {
-                        debugPrint(DateTime.now().toString());
-                      },
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: CustomText(
-                                textAlign: TextAlign.center,
-                                fontSize: 20,
-                                text: mensagensIncentivo[Random()
-                                    .nextInt(mensagensIncentivo.length)]),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, right: 30.5, left: 20),
+                      child: GlobalCustomElevatedButton(
+                        color: Colors.pretoPag,
+                        height: 220,
+                        width: double.infinity,
+                        onPressed: () {
+                          debugPrint(DateTime.now().toString());
+                        },
+                        child: Stack(
+                          children: [
+                            Center(
                               child: CustomText(
-                                text: '${dateFormat(now)}',
-                                fontSize: 15,
+                                  textAlign: TextAlign.center,
+                                  fontSize: 20,
+                                  text: mensagensIncentivo[Random()
+                                      .nextInt(mensagensIncentivo.length)]),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: CustomText(
+                                  text: '${dateFormat(now)}',
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GlobalCustomElevatedButton(
-                            height: 80,
-                            width: 150,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/trainingList');
-                            },
-                            child: const CustomText(
-                              text: 'Treinos',
-                              isBold: true,
-                              fontSize: 20,
-                            ),
-                          ),
-                          GlobalCustomElevatedButton(
-                            height: 80,
-                            width: 150,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/graphics');
-                            },
-                            child: const CustomText(
-                              text: 'Gráficos',
-                              isBold: true,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GlobalCustomElevatedButton(
-                            height: 80,
-                            width: 150,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/measures');
-                            },
-                            child: const CustomText(
-                              text: 'Medidas',
-                              isBold: true,
-                              fontSize: 20,
-                            ),
-                          ),
-                          GlobalCustomElevatedButton(
-                            height: 80,
-                            width: 150,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/ranking');
-                            },
-                            child: const CustomText(
-                              text: 'Ranking',
-                              isBold: true,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              )
-            ]),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GlobalCustomElevatedButton(
+                              height: 80,
+                              width: 150,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/trainingList');
+                              },
+                              child: const CustomText(
+                                text: 'Treinos',
+                                isBold: true,
+                                fontSize: 20,
+                              ),
+                            ),
+                            GlobalCustomElevatedButton(
+                              height: 80,
+                              width: 150,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/graphics');
+                              },
+                              child: const CustomText(
+                                text: 'Gráficos',
+                                isBold: true,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GlobalCustomElevatedButton(
+                              height: 80,
+                              width: 150,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/measures');
+                              },
+                              child: const CustomText(
+                                text: 'Medidas',
+                                isBold: true,
+                                fontSize: 20,
+                              ),
+                            ),
+                            GlobalCustomElevatedButton(
+                              height: 80,
+                              width: 150,
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/ranking');
+                              },
+                              child: const CustomText(
+                                text: 'Ranking',
+                                isBold: true,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
     );
   }
 }
