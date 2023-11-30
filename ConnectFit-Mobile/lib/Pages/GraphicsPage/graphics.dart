@@ -62,6 +62,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
   @override
   Widget build(BuildContext context) {
     List<List<dynamic>> chartData = mapMedidasParaChartData(medidas, idArea);
+    seedAreas.sort((a, b) => a['Descricao'].compareTo(b['Descricao']));
     return Scaffold(
       appBar: const CustomAppBar(
         title: Text(
